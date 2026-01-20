@@ -48,10 +48,37 @@ h1{
 <h1>แจกคอมมาน Bedrock By Pain</h1>
 
 <div class="box">
-/give @s command_block
-/give @s spawn_egg 51
-/gamerule commandblockoutput false
-/gamerule sendcommandfeedback false
+1. /give @s command_block
+2. /give @s spawn_egg 51
+3. /gamerule commandblockoutput false
+4. /gamerule sendcommandfeedback false
+7. /tag @n[type=npc] add b   ไปยืนในตัว NPC แล้วพิมพ์คำสั่งนี้ในแชท
+ 
+คำสั่งในคอมมานม่วง:
+ 
+1. dialogue open @e[type=npc,tag=b] @a[tag=b]
+ 
+2. scoreboard players add @a m 0
+ 
+3. execute as @a at @s run titleraw @s actionbar {"rawtext":[  {"text":"§6Money§r : "},{"score":{"name":"@s","objective":"m"}},{"text":""}]}
+ 
+ 
+คอมมานใน NPC (NPC ตัวหลักที่พูดคุย)
+ 
+1. tag @initiator add b
+ 
+คอมมานใน NPC (b) ตัวที่จะเป็นตัวซื้อ ui ที่ 2
+ 
+1. playsound mob.villager.no @initiator[scores={m=..19}]
+playsound note.harp @initiator[scores={m=..19}]
+tellraw @initiator[scores={m=..19}] {"rawtext":[{"text":" §eคนขายของ§r: §cซื้อไม่สำเร็จ§r"}]}
+playsound mob.villager.yes @initiator[scores={m=20..}]
+playsound note.bell @initiator[scores={m=20..}]
+tellraw @initiator[scores={m=20..}] {"rawtext":[{"text":" §eคนขายของ§r: §aซื้อสำเร็จ§r"}]}
+give @initiator[scores={m=20..}] wooden_sword 1
+scoreboard players remove @initiator[scores={m=20..}] m 20
+ 
+2. tag @initiator remove b
 </div>
 
 <a class="next" href="page2.html">ถัดไป</a>
