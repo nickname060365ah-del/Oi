@@ -18,7 +18,7 @@ html, body{
 /* กล่องหลัก */
 .container{
   width:100%;
-  min-height:20vh;
+  min-height:100vh;
   padding:16px;
   box-sizing:border-box;
 }
@@ -32,7 +32,7 @@ h1{
 /* กล่องโค้ด */
 .box{
   width:100%;
-  min-height:20vh;
+  min-height:100vh;
   background:#f4f4f4;
   padding:16px;
   border-radius:12px;
@@ -63,36 +63,40 @@ h1{
 <h1>แจกคอมมาน Bedrock By Pain</h1>
 
 <pre class="box">
+คำสั่งในช่องแชท
 1. /give @s command_block
-2. /give @s spawn_egg 51
-3. /gamerule commandblockoutput false
-4. /gamerule sendcommandfeedback false
+2. /give @s spawn_egg 1 51
+3. /gamerule commandblockoutput false 
+4. /gamerule sendcommandfeedback false 
 5. /tickingarea add circle ~~~ 4 t
-6. /scoreboard objectives add m dummy
-
-7. /tag @n[type=npc] add b  ไปเป็นแท็ก NPC สำหรับฟังก์ชันในแมพ
-
-คำสั่งในคอมมานบล็อก:
-
+6. /scoreboard objectives add m dummy 
+ 
+7. /tag @n[type=npc] add b   ไปยืนในตัว NPC แล้วพิมพ์คำสั่งนี้ในแชท
+ 
+<p style="color: purple;font-size:24px;">คำสั่งในคอมมานม่วง</p>:
+ 
 1. dialogue open @e[type=npc,tag=b] @a[tag=b]
+ 
 2. scoreboard players add @a m 0
-3. execute as @a at @s run titleraw @s actionbar {"rawtext":[{"text":"เงิน: "},{"score":{"name":"@s","objective":"m"}}]}
-
-คอมมานใน NPC (NPC ตัวหลักที่พูด)
-
+ 
+3. execute as @a at @s run titleraw @s actionbar {"rawtext":[  {"text":"§6Money§r : "},{"score":{"name":"@s","objective":"m"}},{"text":""}]}
+ 
+ 
+คอมมานใน NPC (NPC ตัวหลักที่พูดคุย)
+ 
 1. tag @initiator add b
-
-คอมมานใน NPC (b) ตัวซื้อของ ui ที่ 2
-
+ 
+คอมมานใน NPC (b) ตัวที่จะเป็นตัวซื้อ ui ที่ 2
+ 
 1. playsound mob.villager.no @initiator[scores={m=..19}]
 playsound note.harp @initiator[scores={m=..19}]
-tellraw @initiator[scores={m=..19}] {"rawtext":[{"text":"คนขายของ: เงินคุณไม่พอ"}]}
+tellraw @initiator[scores={m=..19}] {"rawtext":[{"text":" §eคนขายของ§r: §cซื้อไม่สำเร็จ§r"}]}
 playsound mob.villager.yes @initiator[scores={m=20..}]
 playsound note.bell @initiator[scores={m=20..}]
-tellraw @initiator[scores={m=20..}] {"rawtext":[{"text":"คนขายของ: ซื้อสำเร็จ"}]}
+tellraw @initiator[scores={m=20..}] {"rawtext":[{"text":" §eคนขายของ§r: §aซื้อสำเร็จ§r"}]}
 give @initiator[scores={m=20..}] wooden_sword 1
 scoreboard players remove @initiator[scores={m=20..}] m 20
-
+ 
 2. tag @initiator remove b
 </pre>
 
