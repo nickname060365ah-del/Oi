@@ -18,7 +18,7 @@ html, body{
 /* กล่องหลัก */
 .container{
   width:100%;
-  min-height:100vh;
+  min-height:20vh;
   padding:16px;
   box-sizing:border-box;
 }
@@ -32,7 +32,7 @@ h1{
 /* กล่องโค้ด */
 .box{
   width:100%;
-  min-height:80vh;
+  min-height:20vh;
   background:#f4f4f4;
   padding:16px;
   border-radius:12px;
@@ -78,22 +78,22 @@ h1{
 2. scoreboard players add @a m 0
 3. execute as @a at @s run titleraw @s actionbar {"rawtext":[{"text":"เงิน: "},{"score":{"name":"@s","objective":"m"}}]}
 
-คอมมานใน NPC (NPC ตัวหลักที่พูด):
+คอมมานใน NPC (NPC ตัวหลักที่พูด)
 
 1. tag @initiator add b
 
 คอมมานใน NPC (b) ตัวซื้อของ ui ที่ 2
 
 1. playsound mob.villager.no @initiator[scores={m=..19}]
-2. playsound note.harp @initiator[scores={m=..19}]
-3. tellraw @initiator[scores={m=..19}] {"rawtext":[{"text":"เงินของมึง: ยังไม่พอไอ้สัส"}]}
-4. playsound mob.villager.yes @initiator[scores={m=20..}]
-5. playsound note.bell @initiator[scores={m=20..}]
-6. tellraw @initiator[scores={m=20..}] {"rawtext":[{"text":"เงินของมึง: ซื้อสำเร็จ"}]}
-7. give @initiator[scores={m=20..}] wooden_sword 1
-8. scoreboard players remove @initiator[scores={m=20..}] m 20
+playsound note.harp @initiator[scores={m=..19}]
+tellraw @initiator[scores={m=..19}] {"rawtext":[{"text":"คนขายของ: เงินคุณไม่พอ"}]}
+playsound mob.villager.yes @initiator[scores={m=20..}]
+playsound note.bell @initiator[scores={m=20..}]
+tellraw @initiator[scores={m=20..}] {"rawtext":[{"text":"คนขายของ: ซื้อสำเร็จ"}]}
+give @initiator[scores={m=20..}] wooden_sword 1
+scoreboard players remove @initiator[scores={m=20..}] m 20
 
-9. tag @initiator remove b
+2. tag @initiator remove b
 </pre>
 
 <a class="next" href="page2.html">ถัดไป</a>
