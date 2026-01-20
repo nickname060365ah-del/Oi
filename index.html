@@ -53,7 +53,6 @@ h1{
   text-decoration:none;
   font-size:14px;
 }
-</style>
 </head>
 <style>
 .img-center{
@@ -76,36 +75,26 @@ h1{
 3. /gamerule commandblockoutput false 
 4. /gamerule sendcommandfeedback false 
 5. /tickingarea add circle ~~~ 4 t
-6. /scoreboard objectives add m dummy 
-  
+6. /scoreboard objectives add m dummy  
+</pre>
+
+<img src="https://cdn.discordapp.com/attachments/1413488736620122133/1463119639256236123/images_9.jpg"
+     class="img-center">
+
+<pre class="box">
 7. /tag @n[type=npc] add b   ไปยืนในตัว NPC แล้วพิมพ์คำสั่งนี้ในแชท
- 
+
 1. dialogue open @e[type=npc,tag=b] @a[tag=b]
- 
+
 2. scoreboard players add @a m 0
- 
-3. execute as @a at @s run titleraw @s actionbar {"rawtext":[  {"text":"§6Money§r : "},{"score":{"name":"@s","objective":"m"}},{"text":""}]}
- 
- 
-คอมมานใน NPC (NPC ตัวหลักที่พูดคุย)
- 
-1. tag @initiator add b
- 
-คอมมานใน NPC (b) ตัวที่จะเป็นตัวซื้อ ui ที่ 2
- 
-1. playsound mob.villager.no @initiator[scores={m=..19}]
-playsound note.harp @initiator[scores={m=..19}]
-tellraw @initiator[scores={m=..19}] {"rawtext":[{"text":" §eคนขายของ§r: §cซื้อไม่สำเร็จ§r"}]}
-playsound mob.villager.yes @initiator[scores={m=20..}]
-playsound note.bell @initiator[scores={m=20..}]
-tellraw @initiator[scores={m=20..}] {"rawtext":[{"text":" §eคนขายของ§r: §aซื้อสำเร็จ§r"}]}
-give @initiator[scores={m=20..}] wooden_sword 1
-scoreboard players remove @initiator[scores={m=20..}] m 20
+
+3. execute as @a at @s run titleraw @s actionbar {"rawtext":[{"text":"§6Money§r : "},{"score":{"name":"@s","objective":"m"}}]}
+...
+</pre>
  
 2. tag @initiator remove b
 </pre>
-<img scr="https://cdn.discordapp.com/attachments/1413488736620122133/1463119639256236123/images_9.jpg?ex=6970abd9&is=696f5a59&hm=8884ba55678282dd931a4918e7252d9b149a1b2f5ff6d3181f98ceb64e57df70&"
-     class="img-center"> 
+  
 </body>
 <a class="next" href="page2.html">ถัดไป</a>
 
