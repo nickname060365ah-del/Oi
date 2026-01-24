@@ -34,7 +34,8 @@ h1{
   padding:16px;  
   border-radius:12px;  
   box-sizing:border-box;  
-  white-space:pre-wrap;  
+  white-space: pre;
+  overflow-x: auto;
   font-size:12px;  
   line-height:1.6;
   word-break: normal;
@@ -72,7 +73,7 @@ h1{
 6. /scoreboard objectives add m dummy   
 7. /tag @n[type=npc] add b   ไปยืนในตัว NPC แล้วพิมพ์คำสั่งนี้ในแชท  
 
-          คอมมานบล็อกสีม่วงทั้งหมด
+         คอมมานบล็อกสีม่วงทั้งหมด
 1. dialogue open @e[type=npc,tag=b] @a[tag=b]  
    
 2. scoreboard players add @a m 0  
