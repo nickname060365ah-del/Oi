@@ -6,110 +6,111 @@
 <title>Molangg Query Functions</title>
 
 <style>
-html, body{
-  margin: 0;
-  padding: 0;
-  background: #ffffff;
-  font-family: sans-serif;
-}
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #ffffff;
+    margin: 0;
+    padding: 24px;
+    color: #111;
+  }
 
-/* ครอบทั้งหมด */
-.container{
-  max-width: 1100px;   /* กว้างขึ้น */
-  margin: 0 auto;
-  padding: 24px;
-}
-
-/* หัวข้อ */
-h1{
-  font-size: 32px;
-  margin-bottom: 24px;
-}
-
-/* ตาราง */
-.doc-table{
-  width: 100%;
-  border-collapse: collapse;
-}
-  .doc-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.doc-table td {
-  padding: 20px;
-  border: 1px solid #333;
-  font-size: 16px;
-}
-
-.func-link {
-  color: #00aaff;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.func-link:hover {
-  text-decoration: underline;
-}
+  h1 {
+    font-size: 32px;
+    margin-bottom: 24px;
+  }
 
   .table-scroll {
-  width: 100%;
-  max-height: 600px;
-  overflow: auto;
+    overflow-x: auto;
   }
-  
-.func-link:hover{
-  text-decoration: underline;
-}
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+  }
+
+  thead th {
+    text-align: left;
+    font-size: 18px;
+    padding: 16px;
+    background: #f3f3f3;
+    border-bottom: 2px solid #ccc;
+  }
+
+  tbody td {
+    padding: 18px 16px;
+    font-size: 16px;
+    vertical-align: middle;
+    border-bottom: 1px solid #ddd;
+  }
+
+  /* ไม่มีเส้นแนวตั้ง */
+  th, td {
+    border-left: none;
+    border-right: none;
+  }
+
+  a.func-link {
+    color: #1ea7fd;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  a.func-link:hover {
+    text-decoration: underline;
+  }
 </style>
 </head>
 
 <body>
-<div class="container">
 
 <h1>Molangg Query Functions</h1>
 
-<table class="doc-table">
-  <tr>
-    <th>Query Function</th>
-    <th>Description</th>
-  </tr>
+<div class="table-scroll">
+  <table>
+    <thead>
+      <tr>
+        <th>Query Function</th>
+        <th>Description</th>
+      </tr>
+    </thead>
 
-  <tr>
-    <td>
-      <a class="func-link" href="above_top_solid.html">
-        above_top_solid
-      </a>
-    </td>
-    <td>
-      คืนค่าบล็อกทึบที่อยู่เหนือบล็อกปัจจุบัน
-    </td>
-  </tr>
+    <tbody>
+      <tr>
+        <td>
+          <a class="func-link" href="above_top_solid.html">
+            above_top_solid
+          </a>
+        </td>
+        <td>
+          คืนค่าบล็อกที่อยู่เหนือบล็อกปัจจุบัน
+        </td>
+      </tr>
 
-  <tr>
-    <td>
-      <a class="func-link" href="actor_count.html">
-        actor_count
-      </a>
-    </td>
-    <td>
-      คืนค่าจำนวนเอนทิตี้ในพื้นที่ที่กำหนด
-    </td>
-  </tr>
+      <tr>
+        <td>
+          <a class="func-link" href="actor_count.html">
+            actor_count
+          </a>
+        </td>
+        <td>
+          คืนค่าจำนวนเอนทิตี้ในพื้นที่ที่กำหนด
+        </td>
+      </tr>
 
-  <tr>
-    <td>
-      <a class="func-link" href="life_time.html">
-        life_time
-      </a>
-    </td>
-    <td>
-      เวลาที่เอนทิตี้เกิดมาแล้ว (tick)
-    </td>
-  </tr>
-
-</table>
-
+      <tr>
+        <td>
+          <a class="func-link" href="life_time.html">
+            life_time
+          </a>
+        </td>
+        <td>
+          เวลาที่เอนทิตี้เกิดมาแล้ว (tick)
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
+
 </body>
 </html>
