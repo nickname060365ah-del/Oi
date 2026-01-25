@@ -24,9 +24,9 @@
   }
 
   table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 600px;
+  width: auto;              /* ไม่กินทั้งจอ */
+  max-width: 100%;          /* ไม่ล้น */
+  border-collapse: collapse;
   }
 
   table {
@@ -35,20 +35,26 @@
     }
   
   thead th {
-    text-align: left;
-    font-size: 18px;
-    padding: 16px;
-    background: #f3f3f3;
-    border-bottom: 2px solid #ccc;
-  }
+  text-align: left;
+  font-size: 14px;
+  padding: 8px 10px;
+  background: #f3f3f3;
+  border-bottom: 2px solid #ccc;
+    }
 
   tbody td {
-    padding: 18px 16px;
-    font-size: 16px;
-    vertical-align: middle;
-    border-bottom: 1px solid #ddd;
-  }
+  padding: 8px 10px;
+  font-size: 14px;
+  vertical-align: middle;
+  border-bottom: 1px solid #ddd;
+    }
 
+  .table-scroll {
+  max-width: 92%;
+  margin: 0 auto;
+  overflow-x: auto;
+    }
+  
   .doc-table {
   border: 1px solid #ccc;
   border-collapse: collapse;
