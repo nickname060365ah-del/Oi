@@ -3,62 +3,61 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Molang Query Table</title>
+<title>Molangg Query Functions</title>
 
 <style>
 html, body{
-  margin:0;
-  padding:0;
-  font-family:sans-serif;
-  background:#ffffff;
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  font-family: sans-serif;
 }
 
-/* กล่องหลัก */
+/* ครอบทั้งหมด */
 .container{
-  width:100%;
-  max-width:900px;
-  margin:0 auto;
-  padding:16px;
-  box-sizing:border-box;
+  max-width: 1100px;   /* กว้างขึ้น */
+  margin: 0 auto;
+  padding: 24px;
 }
 
 /* หัวข้อ */
 h1{
-  margin-bottom:16px;
-  font-size:24px;
+  font-size: 32px;
+  margin-bottom: 24px;
 }
 
 /* ตาราง */
 .doc-table{
-  width:100%;
-  border-collapse:collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 /* หัวตาราง */
 .doc-table th{
-  text-align:left;
-  padding:12px;
-  background:#f5f5f5;
-  border-bottom:2px solid #ddd;
-  font-weight:bold;
+  text-align: left;
+  font-size: 18px;
+  padding: 16px;
+  background: #f2f2f2;
+  border-bottom: 2px solid #ddd;
 }
 
 /* ช่องข้อมูล */
 .doc-table td{
-  padding:12px;
-  border-bottom:1px solid #ddd;
-  vertical-align:top;
+  padding: 20px;            /* สูงขึ้น */
+  font-size: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  vertical-align: top;
 }
 
-/* hover */
-.doc-table tr:hover{
-  background:#fafafa;
+/* ลิงก์สีฟ้า */
+.func-link{
+  color: #0066cc;
+  text-decoration: none;
+  font-weight: 600;
 }
 
-/* ทำชื่อฟังก์ชันให้เด่น */
-.func{
-  color:#0066cc;
-  font-weight:bold;
+.func-link:hover{
+  text-decoration: underline;
 }
 </style>
 </head>
@@ -66,7 +65,7 @@ h1{
 <body>
 <div class="container">
 
-<h1>Molang Query Functions</h1>
+<h1>Molangg Query Functions</h1>
 
 <table class="doc-table">
   <tr>
@@ -75,18 +74,36 @@ h1{
   </tr>
 
   <tr>
-    <td class="func">above_top_solid</td>
-    <td>คืนค่าบล็อกทึบที่อยู่เหนือบล็อกปัจจุบัน</td>
+    <td>
+      <a class="func-link" href="above_top_solid.html">
+        above_top_solid
+      </a>
+    </td>
+    <td>
+      คืนค่าบล็อกทึบที่อยู่เหนือบล็อกปัจจุบัน
+    </td>
   </tr>
 
   <tr>
-    <td class="func">actor_count</td>
-    <td>คืนค่าจำนวนเอนทิตีในพื้นที่ที่กำหนด</td>
+    <td>
+      <a class="func-link" href="actor_count.html">
+        actor_count
+      </a>
+    </td>
+    <td>
+      คืนค่าจำนวนเอนทิตี้ในพื้นที่ที่กำหนด
+    </td>
   </tr>
 
   <tr>
-    <td class="func">life_time</td>
-    <td>เวลาที่เอนทิตีเกิดมาแล้ว (tick)</td>
+    <td>
+      <a class="func-link" href="life_time.html">
+        life_time
+      </a>
+    </td>
+    <td>
+      เวลาที่เอนทิตี้เกิดมาแล้ว (tick)
+    </td>
   </tr>
 
 </table>
