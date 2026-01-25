@@ -27,18 +27,15 @@ h1 {
   margin-bottom: 24px;
 }
 
-/* กล่องครอบตาราง */
 .table-wrap {
   width: 100%;
-  display: flex;
-  justify-content: center;
+  overflow-x: auto;
 }
 
-/* ตารางหลัก */
 table {
   width: 100%;
-  max-width: 820px;     /* คุมไม่ให้ใหญ่เกิน */
-  min-width: 360px;     /* คุมไม่ให้เล็กเกิน */
+  max-width: 820px;
+  min-width: 700px;   /* ← แก้จาก 360px เป็น 700px */
   border-collapse: collapse;
   border: 1px solid #ddd;
   background: #fff;
