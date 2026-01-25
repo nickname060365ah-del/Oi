@@ -41,21 +41,33 @@ h1{
   border-bottom: 2px solid #ddd;
 }
 
-/* ช่องข้อมูล */
-.doc-table td{
-  padding: 20px;            /* สูงขึ้น */
+  .doc-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.doc-table td {
+  padding: 20px;
+  border: 1px solid #333;
   font-size: 16px;
-  border-bottom: 1px solid #e0e0e0;
-  vertical-align: top;
 }
 
-/* ลิงก์สีฟ้า */
-.func-link{
-  color: #0066cc;
+.func-link {
+  color: #00aaff;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: bold;
 }
 
+.func-link:hover {
+  text-decoration: underline;
+}
+
+  .table-scroll {
+  width: 100%;
+  max-height: 600px;
+  overflow: auto;
+  }
+  
 .func-link:hover{
   text-decoration: underline;
 }
