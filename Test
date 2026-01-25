@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Molang Query Table</title>
+
+<style>
+html, body{
+  margin:0;
+  padding:0;
+  font-family:sans-serif;
+  background:#ffffff;
+}
+
+/* กล่องหลัก */
+.container{
+  width:100%;
+  max-width:900px;
+  margin:0 auto;
+  padding:16px;
+  box-sizing:border-box;
+}
+
+/* หัวข้อ */
+h1{
+  margin-bottom:16px;
+  font-size:24px;
+}
+
+/* ตาราง */
+.doc-table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+/* หัวตาราง */
+.doc-table th{
+  text-align:left;
+  padding:12px;
+  background:#f5f5f5;
+  border-bottom:2px solid #ddd;
+  font-weight:bold;
+}
+
+/* ช่องข้อมูล */
+.doc-table td{
+  padding:12px;
+  border-bottom:1px solid #ddd;
+  vertical-align:top;
+}
+
+/* hover */
+.doc-table tr:hover{
+  background:#fafafa;
+}
+
+/* ทำชื่อฟังก์ชันให้เด่น */
+.func{
+  color:#0066cc;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>Molang Query Functions</h1>
+
+<table class="doc-table">
+  <tr>
+    <th>Query Function</th>
+    <th>Description</th>
+  </tr>
+
+  <tr>
+    <td class="func">above_top_solid</td>
+    <td>คืนค่าบล็อกทึบที่อยู่เหนือบล็อกปัจจุบัน</td>
+  </tr>
+
+  <tr>
+    <td class="func">actor_count</td>
+    <td>คืนค่าจำนวนเอนทิตีในพื้นที่ที่กำหนด</td>
+  </tr>
+
+  <tr>
+    <td class="func">life_time</td>
+    <td>เวลาที่เอนทิตีเกิดมาแล้ว (tick)</td>
+  </tr>
+
+</table>
+
+</div>
+</body>
+</html>
