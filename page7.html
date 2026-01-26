@@ -31,13 +31,12 @@ header {
   right: 0;
   z-index: 1000;
 }
-
-/* ปุ่มสามขีด */
-.menu-btn {
-  font-size: 26px;
+  .menu-btn {
+  font-size: 28px;
   cursor: pointer;
   user-select: none;
-}
+  transition: 0.2s;
+  }
 
 /* ชื่อเว็บ */
 .title {
@@ -125,7 +124,7 @@ main {
 <body>
 
 <header>
-  <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  <div class="menu-btn" id="menuBtn" onclick="toggleMenu()">☰</div>
   <div class="title">หน้าเมนู</div>
 </header>
 
@@ -144,10 +143,21 @@ main {
   </div>
 </main>
 
-<script>
+<script> 
 function toggleMenu() {
-  document.getElementById("sidebar").classList.toggle("active");
-  document.getElementById("overlay").classList.toggle("active");
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+  const btn = document.getElementById("menuBtn");
+
+  sidebar.classList.toggle("active");
+  overlay.classList.toggle("active");
+
+  if (sidebar.classList.contains("active")) {
+    btn.innerHTML = "✕";  // X
+  } else {
+    btn.innerHTML = "☰";  // สามขีด
+  }
+  }
 }
 </script>
 
