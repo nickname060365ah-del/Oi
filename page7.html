@@ -7,7 +7,7 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:Tahoma,Arial,sans-serif}
 body{background:#0e0e0e;color:#fff}
 a{text-decoration:none;color:inherit}
-button{border:none;cursor:pointer}header{position:sticky;top:0;z-index:1000;background:#111;border-bottom:1px solid #222} .nav{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:14px 18px} .logo{font-size:22px;font-weight:bold;color:#4da3ff}
+button{border:none;cursor:pointer}header{position:sticky;top:0;z-index:1000;background:#111;border-bottom:1px solid #222} .nav{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:14px 18px} .left-nav{display:flex;align-items:center;gap:14px} .logo{font-size:22px;font-weight:bold;color:#4da3ff} .hamburger{font-size:26px;cursor:pointer} .right-nav{display:flex;align-items:center;gap:10px} .profile{display:none;align-items:center;gap:8px;cursor:pointer} .profile img{width:32px;height:32px;border-radius:50%;border:2px solid #4da3ff} .logout{display:none;padding:6px 10px;border-radius:6px;background:#222;color:#fff;font-size:14px} .nav{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:14px 18px} .logo{font-size:22px;font-weight:bold;color:#4da3ff}
 
 .auth{display:flex;gap:10px} .auth button{padding:8px 14px;border-radius:6px;background:#4da3ff;color:#000;font-weight:bold}
 
@@ -28,12 +28,18 @@ footer{background:#111;border-top:1px solid #222;padding:30px;text-align:center;
 </head>
 <body><header>
   <div class="nav">
-    <div class="logo">MC Command</div>
-    <div class="auth" id="authBtn">
-      <button onclick="openLogin()">เข้าสู่ระบบ</button>
-    </div>
+  <div class="left-nav">
     <div class="hamburger" onclick="openMenu()">☰</div>
+    <div class="logo">MC Command</div>
   </div>
+  <div class="right-nav">
+    <button id="loginBtn" onclick="openLogin()">เข้าสู่ระบบ</button>
+    <div class="profile" id="profileBox">
+      <img src="https://i.imgur.com/8Km9tLL.png">
+    </div>
+    <button class="logout" id="logoutBtn" onclick="logout()">ออกจากระบบ</button>
+  </div>
+</div>
 </header><div class="side-menu" id="sideMenu">
   <div class="close" onclick="closeMenu()">×</div>
   <h3>เมนู</h3>
@@ -110,10 +116,22 @@ function login(){
 function updateUI(){
   const email=localStorage.getItem('login');
   if(email){
-    authBtn.style.display='none';
+    loginBtn.style.display='none';
+    profileBox.style.display='flex';
+    logoutBtn.style.display='block';
     userBar.style.display='block';
     userBar.innerText='เข้าสู่ระบบแล้ว: '+email;
+  }else{
+    loginBtn.style.display='block';
+    profileBox.style.display='none';
+    logoutBtn.style.display='none';
+    userBar.style.display='none';
   }
+}
+function logout(){
+  localStorage.removeItem('login');
+  updateUI();
+}
 }
 updateUI();
 </script></body>
