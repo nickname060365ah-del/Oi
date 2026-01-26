@@ -3,193 +3,183 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Minecraft Command Hub</title>
+<title>Minecraft Command แจกฟรี</title>
 
 <style>
-/* ================= RESET ================= */
+/* ===== RESET ===== */
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
   font-family: system-ui, -apple-system, BlinkMacSystemFont;
+  margin: 0;
+  padding: 0;
 }
 
-/* ================= BODY ================= */
-body {
-  background: #f5f7fa;
-  color: #222;
-  overflow-x: hidden;
-}
-
-/* ================= HEADER ================= */
+/* ===== HEADER ===== */
 header {
+  position: fixed;
+  top: 0;
+  width: 100%;
   height: 56px;
-  background: #0d6efd;
+  background: #0d47a1;
   color: #fff;
   display: flex;
   align-items: center;
   padding: 0 16px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
+  z-index: 1000;
 }
 
 .menu-btn {
-  font-size: 26px;
+  font-size: 28px;
   cursor: pointer;
   margin-right: 12px;
 }
 
 header h1 {
   font-size: 18px;
+  font-weight: 500;
 }
 
-/* ================= DRAWER ================= */
-.drawer {
+/* ===== SIDE MENU ===== */
+.menu {
   position: fixed;
   top: 0;
-  left: -280px;
-  width: 280px;
+  left: -100%;
+  width: 80%;
+  max-width: 320px;
   height: 100%;
   background: #fff;
-  box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+  box-shadow: 2px 0 10px rgba(0,0,0,0.15);
   transition: 0.3s;
-  z-index: 20;
+  z-index: 1100;
 }
 
-.drawer.open {
+.menu.active {
   left: 0;
 }
 
-.drawer-header {
-  padding: 16px;
-  font-size: 18px;
-  font-weight: bold;
-  border-bottom: 1px solid #eee;
+.menu-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+  font-size: 18px;
 }
 
-.drawer a {
-  display: block;
+.close-btn {
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.menu a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 16px;
   text-decoration: none;
-  color: #222;
-  border-bottom: 1px solid #f0f0f0;
+  color: #000;
+  border-bottom: 1px solid #eee;
+  font-size: 16px;
 }
 
-.drawer a:hover {
-  background: #f5f5f5;
+.menu a span.arrow {
+  font-size: 20px;
+  color: #999;
 }
 
-/* ================= OVERLAY ================= */
+/* ===== OVERLAY ===== */
 .overlay {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.4);
   display: none;
-  z-index: 15;
+  z-index: 1050;
 }
 
-.overlay.show {
+.overlay.active {
   display: block;
 }
 
-/* ================= MAIN ================= */
+/* ===== MAIN ===== */
 main {
   padding: 80px 16px 40px;
-  max-width: 1000px;
+  max-width: 900px;
   margin: auto;
 }
 
-/* ================= HERO ================= */
 .hero {
-  background: #fff;
+  background: linear-gradient(135deg, #1565c0, #42a5f5);
+  color: #fff;
   padding: 24px;
   border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
   margin-bottom: 24px;
 }
 
 .hero h2 {
+  font-size: 22px;
   margin-bottom: 8px;
 }
 
 .hero p {
-  color: #555;
+  font-size: 15px;
+  opacity: 0.95;
 }
 
-/* ================= CARDS ================= */
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
-  gap: 16px;
-}
-
-.card {
+/* ===== AUTH BOX ===== */
+.auth-box {
   background: #fff;
-  padding: 16px;
-  border-radius: 10px;
-  box-shadow: 0 5px 12px rgba(0,0,0,0.05);
-}
-
-.card h3 {
-  margin-bottom: 8px;
-}
-
-/* ================= BUTTON ================= */
-.btn {
-  display: inline-block;
-  padding: 10px 16px;
-  background: #0d6efd;
-  color: #fff;
-  border-radius: 8px;
-  text-decoration: none;
-  cursor: pointer;
-  border: none;
-}
-
-.btn.gray {
-  background: #6c757d;
-}
-
-/* ================= AUTH MODAL ================= */
-.modal {
-  position: fixed;
-  inset: 0;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 30;
-}
-
-.modal.show {
-  display: flex;
-}
-
-.modal-box {
-  background: #fff;
-  width: 100%;
-  max-width: 360px;
-  padding: 20px;
   border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  max-width: 400px;
+  margin: auto;
 }
 
-.modal-box h3 {
+.auth-box h3 {
   margin-bottom: 12px;
+  text-align: center;
 }
 
-.modal-box input {
+.auth-box input {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
 }
 
-.modal-box .actions {
-  display: flex;
-  gap: 10px;
+.auth-box button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #1976d2;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.auth-box button:hover {
+  background: #125aa3;
+}
+
+.auth-switch {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #1976d2;
+}
+
+/* ===== LOGGED IN ===== */
+.user-box {
+  text-align: center;
+}
+
+.logout-btn {
+  margin-top: 12px;
+  background: #d32f2f;
 }
 </style>
 </head>
@@ -197,127 +187,110 @@ main {
 <body>
 
 <header>
-  <div class="menu-btn" onclick="openDrawer()">☰</div>
-  <h1>Minecraft Command Hub</h1>
+  <div class="menu-btn" onclick="openMenu()">☰</div>
+  <h1>Minecraft Command แจกฟรี</h1>
 </header>
 
-<div class="drawer" id="drawer">
-  <div class="drawer-header">
-    เมนู
-    <span onclick="closeDrawer()">✕</span>
+<div class="menu" id="menu">
+  <div class="menu-header">
+    <span>เมนู</span>
+    <span class="close-btn" onclick="closeMenu()">✕</span>
   </div>
-  <a href="#">คำสั่งพื้นฐาน</a>
-  <a href="#">คำสั่งขั้นสูง</a>
-  <a href="#">ระบบแมพ</a>
-  <a href="#" onclick="openLogin()">เข้าสู่ระบบ</a>
-  <a href="#" onclick="openRegister()">สมัครสมาชิก</a>
-  <a href="#" onclick="logout()">ออกจากระบบ</a>
+
+  <a href="#"><span>คำสั่งพื้นฐาน</span><span class="arrow">›</span></a>
+  <a href="#"><span>คำสั่งขั้นสูง</span><span class="arrow">›</span></a>
+  <a href="#"><span>ระบบแมพ</span><span class="arrow">›</span></a>
+  <a href="#" onclick="showLogin()"><span>เข้าสู่ระบบ</span><span class="arrow">›</span></a>
+  <a href="#" onclick="showRegister()"><span>สมัครสมาชิก</span><span class="arrow">›</span></a>
 </div>
 
-<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
 
 <main>
-  <section class="hero">
-    <h2>แจกคอมมาน Minecraft Bedrock</h2>
-    <p>รวมคำสั่ง คอมมานบล็อก และระบบแมพระดับโปร ใช้งานได้จริง</p>
-  </section>
+  <div class="hero">
+    <h2>เว็บแจกคอมมานด์ Minecraft</h2>
+    <p>รวมคำสั่ง คอมมานด์บล็อก ระบบแมพ ใช้งานจริง อัปเดตเรื่อย ๆ</p>
+  </div>
 
-  <section class="cards">
-    <div class="card">
-      <h3>คำสั่งพื้นฐาน</h3>
-      <p>เริ่มต้นสำหรับมือใหม่</p>
-    </div>
-    <div class="card">
-      <h3>คำสั่งขั้นสูง</h3>
-      <p>ระบบสกิล ระบบดาเมจ</p>
-    </div>
-    <div class="card">
-      <h3>ระบบแมพ</h3>
-      <p>ออกแบบแมพแบบมือโปร</p>
-    </div>
-  </section>
+  <div id="content"></div>
 </main>
 
-<!-- LOGIN -->
-<div class="modal" id="loginModal">
-  <div class="modal-box">
+<script>
+function openMenu() {
+  document.getElementById("menu").classList.add("active");
+  document.getElementById("overlay").classList.add("active");
+}
+
+function closeMenu() {
+  document.getElementById("menu").classList.remove("active");
+  document.getElementById("overlay").classList.remove("active");
+}
+
+/* ===== AUTH SYSTEM (LocalStorage) ===== */
+const content = document.getElementById("content");
+
+function showLogin() {
+  closeMenu();
+  content.innerHTML = `
+  <div class="auth-box">
     <h3>เข้าสู่ระบบ</h3>
     <input id="loginUser" placeholder="ชื่อผู้ใช้">
     <input id="loginPass" type="password" placeholder="รหัสผ่าน">
-    <div class="actions">
-      <button class="btn" onclick="login()">เข้า</button>
-      <button class="btn gray" onclick="closeLogin()">ยกเลิก</button>
-    </div>
-  </div>
-</div>
+    <button onclick="login()">เข้าสู่ระบบ</button>
+    <div class="auth-switch" onclick="showRegister()">ยังไม่มีบัญชี? สมัครสมาชิก</div>
+  </div>`;
+}
 
-<!-- REGISTER -->
-<div class="modal" id="registerModal">
-  <div class="modal-box">
+function showRegister() {
+  closeMenu();
+  content.innerHTML = `
+  <div class="auth-box">
     <h3>สมัครสมาชิก</h3>
     <input id="regUser" placeholder="ชื่อผู้ใช้">
     <input id="regPass" type="password" placeholder="รหัสผ่าน">
-    <div class="actions">
-      <button class="btn" onclick="register()">สมัคร</button>
-      <button class="btn gray" onclick="closeRegister()">ยกเลิก</button>
-    </div>
-  </div>
-</div>
-
-<script>
-function openDrawer() {
-  drawer.classList.add("open");
-  overlay.classList.add("show");
-}
-
-function closeDrawer() {
-  drawer.classList.remove("open");
-  overlay.classList.remove("show");
-}
-
-function openLogin() {
-  loginModal.classList.add("show");
-}
-
-function closeLogin() {
-  loginModal.classList.remove("show");
-}
-
-function openRegister() {
-  registerModal.classList.add("show");
-}
-
-function closeRegister() {
-  registerModal.classList.remove("show");
+    <button onclick="register()">สมัคร</button>
+    <div class="auth-switch" onclick="showLogin()">มีบัญชีแล้ว? เข้าสู่ระบบ</div>
+  </div>`;
 }
 
 function register() {
   const u = regUser.value;
   const p = regPass.value;
-  if (!u || !p) return alert("กรอกให้ครบ");
+  if (!u || !p) return alert("กรอกให้ครบไอ้สัส");
   localStorage.setItem("user_"+u, p);
-  alert("สมัครสำเร็จ");
-  closeRegister();
+  alert("สมัครเสร็จแล้ว");
+  showLogin();
 }
 
 function login() {
   const u = loginUser.value;
   const p = loginPass.value;
-  const saved = localStorage.getItem("user_"+u);
-  if (saved === p) {
+  if (localStorage.getItem("user_"+u) === p) {
     localStorage.setItem("login", u);
-    alert("ล็อกอินสำเร็จ");
-    closeLogin();
+    showUser();
   } else {
-    alert("ข้อมูลผิด");
+    alert("ชื่อหรือรหัสผิด");
   }
+}
+
+function showUser() {
+  const u = localStorage.getItem("login");
+  content.innerHTML = `
+  <div class="auth-box user-box">
+    <h3>ยินดีต้อนรับ ${u}</h3>
+    <button class="logout-btn" onclick="logout()">ออกจากระบบ</button>
+  </div>`;
 }
 
 function logout() {
   localStorage.removeItem("login");
-  alert("ออกจากระบบแล้ว");
+  showLogin();
+}
+
+if (localStorage.getItem("login")) {
+  showUser();
 }
 </script>
 
 </body>
-  </html>
+</html>
