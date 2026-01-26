@@ -1,106 +1,241 @@
-<!DOCTYPE html><html lang="th">
+<!DOCTYPE html>
+<html lang="th">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MC Command - Bedrock Only</title>
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Tahoma,Arial,sans-serif}
 body{background:#0e0e0e;color:#fff}
-a{text-decoration:none;color:inherit}
-button{border:none;cursor:pointer}header{position:sticky;top:0;z-index:1000;background:#111;border-bottom:1px solid #222} .nav{max-width:1200px;margin:auto;display:flex;align-items:center;gap:14px;padding:14px 18px}
 
-.hamburger{font-size:26px;cursor:pointer} .logo{font-size:22px;font-weight:bold;color:#4da3ff}
+header{position:sticky;top:0;background:#111;border-bottom:1px solid #222;z-index:1000}
+.nav{
+  max-width:1200px;
+  margin:0;
+  padding:14px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between
+}
 
-.spacer{flex:1}
+.logo{font-size:22px;font-weight:bold;color:#4da3ff}
 
-.profile{display:none;align-items:center;gap:10px} .profile img{width:34px;height:34px;border-radius:50%;background:#333} .profile span{font-size:14px;opacity:.85}
+.desktop-menu{display:flex;gap:18px}
+.desktop-menu a{opacity:.85}
+.desktop-menu a:hover{color:#4da3ff;opacity:1}
 
-.auth button{padding:8px 14px;border-radius:6px;background:#4da3ff;color:#000;font-weight:bold}
+.auth button{
+  padding:8px 14px;
+  border-radius:6px;
+  background:#4da3ff;
+  color:#000;
+  font-weight:bold;
+  border:none;
+  cursor:pointer
+}
 
-.side-menu{position:fixed;top:0;left:-280px;width:260px;height:100%;background:#0f0f0f;border-right:1px solid #222;transition:.3s;z-index:2000;padding:20px} .side-menu.active{left:0} .side-menu h3{margin-bottom:20px;color:#4da3ff} .side-menu a{display:block;padding:12px 0;border-bottom:1px solid #222} .side-menu .logout{color:#ff4d4d;text-decoration:underline;margin-top:20px} .side-menu .close{position:absolute;top:15px;right:15px;font-size:22px;cursor:pointer}
+.hamburger{display:none;font-size:26px;cursor:pointer}
 
-.hero{max-width:1200px;margin:auto;padding:70px 20px} .hero h1{font-size:42px;margin-bottom:20px} .hero p{opacity:.85;max-width:600px} .hero .cta{margin-top:30px;display:flex;gap:15px} .hero .cta a{padding:14px 22px;border-radius:8px;font-weight:bold} .hero .main{background:#4da3ff;color:#000} .hero .alt{background:#222;border:1px solid #333}
+@media(max-width:900px){
+  .desktop-menu{display:none}
+  .hamburger{display:block}
+}
 
-footer{background:#111;border-top:1px solid #222;padding:30px;text-align:center;opacity:.7}
+.side-menu{
+  position:fixed;
+  top:0;
+  left:-260px;
+  width:260px;
+  height:100%;
+  background:#0f0f0f;
+  border-right:1px solid #222;
+  padding:20px;
+  transition:.3s;
+  z-index:2000
+}
+.side-menu.active{left:0}
+.side-menu a{display:block;padding:10px 0;border-bottom:1px solid #222}
+.side-menu .close{position:absolute;top:15px;right:15px;font-size:22px;cursor:pointer}
 
-.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:3000} .modal.active{display:flex} .modal-box{background:#0f0f0f;border:1px solid #222;border-radius:14px;width:100%;max-width:420px;padding:25px;position:relative} .modal-box h3{text-align:center;margin-bottom:20px} .modal-box label{display:block;margin-top:14px;margin-bottom:6px;opacity:.85} .modal-box input{width:100%;padding:12px;border-radius:8px;border:1px solid #333;background:#000;color:#fff} .modal-box button{width:100%;margin-top:20px;padding:12px;border-radius:8px;background:#4da3ff;color:#000;font-weight:bold} .modal-box .switch{text-align:center;margin-top:15px;opacity:.8;font-size:14px;cursor:pointer} .modal-box .close{position:absolute;top:15px;right:18px;font-size:22px;cursor:pointer} </style>
+.hero{
+  max-width:1200px;
+  margin:0;
+  padding:70px 20px;
+  text-align:left
+}
+.hero h1{font-size:42px;margin-bottom:20px}
+.hero p{opacity:.85;max-width:600px}
 
+.cta{margin-top:30px;display:flex;gap:15px}
+.cta a{
+  padding:14px 22px;
+  border-radius:8px;
+  font-weight:bold;
+  text-decoration:none
+}
+.main{background:#4da3ff;color:#000}
+.alt{background:#222;border:1px solid #333;color:#fff}
+
+section{
+  max-width:1200px;
+  margin:0;
+  padding:60px 20px
+}
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px
+}
+.card{
+  background:#111;
+  border:1px solid #222;
+  border-radius:12px;
+  padding:22px
+}
+.card h3{color:#4da3ff;margin-bottom:10px}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.8);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:3000
+}
+.modal.active{display:flex}
+
+.modal-box{
+  background:#0f0f0f;
+  border:1px solid #222;
+  border-radius:14px;
+  width:100%;
+  max-width:420px;
+  padding:25px;
+  position:relative
+}
+.modal-box input{
+  width:100%;
+  padding:12px;
+  margin-top:6px;
+  background:#000;
+  border:1px solid #333;
+  border-radius:8px;
+  color:#fff
+}
+.modal-box button{
+  width:100%;
+  margin-top:20px;
+  padding:12px;
+  background:#4da3ff;
+  border:none;
+  border-radius:8px;
+  font-weight:bold
+}
+.modal-box .close{
+  position:absolute;
+  top:15px;
+  right:18px;
+  font-size:22px;
+  cursor:pointer
+}
+.switch{text-align:center;margin-top:15px;opacity:.8;cursor:pointer}
+
+footer{
+  background:#111;
+  border-top:1px solid #222;
+  padding:30px;
+  text-align:left;
+  opacity:.7
+}
+</style>
 </head>
-<body><header>
+
+<body>
+
+<header>
   <div class="nav">
-    <div class="hamburger" onclick="openMenu()">☰</div>
     <div class="logo">MC Command</div>
-    <div class="spacer"></div>
-    <div class="auth" id="authBtn">
+
+    <nav class="desktop-menu">
+      <a href="#">คำสั่งพื้นฐาน</a>
+      <a href="#">คำสั่งขั้นสูง</a>
+      <a href="#">ระบบแมพ</a>
+    </nav>
+
+    <div class="auth">
       <button onclick="openLogin()">เข้าสู่ระบบ</button>
     </div>
-    <div class="profile" id="profile">
-      <img src="https://via.placeholder.com/64">
-      <span id="profileEmail"></span>
-    </div>
+
+    <div class="hamburger" onclick="openMenu()">☰</div>
   </div>
-</header><div class="side-menu" id="sideMenu">
+</header>
+
+<div class="side-menu" id="sideMenu">
   <div class="close" onclick="closeMenu()">×</div>
-  <h3>เมนู</h3>
   <a href="#">คำสั่งพื้นฐาน</a>
   <a href="#">คำสั่งขั้นสูง</a>
   <a href="#">ระบบแมพ</a>
-  <a class="logout" id="logoutBtn" onclick="logout()">ออกจากระบบ</a>
-</div><div class="hero">
+  <a onclick="openLogin()">เข้าสู่ระบบ</a>
+</div>
+
+<div class="hero">
   <h1>เว็บแจกคำสั่ง<br>Minecraft Bedrock</h1>
-  <p>Bedrock แท้ 100% ก็อปใช้ได้จริง สำหรับสายทำแมพ</p>
+  <p>Bedrock แท้ 100% ก็อปใช้ได้จริง ไม่ Java</p>
   <div class="cta">
     <a class="main" href="#">ดูคำสั่งทั้งหมด</a>
     <a class="alt" href="#">เกี่ยวกับเว็บนี้</a>
   </div>
-</div><footer>© MC Command Bedrock</footer><div class="modal" id="loginModal">
+</div>
+
+<section>
+  <div class="cards">
+    <div class="card"><h3>Bedrock แท้</h3><p>ไม่มี Java ปน</p></div>
+    <div class="card"><h3>ใช้ได้จริง</h3><p>ก็อปแล้วใช้</p></div>
+    <div class="card"><h3>สายระบบ</h3><p>เหมาะทำแมพ</p></div>
+  </div>
+</section>
+
+<footer>© MC Command Bedrock</footer>
+
+<div class="modal" id="loginModal">
   <div class="modal-box">
     <div class="close" onclick="closeModal()">×</div>
-    <h3>เข้าสู่ระบบ</h3>
-    <label>อีเมล</label>
-    <input id="loginEmail" type="email">
-    <label>รหัสผ่าน</label>
-    <input id="loginPass" type="password">
-    <button onclick="login()">เข้าสู่ระบบ</button>
+    <input placeholder="อีเมล">
+    <input type="password" placeholder="รหัสผ่าน">
+    <button>เข้าสู่ระบบ</button>
+    <div class="switch" onclick="switchRegister()">สมัครสมาชิก</div>
   </div>
-</div><script>
-const sideMenu=document.getElementById('sideMenu')
-const authBtn=document.getElementById('authBtn')
-const profile=document.getElementById('profile')
-const profileEmail=document.getElementById('profileEmail')
-const loginModal=document.getElementById('loginModal')
+</div>
 
-function openMenu(){sideMenu.classList.add('active')}
-function closeMenu(){sideMenu.classList.remove('active')}
+<div class="modal" id="registerModal">
+  <div class="modal-box">
+    <div class="close" onclick="closeModal()">×</div>
+    <input placeholder="ชื่อผู้ใช้">
+    <input placeholder="อีเมล">
+    <input type="password" placeholder="รหัสผ่าน">
+    <button>สมัครสมาชิก</button>
+  </div>
+</div>
 
-function openLogin(){loginModal.classList.add('active')}
-function closeModal(){loginModal.classList.remove('active')}
+<script>
+function openMenu(){sideMenu.classList.add("active")}
+function closeMenu(){sideMenu.classList.remove("active")}
 
-function login(){
-  const email=loginEmail.value.trim()
-  if(!email)return
-  localStorage.setItem('login',email)
-  closeModal()
-  updateUI()
-}
-
-function logout(){
-  localStorage.removeItem('login')
-  updateUI()
+function openLogin(){
+  loginModal.classList.add("active")
   closeMenu()
 }
-
-function updateUI(){
-  const email=localStorage.getItem('login')
-  if(email){
-    authBtn.style.display='none'
-    profile.style.display='flex'
-    profileEmail.innerText=email
-  }else{
-    authBtn.style.display='block'
-    profile.style.display='none'
-  }
+function closeModal(){
+  loginModal.classList.remove("active")
+  registerModal.classList.remove("active")
 }
-updateUI()
-</script></body>
-</html>
+function switchRegister(){
+  loginModal.classList.remove("active")
+  registerModal.classList.add("active")
+}
+</script>
+
+</body>
+  </html>
