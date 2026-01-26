@@ -3,33 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Menu</title>
+<title>Minecraft Command แจกคำสั่ง Bedrock</title>
 
 <style>
-body {
+/* ===== RESET ===== */
+* {
+  box-sizing: border-box;
   margin: 0;
-  font-family: sans-serif;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, sans-serif;
   background: #f5f6f7;
+  color: #222;
 }
 
 /* ===== HEADER ===== */
 header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 16px;
-  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #ffffff;
   border-bottom: 1px solid #e0e0e0;
 }
 
+.header-inner {
+  max-width: 1200px;
+  margin: auto;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .menu-btn {
-  font-size: 28px;
+  font-size: 26px;
   cursor: pointer;
 }
 
-.title {
+.logo {
   font-size: 18px;
   font-weight: bold;
+}
+
+.auth-btns a {
+  margin-left: 12px;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 8px 14px;
+  border-radius: 6px;
+}
+
+.login {
+  color: #0066cc;
+}
+
+.register {
+  background: #0066cc;
+  color: #fff;
 }
 
 /* ===== SIDEBAR ===== */
@@ -40,10 +72,10 @@ header {
   width: 300px;
   max-width: 85vw;
   height: 100%;
-  background: #fff;
+  background: #ffffff;
+  border-right: 1px solid #ddd;
   transition: 0.3s;
   z-index: 1000;
-  border-right: 1px solid #ddd;
 }
 
 .sidebar.active {
@@ -65,37 +97,31 @@ header {
   cursor: pointer;
 }
 
-/* ===== MENU ITEM ===== */
 .menu-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  padding: 18px 16px;
-  font-size: 17px;
-  color: #000;
+  padding: 16px;
+  font-size: 16px;
   text-decoration: none;
-
+  color: #222;
   border-bottom: 1px solid #eee;
 }
 
-.menu-item:active {
-  background: #f0f0f0;
+.menu-item:hover {
+  background: #f5f5f5;
 }
 
-.menu-item .arrow {
-  font-size: 24px;
-  color: #9e9e9e;
+.arrow {
+  font-size: 22px;
+  color: #999;
 }
 
 /* ===== OVERLAY ===== */
 .overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.3);
+  inset: 0;
+  background: rgba(0,0,0,0.35);
   display: none;
   z-index: 900;
 }
@@ -104,9 +130,92 @@ header {
   display: block;
 }
 
-/* ===== CONTENT ===== */
-.content {
+/* ===== MAIN ===== */
+main {
+  max-width: 1200px;
+  margin: auto;
+  padding: 40px 16px;
+}
+
+/* ===== HERO ===== */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.hero h1 {
+  font-size: 32px;
+  line-height: 1.3;
+}
+
+.hero p {
+  font-size: 16px;
+  color: #555;
+  max-width: 700px;
+}
+
+.hero-buttons a {
+  display: inline-block;
+  margin-right: 12px;
+  margin-top: 12px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.primary {
+  background: #0066cc;
+  color: #fff;
+}
+
+.secondary {
+  border: 1px solid #ccc;
+  color: #222;
+}
+
+/* ===== SECTION ===== */
+.section {
+  margin-top: 48px;
+}
+
+.section h2 {
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.feature-box {
+  background: #fff;
   padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+}
+
+.feature-box h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.feature-box p {
+  font-size: 14px;
+  color: #555;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  margin-top: 80px;
+  padding: 24px 16px;
+  text-align: center;
+  font-size: 13px;
+  color: #777;
 }
 </style>
 </head>
@@ -114,38 +223,93 @@ header {
 <body>
 
 <header>
-  <div class="menu-btn" onclick="openMenu()">☰</div>
-  <div class="title">Learn</div>
+  <div class="header-inner">
+    <div class="menu-btn" onclick="openMenu()">☰</div>
+    <div class="logo">MC Command แจกคำสั่ง</div>
+    <div class="auth-btns">
+      <a href="login.html" class="login">เข้าสู่ระบบ</a>
+      <a href="register.html" class="register">สมัครสมาชิก</a>
+    </div>
+  </div>
 </header>
 
+<!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span>Learn</span>
+    <span>เมนู</span>
     <span class="close-btn" onclick="closeMenu()">×</span>
   </div>
 
   <a href="#" class="menu-item">
-    <span>เมนูที่ 1</span>
+    <span>คำสั่งพื้นฐาน</span>
     <span class="arrow">›</span>
   </a>
 
   <a href="#" class="menu-item">
-    <span>เมนูที่ 2</span>
+    <span>คำสั่งขั้นสูง</span>
     <span class="arrow">›</span>
   </a>
 
   <a href="#" class="menu-item">
-    <span>เมนูที่ 3</span>
+    <span>ระบบสกิล</span>
+    <span class="arrow">›</span>
+  </a>
+
+  <a href="#" class="menu-item">
+    <span>ระบบแมพ</span>
+    <span class="arrow">›</span>
+  </a>
+
+  <a href="#" class="menu-item">
+    <span>เครื่องมือ</span>
     <span class="arrow">›</span>
   </a>
 </div>
 
 <div class="overlay" id="overlay" onclick="closeMenu()"></div>
 
-<div class="content">
-  <h2>ยินดีต้อนรับ</h2>
-  <p>กดสามขีดเพื่อเปิดเมนู</p>
-</div>
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <h1>เว็บแจกคำสั่ง Minecraft Bedrock<br>ก็อปไปใช้ได้จริง</h1>
+    <p>
+      รวมคำสั่งมายคราฟ Bedrock ตั้งแต่พื้นฐานจนถึงขั้นสูง  
+      จัดหมวดหมู่ชัด ใช้ง่าย ไม่มั่ว ไม่หลุด Java  
+      เหมาะสำหรับสายทำแมพ สร้างระบบ และสายจริงทุกคน
+    </p>
+    <div class="hero-buttons">
+      <a href="#" class="primary">ดูคำสั่งทั้งหมด</a>
+      <a href="#" class="secondary">สมัครสมาชิก</a>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section">
+    <h2>ทำไมต้องเว็บนี้</h2>
+    <div class="features">
+      <div class="feature-box">
+        <h3>Bedrock 100%</h3>
+        <p>ไม่มีคำสั่ง Java ปน ใช้ได้จริง ก๊อปแล้วรันได้เลย</p>
+      </div>
+      <div class="feature-box">
+        <h3>จัดหมวดชัด</h3>
+        <p>แยกคำสั่งตามประเภท หาเร็ว ไม่งง</p>
+      </div>
+      <div class="feature-box">
+        <h3>อัปเดตต่อเนื่อง</h3>
+        <p>รองรับเวอร์ชันใหม่ ไม่ทิ้งของเก่า</p>
+      </div>
+      <div class="feature-box">
+        <h3>สายทำแมพ</h3>
+        <p>ออกแบบมาเพื่อคนทำระบบจริง ไม่ใช่มือสมัครเล่น</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  © 2026 MC Command | แจกคำสั่ง Minecraft Bedrock
+</footer>
 
 <script>
 function openMenu() {
@@ -160,4 +324,4 @@ function closeMenu() {
 </script>
 
 </body>
-</html>
+    </html>
