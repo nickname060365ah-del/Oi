@@ -32,7 +32,7 @@ header {
   z-index: 1000;
 }
   .menu-btn {
-  font-size: 28px;
+  font-size: 22px;
   cursor: pointer;
   user-select: none;
   transition: 0.2s;
@@ -117,6 +117,16 @@ main {
   margin: auto;
 }
 
+  header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menu-btn.right {
+  font-size: 22px;
+  }
+  
 .card h1 {
   font-size: 22px;
   margin-bottom: 10px;
@@ -131,8 +141,8 @@ main {
 <body>
 
 <header>
-  <div class="menu-btn" id="menuBtn" onclick="toggleMenu()">☰</div>
   <div class="title">หน้าเมนู</div>
+  <div class="menu-btn right" id="menuBtn" onclick="toggleMenu()">≡</div>
 </header>
 
 <div class="sidebar" id="sidebar">
