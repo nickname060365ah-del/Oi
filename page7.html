@@ -68,6 +68,26 @@ header{position:sticky;top:0;background:#111;border-bottom:1px solid #222;z-inde
 </head>
 <body>
 
+  <!-- เพิ่มตัวเลือก 3 ปุ่ม ใหญ่ๆ -->
+<div class="big-choices" style="display:flex;gap:12px;justify-content:center;margin-top:22px">
+  <button class="choice">1</button>
+  <button class="choice">2</button>
+  <button class="choice">3</button>
+</div>
+
+<style>
+  .choice{
+    padding:18px 30px;
+    border-radius:12px;
+    font-size:20px;
+    background:#1e90ff;
+    color:#fff;
+    border:0;
+    cursor:pointer;
+    min-width:90px;
+  }
+</style>
+  
 <header>
   <div class="nav">
     <div class="hamburger" onclick="toggleMenu()">≡</div>
