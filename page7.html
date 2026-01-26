@@ -27,6 +27,22 @@ header {
   cursor: pointer;
 }
 
+  .menu-item {
+  display: flex;
+  justify-content: space-between; /* ดันลูกศรไปขวา */
+  align-items: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  color: #000;
+  font-size: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.menu-item .arrow {
+  color: #999;        /* สีเทา */
+  font-size: 20px;    /* ให้ใหญ่ขึ้น */
+}
+  
 .title {
   font-size: 18px;
   font-weight: bold;
@@ -115,6 +131,7 @@ header {
 
   <a href="#" class="menu-item">
   <span>เมนูที่ 1</span>
+  <span class="arrow">›</span>
 </a>
 
 <a href="#" class="menu-item">
