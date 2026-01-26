@@ -1,258 +1,265 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <title>MC Command</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background: #0b0b0b;
-      color: #fff;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MC Command - Bedrock Only</title>
 
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 16px;
-      background: #111;
-      border-bottom: 1px solid #222;
-    }
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Tahoma,Arial,sans-serif}
+body{background:#0e0e0e;color:#fff}
+a{text-decoration:none;color:inherit}
+button{border:none;cursor:pointer}
 
-    .menu-btn {
-      font-size: 24px;
-      cursor: pointer;
-    }
+header{position:sticky;top:0;z-index:1000;background:#111;border-bottom:1px solid #222}
+.nav{
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 18px
+}
 
-    .logo {
-      font-weight: bold;
-      font-size: 18px;
-      color: #4da3ff;
-    }
+.left{
+  display:flex;
+  align-items:center;
+  gap:14px
+}
 
-    .login-btn {
-      background: #4da3ff;
-      color: #000;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
+.hamburger{
+  font-size:26px;
+  cursor:pointer
+}
 
-    /* sidebar */
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: -260px;
-      width: 260px;
-      height: 100%;
-      background: #111;
-      transition: 0.3s;
-      padding: 16px;
-      box-sizing: border-box;
-      z-index: 100;
-    }
+.logo{font-size:22px;font-weight:bold;color:#4da3ff}
 
-    .sidebar.active {
-      left: 0;
-    }
+.auth{display:flex;align-items:center;gap:12px}
+.auth button{
+  padding:8px 14px;
+  border-radius:6px;
+  background:#4da3ff;
+  color:#000;
+  font-weight:bold
+}
 
-    .sidebar a {
-      display: block;
-      color: #fff;
-      text-decoration: none;
-      margin: 14px 0;
-    }
+.profile{
+  display:none;
+  align-items:center;
+  gap:10px
+}
 
-    .sidebar hr {
-      border: none;
-      border-top: 1px solid #333;
-      margin: 16px 0;
-    }
+.profile span{
+  font-size:14px;
+  opacity:.9
+}
 
-    .logout {
-      color: red;
-      text-decoration: underline;
-      cursor: pointer;
-    }
+.logout{
+  color:red;
+  text-decoration:underline;
+  cursor:pointer;
+  font-size:14px
+}
 
-    main {
-      padding: 40px 20px;
-      max-width: 800px;
-      margin: auto;
-    }
+/* side menu */
+.side-menu{
+  position:fixed;
+  top:0;
+  left:-280px;
+  width:260px;
+  height:100%;
+  background:#0f0f0f;
+  border-right:1px solid #222;
+  transition:.3s;
+  z-index:2000;
+  padding:20px
+}
+.side-menu.active{left:0}
+.side-menu h3{margin-bottom:20px;color:#4da3ff}
 
-    h1 {
-      font-size: 36px;
-      margin-bottom: 10px;
-    }
+.side-menu a{
+  display:flex;
+  justify-content:space-between;
+  padding:12px 0;
+  border-bottom:1px solid #222
+}
 
-    .desc {
-      color: #bbb;
-      margin-bottom: 30px;
-    }
+.side-menu .close{
+  position:absolute;
+  top:15px;
+  right:15px;
+  font-size:22px;
+  cursor:pointer
+}
 
-    .btn-group button {
-      margin-right: 10px;
-      padding: 10px 18px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-    }
+.hero{max-width:1200px;margin:auto;padding:70px 20px}
+.hero h1{font-size:42px;margin-bottom:20px}
+.hero p{opacity:.85;max-width:600px}
+.hero .cta{margin-top:30px;display:flex;gap:15px}
+.hero .cta a{padding:14px 22px;border-radius:8px;font-weight:bold}
+.hero .main{background:#4da3ff;color:#000}
+.hero .alt{background:#222;border:1px solid #333}
 
-    .primary {
-      background: #4da3ff;
-      color: #000;
-    }
-
-    .secondary {
-      background: #222;
-      color: #fff;
-    }
-
-    /* modal */
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.6);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 200;
-    }
-
-    .modal.active {
-      display: flex;
-    }
-
-    .modal-box {
-      background: #111;
-      padding: 20px;
-      width: 100%;
-      max-width: 360px;
-      border-radius: 10px;
-    }
-
-    .modal-box h2 {
-      margin-top: 0;
-    }
-
-    .modal-box input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 12px;
-      border-radius: 6px;
-      border: none;
-    }
-
-    .modal-box button {
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-radius: 6px;
-      background: #4da3ff;
-      color: #000;
-      cursor: pointer;
-    }
-
-    .switch {
-      margin-top: 10px;
-      text-align: center;
-      color: #aaa;
-      cursor: pointer;
-    }
-  </style>
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.8);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:3000
+}
+.modal.active{display:flex}
+.modal-box{
+  background:#0f0f0f;
+  border:1px solid #222;
+  border-radius:14px;
+  width:100%;
+  max-width:420px;
+  padding:25px;
+  position:relative
+}
+.modal-box h3{text-align:center;margin-bottom:20px}
+.modal-box label{display:block;margin-top:14px;margin-bottom:6px}
+.modal-box input{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #333;
+  background:#000;
+  color:#fff
+}
+.modal-box button{
+  width:100%;
+  margin-top:20px;
+  padding:12px;
+  border-radius:8px;
+  background:#4da3ff;
+  color:#000;
+  font-weight:bold
+}
+.modal-box .switch{text-align:center;margin-top:15px;opacity:.8;font-size:14px;cursor:pointer}
+.modal-box .close{
+  position:absolute;
+  top:15px;
+  right:18px;
+  font-size:22px;
+  cursor:pointer
+}
+</style>
 </head>
+
 <body>
 
 <header>
-  <div class="menu-btn" onclick="toggleMenu()">☰</div>
-  <div class="logo">MC Command</div>
-  <button class="login-btn" onclick="openLogin()">เข้าสู่ระบบ</button>
+  <div class="nav">
+    <div class="left">
+      <div class="hamburger" onclick="openMenu()">☰</div>
+      <div class="logo">MC Command</div>
+    </div>
+
+    <div class="auth" id="authBtn">
+      <button onclick="openLogin()">เข้าสู่ระบบ</button>
+    </div>
+
+    <div class="profile" id="profile">
+      <span id="profileName"></span>
+      <span class="logout" onclick="logout()">ออกจากระบบ</span>
+    </div>
+  </div>
 </header>
 
-<div class="sidebar" id="sidebar">
-  <a href="#">คำสั่งพื้นฐาน</a>
-  <a href="#">คำสั่งขั้นสูง</a>
-  <a href="#">ระบบแมพ</a>
-  <hr>
-  <div class="logout" onclick="logout()">ออกจากระบบ</div>
+<div class="side-menu" id="sideMenu">
+  <div class="close" onclick="closeMenu()">×</div>
+  <h3>เมนู</h3>
+
+  <a href="#"><span>คำสั่งพื้นฐาน</span><span>›</span></a>
+  <a href="#"><span>คำสั่งขั้นสูง</span><span>›</span></a>
+  <a href="#"><span>ระบบแมพ</span><span>›</span></a>
+  <a onclick="openLogin()"><span>เข้าสู่ระบบ</span><span>›</span></a>
 </div>
 
-<main>
-  <h1>เว็บแจกคำสั่ง Minecraft Bedrock</h1>
-  <div class="desc">
-    รวมคำสั่ง Bedrock 100% ก็อปใช้ได้จริง  
-    สำหรับสายทำแมพ สายระบบ และสายจริงทุกคน
-  </div>
+<div class="hero">
+  <h1>เว็บแจกคำสั่ง<br>Minecraft Bedrock</h1>
+  <p>Bedrock แท้ 100% ก็อปใช้ได้จริง ไม่มี Java ปน</p>
+</div>
 
-  <div class="btn-group">
-    <button class="primary">ดูคำสั่งทั้งหมด</button>
-    <button class="secondary">เกี่ยวกับเว็บนี้</button>
-  </div>
-</main>
-
-<!-- login -->
+<!-- LOGIN -->
 <div class="modal" id="loginModal">
   <div class="modal-box">
-    <h2>เข้าสู่ระบบ</h2>
-    <input type="email" id="loginEmail" placeholder="อีเมล">
-    <input type="password" id="loginPass" placeholder="รหัสผ่าน">
+    <div class="close" onclick="closeModal()">×</div>
+    <h3>เข้าสู่ระบบ</h3>
+    <label>อีเมล</label>
+    <input id="loginEmail">
+    <label>รหัสผ่าน</label>
+    <input id="loginPass" type="password">
     <button onclick="login()">เข้าสู่ระบบ</button>
-    <div class="switch" onclick="switchToRegister()">ยังไม่มีรหัส? สมัครสมาชิก</div>
+    <div class="switch" onclick="switchRegister()">ยังไม่มีบัญชี? สมัครสมาชิก</div>
   </div>
 </div>
 
-<!-- register -->
+<!-- REGISTER -->
 <div class="modal" id="registerModal">
   <div class="modal-box">
-    <h2>สมัครสมาชิก</h2>
-    <input type="email" id="regEmail" placeholder="อีเมล">
-    <input type="password" id="regPass" placeholder="รหัสผ่าน">
+    <div class="close" onclick="closeModal()">×</div>
+    <h3>สมัครสมาชิก</h3>
+    <label>ชื่อผู้ใช้</label>
+    <input id="regUser">
+    <label>อีเมล</label>
+    <input id="regEmail">
+    <label>รหัสผ่าน</label>
+    <input id="regPass" type="password">
+    <label>ยืนยันรหัสผ่าน</label>
+    <input id="regPass2" type="password">
     <button onclick="register()">สมัครสมาชิก</button>
   </div>
 </div>
 
 <script>
-  function toggleMenu() {
-    document.getElementById('sidebar').classList.toggle('active');
+function openMenu(){sideMenu.classList.add('active')}
+function closeMenu(){sideMenu.classList.remove('active')}
+
+function openLogin(){closeModal();loginModal.classList.add('active')}
+function switchRegister(){closeModal();registerModal.classList.add('active')}
+function closeModal(){loginModal.classList.remove('active');registerModal.classList.remove('active')}
+
+function register(){
+  if(regPass.value!==regPass2.value)return alert('รหัสไม่ตรง');
+  localStorage.setItem('user_'+regEmail.value,
+    JSON.stringify({u:regUser.value,p:regPass.value})
+  );
+  closeModal();openLogin();
+}
+
+function login(){
+  const raw=localStorage.getItem('user_'+loginEmail.value);
+  if(!raw)return alert('ไม่พบบัญชี');
+  const data=JSON.parse(raw);
+  if(data.p!==loginPass.value)return alert('รหัสผิด');
+  localStorage.setItem('login',loginEmail.value);
+  updateUI();
+  closeModal();
+}
+
+function logout(){
+  localStorage.removeItem('login');
+  updateUI();
+}
+
+function updateUI(){
+  const email=localStorage.getItem('login');
+  if(email){
+    const data=JSON.parse(localStorage.getItem('user_'+email));
+    authBtn.style.display='none';
+    profile.style.display='flex';
+    profileName.innerText=data.u || 'ผู้ใช้';
+  }else{
+    authBtn.style.display='flex';
+    profile.style.display='none';
   }
-
-  function openLogin() {
-    document.getElementById('loginModal').classList.add('active');
-  }
-
-  function switchToRegister() {
-    document.getElementById('loginModal').classList.remove('active');
-    document.getElementById('registerModal').classList.add('active');
-  }
-
-  function register() {
-    const email = regEmail.value;
-    const pass = regPass.value;
-
-    localStorage.setItem(email, pass);
-    registerModal.classList.remove('active');
-    loginModal.classList.add('active');
-  }
-
-  function login() {
-    const email = loginEmail.value;
-    const pass = loginPass.value;
-
-    if (localStorage.getItem(email) === pass) {
-      loginModal.classList.remove('active');
-    } else {
-      alert("อีเมลหรือรหัสผ่านผิด");
-    }
-  }
-
-  function logout() {
-    alert("ออกจากระบบแล้ว");
-  }
+}
+updateUI();
 </script>
 
 </body>
-</html>
+  </html>
