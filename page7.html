@@ -53,6 +53,26 @@
 </head>
 <body>
 
+   <div class="hamburger" onclick="toggleMenu()">≡</div>
+
+   <button onclick="openModal('loginModal')">เข้าสู่ระบบ</button>
+
+   <div class="close" onclick="closeModal('loginModal')">×</div>
+
+   <div class="modal" id="loginModal">
+  <div class="modal-box">
+    <div class="close" onclick="closeModal('loginModal')">×</div>
+
+    <label>อีเมล</label>
+    <input id="loginEmail" type="email">
+
+    <label>รหัสผ่าน</label>
+    <input id="loginPass" type="password">
+
+    <button onclick="handleLogin()">เข้าสู่ระบบ</button>
+  </div>
+   </div>
+   
 <header>
   <div class="nav">
     <div class="hamburger" onclick="openMenu()">☰</div>
@@ -175,6 +195,23 @@ function handleLogin(){
   alert("เข้าสู่ระบบสำเร็จ");
   closeModal("loginModal");
 }
+
+   const sideMenu = document.getElementById("sideMenu");
+
+function toggleMenu() {
+  sideMenu.classList.toggle("active");
+}
+
+function openModal(id) {
+  const modal = document.getElementById(id);
+  if (modal) modal.classList.add("active");
+}
+
+function closeModal(id) {
+  const modal = document.getElementById(id);
+  if (modal) modal.classList.remove("active");
+     }
+   
 </script>
 </body>
 </html>
