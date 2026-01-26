@@ -3,14 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Minecraft Command แจกคำสั่ง Bedrock</title>
+<title>MC Command | แจกคำสั่ง Bedrock</title>
 
 <style>
-/* ===== RESET ===== */
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body {
@@ -21,20 +20,27 @@ body {
 
 /* ===== HEADER ===== */
 header {
+  background: #fff;
+  border-bottom: 1px solid #e0e0e0;
   position: sticky;
   top: 0;
   z-index: 100;
-  background: #ffffff;
-  border-bottom: 1px solid #e0e0e0;
 }
 
 .header-inner {
   max-width: 1200px;
   margin: auto;
-  padding: 14px 16px;
+  padding: 14px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 20px;
+}
+
+.left-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
 .menu-btn {
@@ -44,22 +50,28 @@ header {
 
 .logo {
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 700;
 }
 
-.auth-btns a {
-  margin-left: 12px;
-  text-decoration: none;
+.auth-btns {
+  display: flex;
+  gap: 14px;
+}
+
+.auth-btns button {
   font-size: 14px;
-  padding: 8px 14px;
-  border-radius: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
 }
 
-.login {
+.login-btn {
+  background: transparent;
   color: #0066cc;
 }
 
-.register {
+.register-btn {
   background: #0066cc;
   color: #fff;
 }
@@ -70,9 +82,8 @@ header {
   top: 0;
   left: -300px;
   width: 300px;
-  max-width: 85vw;
   height: 100%;
-  background: #ffffff;
+  background: #fff;
   border-right: 1px solid #ddd;
   transition: 0.3s;
   z-index: 1000;
@@ -83,13 +94,13 @@ header {
 }
 
 .sidebar-header {
+  padding: 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px;
   border-bottom: 1px solid #eee;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .close-btn {
@@ -102,7 +113,6 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-  font-size: 16px;
   text-decoration: none;
   color: #222;
   border-bottom: 1px solid #eee;
@@ -113,8 +123,8 @@ header {
 }
 
 .arrow {
-  font-size: 22px;
   color: #999;
+  font-size: 22px;
 }
 
 /* ===== OVERLAY ===== */
@@ -134,36 +144,35 @@ header {
 main {
   max-width: 1200px;
   margin: auto;
-  padding: 40px 16px;
+  padding: 48px 20px;
 }
 
 /* ===== HERO ===== */
-.hero {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-  margin-bottom: 48px;
-}
-
 .hero h1 {
-  font-size: 32px;
-  line-height: 1.3;
+  font-size: 34px;
+  line-height: 1.35;
+  margin-bottom: 16px;
 }
 
 .hero p {
   font-size: 16px;
   color: #555;
-  max-width: 700px;
+  max-width: 720px;
+  margin-bottom: 28px;
 }
 
-.hero-buttons a {
-  display: inline-block;
-  margin-right: 12px;
-  margin-top: 12px;
-  padding: 12px 20px;
-  border-radius: 8px;
-  text-decoration: none;
+.hero-buttons {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.hero-buttons button {
+  padding: 12px 22px;
   font-size: 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
 }
 
 .primary {
@@ -172,50 +181,68 @@ main {
 }
 
 .secondary {
+  background: #fff;
   border: 1px solid #ccc;
-  color: #222;
 }
 
-/* ===== SECTION ===== */
-.section {
-  margin-top: 48px;
+/* ===== MODAL ===== */
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
 }
 
-.section h2 {
-  font-size: 24px;
+.modal.active {
+  display: flex;
+}
+
+.modal-box {
+  background: #fff;
+  padding: 24px;
+  width: 100%;
+  max-width: 360px;
+  border-radius: 12px;
+}
+
+.modal-box h2 {
   margin-bottom: 16px;
 }
 
-.features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-}
-
-.feature-box {
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  border: 1px solid #e0e0e0;
-}
-
-.feature-box h3 {
-  font-size: 18px;
-  margin-bottom: 8px;
-}
-
-.feature-box p {
+.modal-box input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
   font-size: 14px;
-  color: #555;
+}
+
+.modal-box button {
+  width: 100%;
+  padding: 10px;
+  background: #0066cc;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.modal-close {
+  text-align: right;
+  font-size: 14px;
+  cursor: pointer;
+  color: #666;
+  margin-bottom: 10px;
 }
 
 /* ===== FOOTER ===== */
 footer {
   margin-top: 80px;
-  padding: 24px 16px;
   text-align: center;
   font-size: 13px;
   color: #777;
+  padding: 24px;
 }
 </style>
 </head>
@@ -224,104 +251,97 @@ footer {
 
 <header>
   <div class="header-inner">
-    <div class="menu-btn" onclick="openMenu()">☰</div>
-    <div class="logo">MC Command แจกคำสั่ง</div>
+    <div class="left-header">
+      <div class="menu-btn" onclick="openMenu()">☰</div>
+      <div class="logo">MC Command แจกคำสั่ง</div>
+    </div>
     <div class="auth-btns">
-      <a href="login.html" class="login">เข้าสู่ระบบ</a>
-      <a href="register.html" class="register">สมัครสมาชิก</a>
+      <button class="login-btn" onclick="openLogin()">เข้าสู่ระบบ</button>
+      <button class="register-btn" onclick="openRegister()">สมัครสมาชิก</button>
     </div>
   </div>
 </header>
 
-<!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span>เมนู</span>
+    เมนู
     <span class="close-btn" onclick="closeMenu()">×</span>
   </div>
-
-  <a href="#" class="menu-item">
-    <span>คำสั่งพื้นฐาน</span>
-    <span class="arrow">›</span>
-  </a>
-
-  <a href="#" class="menu-item">
-    <span>คำสั่งขั้นสูง</span>
-    <span class="arrow">›</span>
-  </a>
-
-  <a href="#" class="menu-item">
-    <span>ระบบสกิล</span>
-    <span class="arrow">›</span>
-  </a>
-
-  <a href="#" class="menu-item">
-    <span>ระบบแมพ</span>
-    <span class="arrow">›</span>
-  </a>
-
-  <a href="#" class="menu-item">
-    <span>เครื่องมือ</span>
-    <span class="arrow">›</span>
-  </a>
+  <a class="menu-item" href="#"><span>คำสั่งพื้นฐาน</span><span class="arrow">›</span></a>
+  <a class="menu-item" href="#"><span>คำสั่งขั้นสูง</span><span class="arrow">›</span></a>
+  <a class="menu-item" href="#"><span>ระบบสกิล</span><span class="arrow">›</span></a>
 </div>
 
-<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+<div class="overlay" id="overlay" onclick="closeAll()"></div>
 
 <main>
-  <!-- HERO -->
   <section class="hero">
     <h1>เว็บแจกคำสั่ง Minecraft Bedrock<br>ก็อปไปใช้ได้จริง</h1>
     <p>
-      รวมคำสั่งมายคราฟ Bedrock ตั้งแต่พื้นฐานจนถึงขั้นสูง  
-      จัดหมวดหมู่ชัด ใช้ง่าย ไม่มั่ว ไม่หลุด Java  
-      เหมาะสำหรับสายทำแมพ สร้างระบบ และสายจริงทุกคน
+      รวมคำสั่ง Bedrock 100% ตั้งแต่พื้นฐานถึงขั้นสูง  
+      ไม่หลุด Java เหมาะสำหรับสายทำแมพ ระบบ และสายจริง
     </p>
     <div class="hero-buttons">
-      <a href="#" class="primary">ดูคำสั่งทั้งหมด</a>
-      <a href="#" class="secondary">สมัครสมาชิก</a>
-    </div>
-  </section>
-
-  <!-- FEATURES -->
-  <section class="section">
-    <h2>ทำไมต้องเว็บนี้</h2>
-    <div class="features">
-      <div class="feature-box">
-        <h3>Bedrock 100%</h3>
-        <p>ไม่มีคำสั่ง Java ปน ใช้ได้จริง ก๊อปแล้วรันได้เลย</p>
-      </div>
-      <div class="feature-box">
-        <h3>จัดหมวดชัด</h3>
-        <p>แยกคำสั่งตามประเภท หาเร็ว ไม่งง</p>
-      </div>
-      <div class="feature-box">
-        <h3>อัปเดตต่อเนื่อง</h3>
-        <p>รองรับเวอร์ชันใหม่ ไม่ทิ้งของเก่า</p>
-      </div>
-      <div class="feature-box">
-        <h3>สายทำแมพ</h3>
-        <p>ออกแบบมาเพื่อคนทำระบบจริง ไม่ใช่มือสมัครเล่น</p>
-      </div>
+      <button class="primary">ดูคำสั่งทั้งหมด</button>
+      <button class="secondary" onclick="openRegister()">สมัครสมาชิก</button>
     </div>
   </section>
 </main>
 
 <footer>
-  © 2026 MC Command | แจกคำสั่ง Minecraft Bedrock
+  © 2026 MC Command | Minecraft Bedrock
 </footer>
+
+<!-- LOGIN -->
+<div class="modal" id="loginModal">
+  <div class="modal-box">
+    <div class="modal-close" onclick="closeAll()">ปิด</div>
+    <h2>เข้าสู่ระบบ</h2>
+    <input type="text" placeholder="ชื่อผู้ใช้">
+    <input type="password" placeholder="รหัสผ่าน">
+    <button>เข้าสู่ระบบ</button>
+  </div>
+</div>
+
+<!-- REGISTER -->
+<div class="modal" id="registerModal">
+  <div class="modal-box">
+    <div class="modal-close" onclick="closeAll()">ปิด</div>
+    <h2>สมัครสมาชิก</h2>
+    <input type="text" placeholder="ชื่อผู้ใช้">
+    <input type="email" placeholder="อีเมล">
+    <input type="password" placeholder="รหัสผ่าน">
+    <button>สมัครสมาชิก</button>
+  </div>
+</div>
 
 <script>
 function openMenu() {
-  document.getElementById("sidebar").classList.add("active");
-  document.getElementById("overlay").classList.add("active");
+  sidebar.classList.add("active");
+  overlay.classList.add("active");
 }
 
 function closeMenu() {
-  document.getElementById("sidebar").classList.remove("active");
-  document.getElementById("overlay").classList.remove("active");
+  sidebar.classList.remove("active");
+}
+
+function openLogin() {
+  loginModal.classList.add("active");
+  overlay.classList.add("active");
+}
+
+function openRegister() {
+  registerModal.classList.add("active");
+  overlay.classList.add("active");
+}
+
+function closeAll() {
+  sidebar.classList.remove("active");
+  loginModal.classList.remove("active");
+  registerModal.classList.remove("active");
+  overlay.classList.remove("active");
 }
 </script>
 
 </body>
-    </html>
+      </html>
