@@ -4,335 +4,333 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>MC Command - Bedrock</title>
-<!-- Firebase SDKs (Auth) -->
-<script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-auth-compat.js"></script>
-
 <style>
-  *{box-sizing:border-box;margin:0;padding:0;font-family:Tahoma,Arial,sans-serif}
-  body{background:#0e0e0e;color:#fff;-webkit-font-smoothing:antialiased}
-  a{text-decoration:none;color:inherit}
-  header{position:sticky;top:0;background:#0b0b0b;border-bottom:1px solid #161616;z-index:1000}
-  .nav{max-width:1200px;margin:0 auto;display:flex;align-items:center;padding:14px 18px;gap:12px}
-  .hamburger{font-size:26px;cursor:pointer;color:#fff}
-  .logo{font-size:22px;font-weight:700;color:#4da3ff;margin-left:4px}
-  .spacer{flex:1}
-  .auth-btn{background:#4da3ff;color:#000;padding:8px 14px;border-radius:8px;font-weight:700;border:0;cursor:pointer}
-  .user-badge{display:flex;align-items:center;gap:10px;background:#111;padding:6px 10px;border-radius:20px;border:1px solid #222}
-  .user-badge img{width:34px;height:34px;border-radius:50%}
-  .side-menu{position:fixed;left:-300px;top:0;width:300px;height:100%;background:#0f0f0f;border-right:1px solid #222;padding:22px;transition:0.28s;z-index:2000}
-  .side-menu.active{left:0}
-  .side-close{position:absolute;right:16px;top:12px;font-size:22px;cursor:pointer}
-  .side-menu h3{color:#4da3ff;margin-bottom:18px;font-size:20px}
-  .side-menu a{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #171717;color:#ddd}
-  .side-menu a .arrow{color:#999}
-  .side-menu .extras{margin-top:18px;padding:12px;background:#0b0b0b;border-radius:8px}
-  .logout{color:#ff4d4d;text-decoration:underline;margin-top:14px;display:none;cursor:pointer}
-  .logout.show{display:block}
+/* reset + base */
+*{box-sizing:border-box;margin:0;padding:0;font-family:Tahoma,Arial,sans-serif}
+html,body{height:100%}
+body{background:#0e0e0e;color:#fff;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;border:0;background:transparent}
 
-  .hero{max-width:1200px;margin:40px auto;padding:20px}
-  .hero h1{font-size:42px;margin-bottom:18px}
-  .hero p{opacity:.9;max-width:700px;margin-bottom:22px}
-  .cta{display:flex;gap:16px}
-  .btn-primary{background:#4da3ff;color:#000;padding:14px 20px;border-radius:12px;border:0;font-weight:700}
-  .btn-alt{background:#111;border:1px solid #222;color:#fff;padding:14px 20px;border-radius:12px}
+/* header */
+header{position:sticky;top:0;background:#0f0f0f;border-bottom:1px solid #1b1b1b;z-index:40}
+.header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;padding:14px 16px;gap:12px}
+.hamburger{width:36px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center}
+.hamburger svg{width:22px;height:22px;fill:#cfdfff}
+.logo{font-size:22px;font-weight:700;color:#4da3ff;margin-left:6px}
+.spacer{flex:1}
+.auth-btn{background:#4da3ff;color:#000;padding:8px 14px;border-radius:8px;font-weight:700}
+.user-box{display:none;align-items:center;gap:10px}
+.user-box img{width:34px;height:34px;border-radius:50%;background:#4da3ff}
+.user-box span{font-size:14px;color:#dff}
 
-  .cards{max-width:1200px;margin:40px auto;display:grid;gap:18px;padding:0 20px}
-  .card{background:#0b0b0b;border-radius:12px;padding:20px;border:1px solid #171717}
-  .card h3{color:#4da3ff;margin-bottom:8px}
+/* side menu */
+.side-wrap{position:fixed;inset:0;display:none;z-index:50}
+.side-wrap.show{display:block}
+.side-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.45)}
+.side{position:absolute;left:0;top:0;width:320px;max-width:78vw;height:100%;background:#0b0b0b;border-right:1px solid #171717;padding:22px 18px;transform:translateX(-10%);transition:transform .26s ease}
+.side.show{transform:translateX(0)}
+.side h3{color:#4da3ff;margin-bottom:12px;font-size:20px}
+.side a.item{display:block;padding:14px 6px;border-bottom:1px solid #121212;color:#ddd}
+.side .note{font-size:13px;opacity:.75;padding:12px 6px}
+.side .five{margin-top:10px;padding:8px;background:#0d0d0d;border-radius:8px}
+.side .five p{padding:8px 6px;border-bottom:1px solid #0f0f0f;color:#cfe}
+.side .logout{margin-top:auto;color:#ff4d4d;text-decoration:underline;display:none;padding:12px 6px}
 
-  footer{padding:30px;text-align:center;opacity:.7;margin-top:40px}
+/* hero */
+.container{max-width:1100px;margin:28px auto;padding:0 16px}
+.hero h1{font-size:44px;line-height:1.02;margin-bottom:18px}
+.hero p{color:#bfc6cc;max-width:700px;margin-bottom:24px}
+.cta{display:flex;gap:14px}
+.btn-main{background:#4da3ff;color:#000;padding:14px 22px;border-radius:10px;font-weight:700}
+.btn-alt{background:#161616;border:1px solid #262626;padding:14px 22px;border-radius:10px;color:#ddd}
 
-  /* modal */
-  .modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:3000}
-  .modal.show{display:flex}
-  .modal-box{width:92%;max-width:420px;background:#0f0f0f;border-radius:14px;padding:22px;border:1px solid #222;position:relative}
-  .modal-box h3{text-align:center;margin-bottom:14px}
-  .modal-box label{display:block;margin:10px 0 6px;color:#ddd}
-  .modal-box input{width:100%;padding:12px;border-radius:8px;border:1px solid #222;background:#020202;color:#fff}
-  .modal-box .row{position:relative}
-  .toggle-eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:transparent;border:0;color:#9fbfe6;font-weight:700;cursor:pointer}
-  .modal-box .error{color:#ff6b6b;font-size:13px;margin-top:6px;display:none}
-  .modal-box .submit{margin-top:14px;padding:12px;border-radius:10px;border:0;background:#4da3ff;color:#000;font-weight:700;width:100%;cursor:pointer}
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:30px}
+.card{background:#0d0d0d;border:1px solid #121212;border-radius:12px;padding:18px}
+.card h3{color:#4da3ff;margin-bottom:8px}
 
-  /* big choice buttons */
-  .choices{display:flex;gap:12px;justify-content:center;margin-top:30px;flex-wrap:wrap}
-  .choice{min-width:76px;padding:16px 20px;border-radius:12px;background:#111;border:1px solid #222;font-size:20px;text-align:center}
+/* modal */
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.55);z-index:60;padding:22px}
+.modal.show{display:flex}
+.modal-box{background:#0f0f0f;border-radius:12px;padding:20px;width:100%;max-width:440px;border:1px solid #222;box-shadow:0 8px 30px rgba(0,0,0,.6)}
+.modal-box h3{text-align:center;margin-bottom:16px;font-size:20px}
+.modal-box label{display:block;margin-top:10px;margin-bottom:6px;color:#d7dde2}
+.modal-box input{width:100%;padding:12px;border-radius:8px;border:1px solid #252525;background:#070707;color:#fff}
+.row{display:flex;gap:8px;align-items:center}
+.err{color:#ff6b6b;font-size:13px;margin-top:8px;display:none}
 
-  @media(min-width:901px){
-    .hamburger{display:none}
-  }
+/* password toggle */
+.pw-wrap{position:relative}
+.pw-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:transparent;color:#bfc6cc}
+
+/* small */
+@media (max-width:700px){ .hero h1{font-size:36px} .header-inner{padding:12px} }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="nav">
-    <div class="hamburger" id="hamburger">☰</div>
+  <div class="header-inner">
+    <button class="hamburger" id="hamburger" aria-label="เมนู">
+      <!-- simple 3-lines icon -->
+      <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="2"></rect><rect x="3" y="11" width="18" height="2"></rect><rect x="3" y="17" width="18" height="2"></rect></svg>
+    </button>
+
     <div class="logo">MC Command</div>
     <div class="spacer"></div>
-    <button class="auth-btn" id="authOpenBtn">เข้าสู่ระบบ</button>
-    <div id="userBadge" class="user-badge" style="display:none">
+
+    <div class="user-box" id="userBox">
       <img id="avatar" src="" alt="avatar">
-      <div id="userName">โปรไฟล์</div>
+      <span id="userLabel">user</span>
     </div>
+
+    <button class="auth-btn" id="authBtn">เข้าสู่ระบบ</button>
   </div>
 </header>
 
-<!-- side -->
-<nav id="side" class="side-menu" aria-hidden="true">
-  <div class="side-close" id="sideClose">×</div>
-  <h3>เมนู</h3>
-  <a href="#"><span>คำสั่งทั้งหมด</span><span class="arrow">›</span></a>
-  <a href="#"><span>เกี่ยวกับเว็บ</span><span class="arrow">›</span></a>
-  <a href="#"><span>ระบบแมพ</span><span class="arrow">›</span></a>
+<!-- side menu -->
+<div class="side-wrap" id="sideWrap" aria-hidden="true">
+  <div class="side-overlay" id="sideOverlay"></div>
+  <aside class="side" id="side">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h3>เมนู</h3>
+      <button id="sideClose" aria-label="ปิด">✕</button>
+    </div>
 
-  <!-- เพิ่มช่องข้อความ 5 ช่อง -->
-  <div class="extras">
-    <div style="color:#9fd0ff;margin-bottom:8px;font-weight:700">ข้อมูลเว็บ</div>
-    <div style="color:#ddd;margin-bottom:6px">• แจกคำสั่ง Bedrock</div>
-    <div style="color:#ddd;margin-bottom:6px">• คำสั่งแก้ปัญหาแมพ</div>
-    <div style="color:#ddd;margin-bottom:6px">• ระบบสกิล</div>
-    <div style="color:#ddd;margin-bottom:6px">• วิธีติดตั้ง</div>
-    <div style="color:#ddd">• ติดต่อทีมงาน</div>
-  </div>
+    <a class="item" href="#">คำสั่งทั้งหมด ›</a>
+    <a class="item" href="#">คำสั่งพื้นฐาน ›</a>
+    <a class="item" href="#">คำสั่งขั้นสูง ›</a>
+    <a class="item" href="#">ระบบแมพ ›</a>
 
-  <div id="sideLogout" class="logout">ออกจากระบบ</div>
-</nav>
+    <div class="note">ข้อมูลเว็บสั้น ๆ</div>
 
-<main>
+    <div class="five" aria-hidden="false">
+      <p>1. Bedrock แท้ — คำสั่งจริง</p>
+      <p>2. ใช้งานจริง — ก็อปแล้วใช้ได้</p>
+      <p>3. จัดระบบ — เหมาะกับแมพ</p>
+      <p>4. คู่มือเล็ก — Tips & Tricks</p>
+      <p>5. ติดต่อเรา — ช่องทาง</p>
+    </div>
+
+    <a class="item" id="sideLoginLink">เข้าสู่ระบบ</a>
+    <a class="logout" id="sideLogout">ออกจากระบบ</a>
+  </aside>
+</div>
+
+<main class="container">
   <section class="hero">
-    <h1>เว็บแจกคำสั่ง<br/>Minecraft Bedrock</h1>
-    <p>รวมคำสั่ง Bedrock 100% ก็อปแล้วใช้ได้จริง เหมาะกับสายทำแมพจริง ๆ</p>
-
+    <h1>เว็บแจกคำสั่ง<br>Minecraft Bedrock</h1>
+    <p>Bedrock แท้ 100% ก็อปใช้ได้จริง ไม่ปน Java — สำหรับสายทำแมพจริงจัง</p>
     <div class="cta">
-      <button class="btn-primary">ดูคำสั่งทั้งหมด</button>
-      <button class="btn-alt">เกี่ยวกับเว็บนี้</button>
+      <a class="btn-main" href="#">ดูคำสั่งทั้งหมด</a>
+      <a class="btn-alt" href="#">เกี่ยวกับเว็บนี้</a>
     </div>
 
-    <div class="choices" style="margin-top:26px">
-      <div class="choice">1</div>
-      <div class="choice">2</div>
-      <div class="choice">3</div>
+    <div class="cards" style="margin-top:28px">
+      <div class="card"><h3>Bedrock แท้</h3><p>ไม่มีคำสั่ง Java ปน</p></div>
+      <div class="card"><h3>ใช้งานจริง</h3><p>ก็อปแล้วใช้ได้เลย</p></div>
+      <div class="card"><h3>จัดระบบ</h3><p>เหมาะกับสายทำแมพ</p></div>
     </div>
-  </section>
-
-  <section class="cards">
-    <div class="card"><h3>Bedrock แท้</h3><p>ไม่มีคำสั่ง Java ปน</p></div>
-    <div class="card"><h3>ใช้งานจริง</h3><p>ก็อปแล้วใช้ได้เลย</p></div>
-    <div class="card"><h3>จัดระบบ</h3><p>เหมาะกับสายทำแมพ</p></div>
   </section>
 </main>
 
-<footer>© MC Command Bedrock</footer>
+<footer style="padding:28px 0;text-align:center;color:#999">© MC Command Bedrock</footer>
 
-<!-- login modal -->
-<div id="modal" class="modal" aria-hidden="true">
-  <div class="modal-box" role="dialog" aria-modal="true">
-    <div style="position:absolute;right:12px;top:10px;cursor:pointer" id="closeModal">×</div>
-    <h3 id="modalTitle">เข้าสู่ระบบ</h3>
-
+<!-- LOGIN MODAL -->
+<div class="modal" id="modalLogin" aria-hidden="true">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+    <h3 id="loginTitle">เข้าสู่ระบบ</h3>
     <label>อีเมล</label>
-    <input id="email" type="email" placeholder="example@mail.com">
-
-    <label>รหัสผ่าน</label>
-    <div class="row">
-      <input id="password" type="password" placeholder="ต้องอย่างน้อย 8 ตัว">
-      <button class="toggle-eye" id="toggleEye">ดู</button>
+    <input id="loginEmail" type="email" autocomplete="username" placeholder="example@mail.com">
+    <label style="margin-top:10px">รหัสผ่าน</label>
+    <div class="pw-wrap" style="margin-bottom:6px">
+      <input id="loginPass" type="password" autocomplete="current-password" placeholder="อย่างน้อย 8 ตัว">
+      <button class="pw-toggle" id="loginToggle" aria-label="ดูรหัส">👁</button>
     </div>
-
-    <div id="generalError" class="error" style="display:none"></div>
-
-    <button id="submitBtn" class="submit">เข้าสู่ระบบ</button>
-
-    <div style="text-align:center;margin-top:10px;color:#9aa">ยังไม่มีบัญชี? <a id="openRegister" style="color:#4da3ff;cursor:pointer">สมัครสมาชิก</a></div>
+    <div class="err" id="loginErr">ข้อความผิดพลาด</div>
+    <div style="margin-top:12px">
+      <button class="btn-main" id="doLogin" style="width:100%">เข้าสู่ระบบ</button>
+    </div>
+    <div style="margin-top:12px;text-align:center;color:#9fb">ยังไม่มีบัญชี? <a href="#" id="openRegisterLink">สมัครสมาชิก</a></div>
   </div>
 </div>
 
-<!-- register modal -->
-<div id="regModal" class="modal" aria-hidden="true">
-  <div class="modal-box">
-    <div style="position:absolute;right:12px;top:10px;cursor:pointer" id="closeReg">×</div>
-    <h3>สมัครสมาชิก</h3>
-
+<!-- REGISTER MODAL -->
+<div class="modal" id="modalRegister" aria-hidden="true">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="regTitle">
+    <h3 id="regTitle">สมัครสมาชิก</h3>
     <label>ชื่อเล่น</label>
-    <input id="nick" type="text">
-
+    <input id="regNick" type="text" placeholder="ชื่อที่จะแสดง">
     <label>อีเมล</label>
-    <input id="regEmail" type="email">
-
-    <label>รหัสผ่าน</label>
-    <div class="row">
-      <input id="regPass" type="password" placeholder="8 ตัวขึ้นไป">
-      <button class="toggle-eye" data-target="regPass">ดู</button>
+    <input id="regEmail" type="email" placeholder="example@mail.com">
+    <div class="err" id="regEmailErr">อีเมลนี้ถูกใช้ไปแล้ว</div>
+    <label style="margin-top:10px">รหัสผ่าน</label>
+    <div class="pw-wrap" style="margin-bottom:6px">
+      <input id="regPass" type="password" placeholder="อย่างน้อย 8 ตัว">
+      <button class="pw-toggle" id="regToggle">👁</button>
     </div>
-
     <label>ยืนยันรหัสผ่าน</label>
-    <div class="row">
-      <input id="regConfirm" type="password">
-      <button class="toggle-eye" data-target="regConfirm">ดู</button>
+    <div class="pw-wrap" style="margin-bottom:6px">
+      <input id="regConfirm" type="password" placeholder="พิมพ์ซ้ำอีกครั้ง">
+      <button class="pw-toggle" id="regConfirmToggle">👁</button>
     </div>
-
-    <div id="regError" class="error"></div>
-
-    <button id="regSubmit" class="submit">สมัครสมาชิก</button>
-    <div style="text-align:center;margin-top:10px;color:#9aa">มีบัญชีแล้ว? <a id="openLoginFromReg" style="color:#4da3ff;cursor:pointer">เข้าสู่ระบบ</a></div>
+    <div class="err" id="regPassErr">รหัสไม่ตรง / ความยาวน้อย</div>
+    <div style="margin-top:12px">
+      <button class="btn-main" id="doRegister" style="width:100%">สมัครสมาชิก</button>
+    </div>
+    <div style="margin-top:12px;text-align:center;color:#9fb">มีบัญชีแล้ว? <a href="#" id="openLoginLink">เข้าสู่ระบบ</a></div>
   </div>
 </div>
 
 <script>
-  // ====== Firebase config: เปลี่ยนตรงนี้เป็นของมึง ======
-  const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    // ... ถ้ามึงใช้ firebase console ให้เอา config ทั้งหมดมาแทนที่
-  };
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
+/* helper */
+const $ = id => document.getElementById(id)
+const qs = s => document.querySelector(s)
 
-  // DOM
-  const side = document.getElementById('side');
-  const hamburger = document.getElementById('hamburger');
-  const sideClose = document.getElementById('sideClose');
-  const authOpenBtn = document.getElementById('authOpenBtn');
-  const modal = document.getElementById('modal');
-  const regModal = document.getElementById('regModal');
-  const closeModalBtn = document.getElementById('closeModal');
-  const closeRegBtn = document.getElementById('closeReg');
-  const submitBtn = document.getElementById('submitBtn');
-  const regSubmit = document.getElementById('regSubmit');
-  const openRegister = document.getElementById('openRegister');
-  const openLoginFromReg = document.getElementById('openLoginFromReg');
-  const toggleEye = document.getElementById('toggleEye');
-  const userBadge = document.getElementById('userBadge');
-  const userName = document.getElementById('userName');
-  const avatar = document.getElementById('avatar');
-  const sideLogout = document.getElementById('sideLogout');
-  const generalError = document.getElementById('generalError');
-  const regError = document.getElementById('regError');
+/* elements */
+const hamburger = $('hamburger')
+const sideWrap = $('sideWrap'), side = $('side'), sideOverlay = $('sideOverlay'), sideClose = $('sideClose')
+const sideLoginLink = $('sideLoginLink'), sideLogout = $('sideLogout')
+const authBtn = $('authBtn'), userBox = $('userBox'), userLabel = $('userLabel'), avatar = $('avatar')
 
-  // side menu handlers
-  hamburger.addEventListener('click', ()=> side.classList.add('active'));
-  sideClose.addEventListener('click', ()=> side.classList.remove('active'));
+const modalLogin = $('modalLogin'), modalRegister = $('modalRegister')
+const loginEmail = $('loginEmail'), loginPass = $('loginPass'), loginErr = $('loginErr'), loginToggle = $('loginToggle'), doLogin = $('doLogin')
+const openRegisterLink = $('openRegisterLink')
+const regNick = $('regNick'), regEmail = $('regEmail'), regPass = $('regPass'), regConfirm = $('regConfirm')
+const regEmailErr = $('regEmailErr'), regPassErr = $('regPassErr'), doRegister = $('doRegister'), openLoginLink = $('openLoginLink')
+const regToggle = $('regToggle'), regConfirmToggle = $('regConfirmToggle')
 
-  // modal open/close
-  authOpenBtn.addEventListener('click', ()=>{
-    modal.classList.add('show'); document.getElementById('modalTitle').innerText='เข้าสู่ระบบ';
-    submitBtn.innerText='เข้าสู่ระบบ'; generalError.style.display='none';
-  });
-  closeModalBtn.addEventListener('click', ()=> modal.classList.remove('show'));
-  closeRegBtn.addEventListener('click', ()=> regModal.classList.remove('show'));
-  openRegister.addEventListener('click', ()=> { modal.classList.remove('show'); regModal.classList.add('show'); });
-  openLoginFromReg.addEventListener('click', ()=> { regModal.classList.remove('show'); modal.classList.add('show'); });
+/* storage key */
+const USERS_KEY = 'mc_users_v1'
+const CURR_KEY = 'mc_current_v1'
 
-  // eye toggles
-  document.querySelectorAll('.toggle-eye').forEach(btn=>{
-    btn.addEventListener('click', (e)=>{
-      const targetId = btn.dataset.target || 'password';
-      const input = document.getElementById(targetId);
-      if(!input) return;
-      if(input.type === 'password'){ input.type='text'; btn.innerText='ซ่อน'; }
-      else { input.type='password'; btn.innerText='ดู'; }
-    });
-  });
+/* util: get users object from localStorage */
+function loadUsers(){
+  try{
+    const raw = localStorage.getItem(USERS_KEY)
+    return raw ? JSON.parse(raw) : {}
+  }catch(e){ return {} }
+}
+function saveUsers(obj){ localStorage.setItem(USERS_KEY, JSON.stringify(obj)) }
 
-  // show logout only when logged in
-  sideLogout.addEventListener('click', ()=>{
-    auth.signOut().then(()=> {
-      alert('ออกจากระบบแล้ว');
-      side.classList.remove('active');
-    });
-  });
+/* UI: open/close side */
+function openSide(){ sideWrap.classList.add('show'); side.classList.add('show'); sideWrap.setAttribute('aria-hidden','false') }
+function closeSide(){ side.classList.remove('show'); sideWrap.classList.remove('show'); sideWrap.setAttribute('aria-hidden','true') }
 
-  // ===== register =====
-  regSubmit.addEventListener('click', async ()=>{
-    regError.style.display='none';
-    const nick = document.getElementById('nick').value.trim();
-    const email = document.getElementById('regEmail').value.trim();
-    const pass = document.getElementById('regPass').value;
-    const confirm = document.getElementById('regConfirm').value;
+/* UI: open/close modals */
+function openModal(m){ m.classList.add('show'); m.setAttribute('aria-hidden','false') }
+function closeModal(m){ m.classList.remove('show'); m.setAttribute('aria-hidden','true') }
 
-    if(!nick || !email || !pass || !confirm){
-      regError.style.display='block'; regError.innerText='กรอกข้อมูลให้ครบทุกช่อง';
-      return;
-    }
-    if(pass.length < 8){ regError.style.display='block'; regError.innerText='รหัสต้องมีอย่างน้อย 8 ตัว'; return; }
-    if(pass !== confirm){ regError.style.display='block'; regError.innerText='รหัสไม่ตรงกัน'; return; }
+/* password toggle helper */
+function toggleInputPw(inputEl, toggleEl){
+  if (inputEl.type === 'password'){ inputEl.type = 'text'; toggleEl.textContent = '🙈' } 
+  else { inputEl.type = 'password'; toggleEl.textContent = '👁' }
+}
 
-    try{
-      // create user on Firebase -> this will fail if email already used (cross-device safe)
-      const userCred = await auth.createUserWithEmailAndPassword(email, pass);
-      // set display name (optional)
-      await userCred.user.updateProfile({ displayName: nick });
-      regModal.classList.remove('show');
-      // after successful register: redirect to login modal (or auto-login)
-      modal.classList.add('show');
-      document.getElementById('modalTitle').innerText='เข้าสู่ระบบ';
-      alert('สมัครสำเร็จ! กรุณาเข้าสู่ระบบ (หรือระบบล็อกอินอัตโนมัติขึ้นอยู่กับการตั้งค่า)');
-    }catch(err){
-      // handle firebase errors
-      if(err.code === 'auth/email-already-in-use'){
-        regError.style.display='block'; regError.innerText='อีเมลนี้ถูกใช้ไปแล้ว';
-      } else if(err.code === 'auth/invalid-email'){
-        regError.style.display='block'; regError.innerText='อีเมลไม่ถูกต้อง';
-      } else if(err.code === 'auth/weak-password'){
-        regError.style.display='block'; regError.innerText='รหัสอ่อนเกินไป';
-      } else {
-        regError.style.display='block'; regError.innerText= err.message || 'เกิดข้อผิดพลาด';
-      }
-    }
-  });
+/* update header based on login */
+function refreshAuthUI(){
+  const curr = localStorage.getItem(CURR_KEY)
+  if(curr){
+    // logged in
+    const users = loadUsers()
+    const u = users[curr]
+    authBtn.style.display = 'none'
+    userBox.style.display = 'flex'
+    userLabel.textContent = u && u.nick ? u.nick : curr.split('@')[0]
+    avatar.src = u && u.avatar ? u.avatar : `https://ui-avatars.com/api/?name=${encodeURIComponent(userLabel.textContent)}&background=4da3ff&color=fff`
+    sideLogout.style.display = 'block'
+    sideLoginLink.style.display = 'none'
+  } else {
+    authBtn.style.display = 'inline-flex'
+    userBox.style.display = 'none'
+    sideLogout.style.display = 'none'
+    sideLoginLink.style.display = 'block'
+  }
+}
 
-  // ===== login =====
-  submitBtn.addEventListener('click', async ()=>{
-    generalError.style.display='none';
-    const email = document.getElementById('email').value.trim();
-    const pass = document.getElementById('password').value;
-    if(!email || !pass){ generalError.style.display='block'; generalError.innerText='กรุณากรอกอีเมลและรหัสผ่าน'; return; }
-    try{
-      await auth.signInWithEmailAndPassword(email, pass);
-      modal.classList.remove('show');
-      alert('เข้าสู่ระบบสำเร็จ');
-    }catch(err){
-      if(err.code === 'auth/user-not-found'){
-        generalError.style.display='block'; generalError.innerText='ไม่พบบัญชีนี้ กรุณาสมัครก่อน';
-      } else if(err.code === 'auth/wrong-password'){
-        generalError.style.display='block'; generalError.innerText='รหัสผ่านไม่ถูกต้อง';
-      } else {
-        generalError.style.display='block'; generalError.innerText = err.message || 'เกิดข้อผิดพลาด';
-      }
-    }
-  });
+/* validations */
+function isEmail(val){ return /\S+@\S+\.\S+/.test(val) }
 
-  // ===== onAuthStateChanged =====
-  auth.onAuthStateChanged(user=>{
-    if(user){
-      // logged in
-      userBadge.style.display='flex';
-      authOpenBtn.style.display='none';
-      sideLogout.classList.add('show');
-      userName.innerText = user.displayName || (user.email? user.email.split('@')[0] : 'ผู้ใช้');
-      // avatar: simple initials generated image (ui-avatars)
-      avatar.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName||user.email||'U')}&background=4da3ff&color=fff&rounded=true`;
-      side.classList.remove('active');
-    } else {
-      // logged out
-      userBadge.style.display='none';
-      authOpenBtn.style.display='inline-block';
-      sideLogout.classList.remove('show');
-      avatar.src = '';
-    }
-  });
+/* login flow */
+function tryLogin(){
+  loginErr.style.display = 'none'
+  const email = loginEmail.value.trim().toLowerCase()
+  const pass = loginPass.value
+  if(!email || !pass){ loginErr.style.display='block'; loginErr.textContent='กรุณากรอกข้อมูลให้ครบ' ; return }
+  if(!isEmail(email)){ loginErr.style.display='block'; loginErr.textContent='รูปแบบอีเมลไม่ถูกต้อง'; return }
+  const users = loadUsers()
+  if(!users[email]){ loginErr.style.display='block'; loginErr.textContent='อีเมลยังไม่ถูกสมัคร'; return }
+  if(users[email].pass !== pass){ loginErr.style.display='block'; loginErr.textContent='รหัสผ่านไม่ถูกต้อง'; return }
+  // success
+  localStorage.setItem(CURR_KEY, email)
+  closeModal(modalLogin)
+  refreshAuthUI()
+  alert('เข้าสู่ระบบสำเร็จ')
+}
 
-  // close modals on outside click
-  document.querySelectorAll('.modal').forEach(m=>{
-    m.addEventListener('click', (e)=>{ if(e.target === m) m.classList.remove('show'); });
-  });
+/* register flow */
+function tryRegister(){
+  regEmailErr.style.display = 'none'; regPassErr.style.display = 'none'
+  const nick = regNick.value.trim()
+  const email = regEmail.value.trim().toLowerCase()
+  const pass = regPass.value
+  const confirm = regConfirm.value
 
-  // prevent accidental form submit on enter
-  document.addEventListener('keydown', (e)=>{ if(e.key === 'Enter'){ e.preventDefault(); }});
+  if(!nick || !email || !pass || !confirm){ regPassErr.style.display='block'; regPassErr.textContent='กรุณากรอกข้อมูลให้ครบ'; return }
+  if(!isEmail(email)){ regEmailErr.style.display='block'; regEmailErr.textContent='รูปแบบอีเมลไม่ถูกต้อง'; return }
+  if(pass.length < 8){ regPassErr.style.display='block'; regPassErr.textContent='รหัสผ่านต้องมีอย่างน้อย 8 ตัว'; return }
+  if(pass !== confirm){ regPassErr.style.display='block'; regPassErr.textContent='รหัสผ่านไม่ตรงกัน'; return }
+
+  const users = loadUsers()
+  if(users[email]){ regEmailErr.style.display='block'; regEmailErr.textContent='อีเมลนี้ถูกใช้ไปแล้ว'; return }
+
+  // create user (client-side). Note: cross-device requires server.
+  users[email] = { nick: nick, pass: pass, created: Date.now() }
+  saveUsers(users)
+
+  closeModal(modalRegister)
+  alert('สมัครสำเร็จ กรุณาเข้าสู่ระบบ')
+  openModal(modalLogin)
+}
+
+/* logout */
+function doLogout(){ localStorage.removeItem(CURR_KEY); refreshAuthUI(); alert('ออกจากระบบแล้ว') }
+
+/* event listeners */
+document.addEventListener('DOMContentLoaded', () => {
+  // side menu
+  hamburger.addEventListener('click', openSide)
+  sideOverlay.addEventListener('click', closeSide)
+  sideClose.addEventListener('click', closeSide)
+
+  // auth actions
+  authBtn.addEventListener('click', () => openModal(modalLogin))
+  sideLoginLink.addEventListener('click', () => { closeSide(); openModal(modalLogin) })
+  sideLogout.addEventListener('click', () => { closeSide(); doLogout() })
+
+  // modal open/close links
+  openRegisterLink.addEventListener('click', e => { e.preventDefault(); closeModal(modalLogin); openModal(modalRegister) })
+  openLoginLink.addEventListener('click', e => { e.preventDefault(); closeModal(modalRegister); openModal(modalLogin) })
+
+  // modal close by clicking outside (already overlay), also ESC
+  window.addEventListener('keydown', (e) => { if(e.key === 'Escape'){ closeModal(modalLogin); closeModal(modalRegister); closeSide() } })
+
+  // password toggle
+  loginToggle.addEventListener('click', () => toggleInputPw(loginPass, loginToggle))
+  regToggle.addEventListener('click', () => toggleInputPw(regPass, regToggle))
+  regConfirmToggle.addEventListener('click', () => toggleInputPw(regConfirm, regConfirmToggle))
+
+  // actions
+  doLogin.addEventListener('click', tryLogin)
+  doRegister.addEventListener('click', tryRegister)
+
+  // simple accessibility: tap header logo hides open menus
+  qs('.logo')?.addEventListener('click', () => { closeSide(); closeModal(modalLogin); closeModal(modalRegister) })
+
+  // init
+  refreshAuthUI()
+})
 </script>
-
 </body>
-         </html>
+ </html>
