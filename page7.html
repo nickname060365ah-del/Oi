@@ -2,343 +2,81 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MC Command แจกคำสั่ง Bedrock</title><style>
-/* ================= RESET ================= */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Tahoma,Arial,sans-serif;
-}
+<title>MC Command - Bedrock Only</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Tahoma,Arial,sans-serif}
+body{background:#0e0e0e;color:#fff}
+a{text-decoration:none;color:inherit}
+button{border:none;cursor:pointer}header{position:sticky;top:0;z-index:1000;background:#111;border-bottom:1px solid #222} .nav{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:14px 18px} .logo{font-size:22px;font-weight:bold;color:#4da3ff}
 
-body{
-  background:#0e0e0e;
-  color:#ffffff;
-  line-height:1.6;
-}
+.desktop-menu{display:flex;gap:18px} .desktop-menu a{opacity:.85} .desktop-menu a:hover{opacity:1;color:#4da3ff}
 
-a{
-  text-decoration:none;
-  color:inherit;
-}
+.auth{display:flex;gap:10px} .auth button{padding:8px 14px;border-radius:6px;background:#4da3ff;color:#000;font-weight:bold}
 
-button{
-  cursor:pointer;
-  border:none;
-}
+.hamburger{display:none;font-size:26px;cursor:pointer}
 
-/* ================= HEADER ================= */
-header{
-  background:#111111;
-  border-bottom:1px solid #222222;
-  position:sticky;
-  top:0;
-  z-index:1000;
-}
+@media(max-width:900px){ .desktop-menu{display:none} .hamburger{display:block} }
 
-.nav{
-  max-width:1200px;
-  margin:auto;
-  padding:16px 20px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
+.side-menu{position:fixed;top:0;left:-280px;width:260px;height:100%;background:#0f0f0f;border-right:1px solid #222;transition:.3s;z-index:2000;padding:20px} .side-menu.active{left:0} .side-menu h3{margin-bottom:20px;color:#4da3ff} .side-menu a{display:block;padding:10px 0;border-bottom:1px solid #222} .side-menu .close{position:absolute;top:15px;right:15px;font-size:22px;cursor:pointer}
 
-.logo{
-  font-size:24px;
-  font-weight:bold;
-  color:#4da3ff;
-}
+.hero{max-width:1200px;margin:auto;padding:70px 20px} .hero h1{font-size:42px;margin-bottom:20px} .hero p{opacity:.85;max-width:600px} .hero .cta{margin-top:30px;display:flex;gap:15px} .hero .cta a{padding:14px 22px;border-radius:8px;font-weight:bold} .hero .main{background:#4da3ff;color:#000} .hero .alt{background:#222;border:1px solid #333}
 
-.menu{
-  display:flex;
-  gap:24px;
-}
+section{max-width:1200px;margin:auto;padding:60px 20px} .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px} .card{background:#111;border:1px solid #222;border-radius:12px;padding:22px} .card h3{color:#4da3ff;margin-bottom:10px}
 
-.menu a{
-  opacity:0.85;
-  font-size:15px;
-}
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:3000} .modal.active{display:flex} .modal-box{background:#0f0f0f;border:1px solid #222;border-radius:14px;width:100%;max-width:420px;padding:25px;position:relative} .modal-box h3{text-align:center;margin-bottom:20px} .modal-box label{display:block;margin-top:14px;margin-bottom:6px;opacity:.85} .modal-box input{width:100%;padding:12px;border-radius:8px;border:1px solid #333;background:#000;color:#fff} .modal-box button{width:100%;margin-top:20px;padding:12px;border-radius:8px;background:#4da3ff;color:#000;font-weight:bold} .modal-box .switch{text-align:center;margin-top:15px;opacity:.8;font-size:14px;cursor:pointer} .modal-box .close{position:absolute;top:15px;right:18px;font-size:22px;cursor:pointer}
 
-.menu a:hover{
-  opacity:1;
-  color:#4da3ff;
-}
+.user-bar{display:none;background:#0b2b4a;color:#9fd0ff;padding:10px;text-align:center}
 
-.auth{
-  display:flex;
-  gap:10px;
-}
+footer{background:#111;border-top:1px solid #222;padding:30px;text-align:center;opacity:.7} </style>
 
-.auth button{
-  padding:8px 16px;
-  border-radius:8px;
-  background:#4da3ff;
-  color:#000000;
-  font-weight:bold;
-}
-
-.auth .logout{
-  background:#ff5c5c;
-}
-
-/* ================= HERO ================= */
-.hero{
-  max-width:1200px;
-  margin:auto;
-  padding:80px 20px;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:40px;
-}
-
-.hero h1{
-  font-size:44px;
-  line-height:1.2;
-  margin-bottom:20px;
-}
-
-.hero p{
-  font-size:18px;
-  opacity:0.85;
-}
-
-.hero-buttons{
-  margin-top:30px;
-  display:flex;
-  gap:16px;
-}
-
-.hero-buttons a{
-  padding:14px 24px;
-  border-radius:10px;
-  background:#4da3ff;
-  color:#000000;
-  font-weight:bold;
-}
-
-.hero-buttons a.alt{
-  background:#1c1c1c;
-  color:#ffffff;
-  border:1px solid #333333;
-}
-
-.hero-box{
-  background:#111111;
-  border:1px solid #222222;
-  border-radius:16px;
-  padding:30px;
-}
-
-.hero-box h3{
-  margin-bottom:14px;
-  color:#4da3ff;
-}
-
-.hero-box ul{
-  list-style:none;
-}
-
-.hero-box li{
-  margin-bottom:8px;
-  opacity:0.85;
-}
-
-/* ================= SECTIONS ================= */
-section{
-  max-width:1200px;
-  margin:auto;
-  padding:60px 20px;
-}
-
-section h2{
-  font-size:32px;
-  margin-bottom:30px;
-}
-
-.cards{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:22px;
-}
-
-.card{
-  background:#111111;
-  border:1px solid #222222;
-  border-radius:14px;
-  padding:24px;
-}
-
-.card h3{
-  margin-bottom:10px;
-  color:#4da3ff;
-}
-
-.card p{
-  opacity:0.8;
-}
-
-/* ================= USER BAR ================= */
-.user-bar{
-  display:none;
-  background:#0b2b4a;
-  color:#9fd0ff;
-  text-align:center;
-  padding:10px 20px;
-}
-
-/* ================= MODAL ================= */
-.modal{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.75);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:3000;
-}
-
-.modal.active{
-  display:flex;
-}
-
-.modal-box{
-  background:#0f0f0f;
-  border:1px solid #222222;
-  border-radius:16px;
-  width:100%;
-  max-width:440px;
-  padding:30px;
-  position:relative;
-}
-
-.modal-box h3{
-  text-align:center;
-  margin-bottom:24px;
-}
-
-.modal-box label{
-  display:block;
-  margin-top:14px;
-  margin-bottom:6px;
-  opacity:0.85;
-}
-
-.modal-box input{
-  width:100%;
-  padding:12px;
-  border-radius:8px;
-  border:1px solid #333333;
-  background:#000000;
-  color:#ffffff;
-}
-
-.modal-box button{
-  width:100%;
-  margin-top:24px;
-  padding:12px;
-  border-radius:8px;
-  background:#4da3ff;
-  color:#000000;
-  font-weight:bold;
-}
-
-.modal-close{
-  position:absolute;
-  right:18px;
-  top:14px;
-  font-size:22px;
-  cursor:pointer;
-}
-
-.modal-switch{
-  text-align:center;
-  margin-top:16px;
-  font-size:14px;
-  opacity:0.85;
-}
-
-/* ================= FOOTER ================= */
-footer{
-  background:#111111;
-  border-top:1px solid #222222;
-  padding:30px;
-  text-align:center;
-  opacity:0.7;
-}
-
-/* ================= RESPONSIVE ================= */
-@media(max-width:900px){
-  .hero{
-    grid-template-columns:1fr;
-  }
-}
-</style></head>
+</head>
 <body><header>
   <div class="nav">
     <div class="logo">MC Command</div>
-    <nav class="menu">
-      <a href="#">หน้าแรก</a>
+    <nav class="desktop-menu">
       <a href="#">คำสั่งพื้นฐาน</a>
       <a href="#">คำสั่งขั้นสูง</a>
       <a href="#">ระบบแมพ</a>
     </nav>
-    <div class="auth" id="authArea">
+    <div class="auth" id="authBtn">
       <button onclick="openLogin()">เข้าสู่ระบบ</button>
-      <button onclick="openRegister()">สมัครสมาชิก</button>
     </div>
-    <div class="auth" id="logoutArea" style="display:none;">
-      <button class="logout" onclick="logout()">ออกจากระบบ</button>
-    </div>
+    <div class="hamburger" onclick="openMenu()">☰</div>
   </div>
-</header><div class="user-bar" id="userBar"></div><div class="hero">
-  <div>
-    <h1>เว็บแจกคำสั่ง<br>Minecraft Bedrock</h1>
-    <p>
-      รวมคำสั่ง Bedrock 100% ก็อปใช้ได้จริง<br>
-      สำหรับสายทำแมพ สายระบบ และสายจริงทุกคน
-    </p>
-    <div class="hero-buttons">
-      <a href="#">ดูคำสั่งทั้งหมด</a>
-      <a href="#" class="alt">เกี่ยวกับเว็บนี้</a>
-    </div>
-  </div>
-  <div class="hero-box">
-    <h3>จุดเด่นของเว็บ</h3>
-    <ul>
-      <li>Bedrock แท้ 100%</li>
-      <li>ไม่มี Java ปน</li>
-      <li>จัดหมวดชัดเจน</li>
-      <li>เอาไปใช้ได้จริง</li>
-    </ul>
+</header><div class="side-menu" id="sideMenu">
+  <div class="close" onclick="closeMenu()">×</div>
+  <h3>เมนู</h3>
+  <a href="#">คำสั่งพื้นฐาน</a>
+  <a href="#">คำสั่งขั้นสูง</a>
+  <a href="#">ระบบแมพ</a>
+  <a onclick="openLogin()">เข้าสู่ระบบ</a>
+</div><div class="user-bar" id="userBar"></div><div class="hero">
+  <h1>เว็บแจกคำสั่ง<br>Minecraft Bedrock</h1>
+  <p>Bedrock แท้ 100% ก็อปใช้ได้จริง ไม่มั่ว ไม่ Java สำหรับสายระบบตัวจริง</p>
+  <div class="cta">
+    <a class="main" href="#">ดูคำสั่งทั้งหมด</a>
+    <a class="alt" href="#">เกี่ยวกับเว็บนี้</a>
   </div>
 </div><section>
-  <h2>หมวดคำสั่ง</h2>
   <div class="cards">
-    <div class="card"><h3>คำสั่งพื้นฐาน</h3><p>เหมาะสำหรับมือใหม่</p></div>
-    <div class="card"><h3>คำสั่งขั้นสูง</h3><p>สายระบบจริงจัง</p></div>
-    <div class="card"><h3>ระบบแมพ</h3><p>HP, สกิล, ดันเจี้ยน</p></div>
+    <div class="card"><h3>Bedrock แท้</h3><p>ไม่มีคำสั่ง Java ปน</p></div>
+    <div class="card"><h3>ใช้งานจริง</h3><p>ก็อปแล้วใช้ได้เลย</p></div>
+    <div class="card"><h3>จัดระบบ</h3><p>เหมาะกับสายทำแมพ</p></div>
   </div>
-</section><footer>
-  © MC Command แจกคำสั่ง Bedrock
-</footer><!-- LOGIN MODAL --><div class="modal" id="loginModal">
+</section><footer>© MC Command Bedrock</footer><div class="modal" id="loginModal">
   <div class="modal-box">
-    <div class="modal-close" onclick="closeModal()">×</div>
+    <div class="close" onclick="closeModal()">×</div>
     <h3>เข้าสู่ระบบ</h3>
     <label>อีเมล</label>
     <input id="loginEmail" type="email">
     <label>รหัสผ่าน</label>
     <input id="loginPass" type="password">
     <button onclick="login()">เข้าสู่ระบบ</button>
-    <div class="modal-switch">ยังไม่มีบัญชี? <span onclick="switchRegister()">สมัครสมาชิก</span></div>
+    <div class="switch" onclick="switchRegister()">ยังไม่มีบัญชี? สมัครสมาชิก</div>
   </div>
-</div><!-- REGISTER MODAL --><div class="modal" id="registerModal">
+</div><div class="modal" id="registerModal">
   <div class="modal-box">
-    <div class="modal-close" onclick="closeModal()">×</div>
+    <div class="close" onclick="closeModal()">×</div>
     <h3>สมัครสมาชิก</h3>
     <label>ชื่อผู้ใช้</label>
     <input id="regUser">
@@ -349,61 +87,43 @@ footer{
     <label>ยืนยันรหัสผ่าน</label>
     <input id="regPass2" type="password">
     <button onclick="register()">สมัครสมาชิก</button>
-    <div class="modal-switch">มีบัญชีแล้ว? <span onclick="switchLogin()">เข้าสู่ระบบ</span></div>
   </div>
 </div><script>
-function openLogin(){closeModal();loginModal.classList.add('active');}
-function openRegister(){closeModal();registerModal.classList.add('active');}
-function closeModal(){loginModal.classList.remove('active');registerModal.classList.remove('active');}
-function switchRegister(){closeModal();openRegister();}
-function switchLogin(){closeModal();openLogin();}
+function openMenu(){sideMenu.classList.add('active')}
+function closeMenu(){sideMenu.classList.remove('active')}
+
+function openLogin(){closeModal();loginModal.classList.add('active')}
+function switchRegister(){closeModal();registerModal.classList.add('active')}
+function closeModal(){loginModal.classList.remove('active');registerModal.classList.remove('active')}
 
 function register(){
-  const user=regUser.value.trim();
   const email=regEmail.value.trim();
   const pass=regPass.value;
-  const pass2=regPass2.value;
-
-  if(!user||!email||!pass||!pass2){alert('กรอกข้อมูลให้ครบ');return;}
-  if(pass!==pass2){alert('รหัสผ่านไม่ตรง');return;}
-  if(localStorage.getItem('user_'+email)){
-    alert('อีเมลนี้ถูกใช้แล้ว');return;
-  }
-
-  const data={user:user,email:email,pass:pass};
-  localStorage.setItem('user_'+email,JSON.stringify(data));
-  alert('สมัครสำเร็จ');
+  if(!email||!pass||pass!==regPass2.value)return alert('ข้อมูลไม่ถูกต้อง');
+  if(localStorage.getItem('user_'+email))return alert('อีเมลซ้ำ');
+  localStorage.setItem('user_'+email,JSON.stringify({u:regUser.value,p:pass}));
   closeModal();
+  openLogin();
 }
 
 function login(){
   const email=loginEmail.value.trim();
-  const pass=loginPass.value;
   const raw=localStorage.getItem('user_'+email);
-  if(!raw){alert('ไม่พบบัญชี');return;}
-  const data=JSON.parse(raw);
-  if(data.pass!==pass){alert('รหัสผ่านผิด');return;}
+  if(!raw)return alert('ไม่พบบัญชี');
+  if(JSON.parse(raw).p!==loginPass.value)return alert('รหัสผิด');
   localStorage.setItem('login',email);
   closeModal();
   updateUI();
 }
 
-function logout(){localStorage.removeItem('login');updateUI();}
-
 function updateUI(){
   const email=localStorage.getItem('login');
   if(email){
-    authArea.style.display='none';
-    logoutArea.style.display='flex';
+    authBtn.style.display='none';
     userBar.style.display='block';
     userBar.innerText='เข้าสู่ระบบแล้ว: '+email;
-  }else{
-    authArea.style.display='flex';
-    logoutArea.style.display='none';
-    userBar.style.display='none';
   }
 }
-
 updateUI();
 </script></body>
-      </html>
+</html>
