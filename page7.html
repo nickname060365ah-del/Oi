@@ -1,108 +1,71 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MC Command - Bedrock Only</title>
-
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MC Command - Bedrock</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:tahoma}
+/* --- Basic --- */
+*{box-sizing:border-box;margin:0;padding:0;font-family:Tahoma,Arial,sans-serif}
+body{background:#0e0e0e;color:#fff;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;border:0}
 
-body{background:#0e0e0e;color:#fff}
-
-/* header */
-header{
-  position:sticky;top:0;z-index:1000;
-  background:#111;border-bottom:1px solid #222;
-}
-.nav{
-  max-width:1200px;margin:auto;
-  display:flex;align-items:center;
-  padding:14px 18px;
-}
-.hamburger{font-size:26px;cursor:pointer}
-.logo{margin-left:16px;font-size:22px;font-weight:bold;color:#4da3ff}
+/* --- Header --- */
+header{position:sticky;top:0;background:#111;border-bottom:1px solid #222;z-index:1000}
+.nav{max-width:1200px;margin:0 auto;display:flex;align-items:center;padding:14px 18px}
+.hamburger{font-size:26px;cursor:pointer;margin-right:12px}
+.logo{font-size:22px;font-weight:700;color:#4da3ff}
 .spacer{flex:1}
-.login-btn{
-  background:#4da3ff;border:none;color:#000;
-  padding:8px 14px;border-radius:6px;
-  font-weight:bold;cursor:pointer;
-}
+.login-btn{background:#4da3ff;color:#000;padding:8px 14px;border-radius:8px;font-weight:700}
 
-/* side menu */
-#sideMenu{
-  position:fixed;top:0;left:-260px;
-  width:260px;height:100%;
-  background:#0f0f0f;border-right:1px solid #222;
-  transition:.3s;z-index:2000;
-}
+/* profile */
+.profile{display:flex;align-items:center;gap:8px;padding:6px 10px;background:#111;border-radius:18px;border:1px solid #222}
+.profile img{width:34px;height:34px;border-radius:50%}
+.profile span{font-size:14px;opacity:.95}
+
+/* --- Side menu --- */
+#sideMenu{position:fixed;top:0;left:-280px;width:280px;height:100%;background:#0f0f0f;border-right:1px solid #222;transition:.28s;z-index:2000;padding:10px 8px}
 #sideMenu.active{left:0}
-#sideMenu .close{
-  position:absolute;top:12px;right:14px;
-  font-size:24px;cursor:pointer;
-}
-#sideMenu h3{padding:20px}
-#sideMenu a{
-  display:block;padding:12px 20px;
-  border-bottom:1px solid #222;
-  color:#fff;text-decoration:none;
-}
+#sideMenu .close{position:absolute;top:14px;right:14px;font-size:26px;cursor:pointer}
+#sideMenu h3{padding:18px 12px;color:#4da3ff;font-size:20px}
+.menu-item{display:flex;justify-content:space-between;align-items:center;padding:14px 12px;border-bottom:1px solid #191919}
+.menu-item .txt{font-size:18px}
+.menu-item .arrow{color:#999;font-size:20px}
 
-/* hero */
-.hero{
-  max-width:1200px;margin:auto;
-  padding:80px 20px;
-}
-.hero h1{font-size:42px;margin-bottom:20px}
-.hero p{opacity:.8;margin-bottom:30px}
-.hero .btn{
-  display:inline-block;
-  background:#4da3ff;color:#000;
-  padding:12px 18px;border-radius:8px;
-  text-decoration:none;font-weight:bold;
-  margin-right:10px;
-}
+/* custom info blocks (5 ช่อง) */
+.menu-info{padding:12px 14px;color:#bbb;border-bottom:1px solid #191919;font-size:14px}
 
-/* modal */
-.modal{
-  position:fixed;top:0;left:0;
-  width:100%;height:100%;
-  background:rgba(0,0,0,.7);
-  display:none;align-items:center;justify-content:center;
-  z-index:3000;
-}
+/* logout style (red & underline) */
+.logout-link{margin-top:auto;padding:14px 12px;color:#ff4d4d;text-decoration:underline;cursor:pointer}
+
+/* --- Hero --- */
+.hero{max-width:1200px;margin:60px auto 40px;padding:20px}
+.hero h1{font-size:40px;line-height:1.02;margin-bottom:18px}
+.hero p{opacity:.85;max-width:720px}
+
+/* --- Modal --- */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:3000}
 .modal.active{display:flex}
-.modal-box{
-  background:#111;border:1px solid #222;
-  padding:24px;width:300px;border-radius:10px;
-  position:relative;
-}
-.modal-box .close{
-  position:absolute;top:10px;right:12px;
-  font-size:22px;cursor:pointer;
-}
-.modal-box label{display:block;margin-top:12px}
-.modal-box input{
-  width:100%;padding:8px;margin-top:6px;
-  background:#000;border:1px solid #333;
-  color:#fff;border-radius:6px;
-}
-.modal-box button{
-  width:100%;margin-top:18px;
-  padding:10px;border:none;
-  background:#4da3ff;color:#000;
-  border-radius:6px;font-weight:bold;
-  cursor:pointer;
-}
+.modal-box{width:92%;max-width:420px;background:#111;border-radius:12px;padding:20px;border:1px solid #222;position:relative}
+.modal-box .close{position:absolute;right:14px;top:12px;font-size:22px;cursor:pointer}
+.modal-box h3{text-align:center;margin-bottom:10px}
+.modal-box label{display:block;margin-top:12px;font-size:14px;opacity:.9}
+.input-row{position:relative}
+.modal-box input{width:100%;padding:12px;border-radius:8px;border:1px solid #333;background:#000;color:#fff;margin-top:6px}
+.toggle-eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:transparent;border:0;color:#ccc;font-size:18px;cursor:pointer}
+.error{color:#ff6b6b;font-size:13px;margin-top:8px;display:none}
 
-footer{
-  margin-top:80px;padding:30px;
-  text-align:center;background:#111;
-  opacity:.7;
+/* buttons */
+.btn-primary{background:#4da3ff;color:#000;padding:12px;border-radius:8px;width:100%;margin-top:16px;font-weight:700}
+.link-switch{color:#9fd0ff;text-align:center;margin-top:10px;cursor:pointer}
+
+/* small screens spacing */
+@media(min-width:900px){
+  .hamburger{display:none}
 }
 </style>
 </head>
-
 <body>
 
 <header>
@@ -110,73 +73,213 @@ footer{
     <div class="hamburger" onclick="toggleMenu()">≡</div>
     <div class="logo">MC Command</div>
     <div class="spacer"></div>
-    <button class="login-btn" onclick="openLogin()">เข้าสู่ระบบ</button>
+
+    <!-- login button / profile (toggle by JS) -->
+    <div id="authArea">
+      <button class="login-btn" onclick="openModal('loginModal')">เข้าสู่ระบบ</button>
+    </div>
   </div>
 </header>
 
 <!-- side menu -->
-<div id="sideMenu">
+<nav id="sideMenu" aria-hidden="true">
   <div class="close" onclick="toggleMenu()">×</div>
   <h3>เมนู</h3>
-  <a href="#">คำสั่งทั้งหมด</a>
-  <a href="#">เกี่ยวกับเว็บ</a>
-</div>
+
+  <a class="menu-item" href="#"><span class="txt">คำสั่งทั้งหมด</span><span class="arrow">›</span></a>
+  <a class="menu-item" href="#"><span class="txt">เกี่ยวกับเว็บ</span><span class="arrow">›</span></a>
+  <a class="menu-item" href="#"><span class="txt">ระบบแมพ</span><span class="arrow">›</span></a>
+  <a class="menu-item" href="#" onclick="openModal('loginModal')"><span class="txt">เข้าสู่ระบบ</span><span class="arrow">›</span></a>
+
+  <!-- 5 ช่องข้อความเพิ่มเติมตามที่ขอ -->
+  <div class="menu-info">จุดเด่น: Bedrock 100% ก็อปใช้ได้</div>
+  <div class="menu-info">แนะนำ: วิธีติดตั้งคำสั่ง</div>
+  <div class="menu-info">กฏการใช้งาน: ห้ามแจกคำสั่งผิด</div>
+  <div class="menu-info">ติดต่อเรา: t.me/yourchannel</div>
+  <div class="menu-info">FAQ: คำถามที่พบบ่อย</div>
+
+  <!-- logout - จะโชว์เฉพาะตอนล็อกอิน -->
+  <div id="logoutLink" class="logout-link" style="display:none" onclick="handleLogout()">ออกจากระบบ</div>
+</nav>
 
 <!-- hero -->
-<div class="hero">
+<section class="hero">
   <h1>เว็บแจกคำสั่ง Minecraft Bedrock</h1>
-  <p>Bedrock แท้ 100% ก็อปใช้ได้จริง ไม่มั่ว ไม่ Java</p>
-  <a class="btn" href="#">ดูคำสั่งทั้งหมด</a>
-  <a class="btn" style="background:#222;color:#fff" href="#">เกี่ยวกับเว็บนี้</a>
-</div>
+  <p>รวมคำสั่ง Bedrock 100% จัดหมวดชัดเจน ก็อปแล้วใช้ได้จริง</p>
+</section>
 
-<!-- login modal -->
-<div class="modal" id="loginModal">
+<!-- MODAL: LOGIN -->
+<div class="modal" id="loginModal" role="dialog" aria-modal="true">
   <div class="modal-box">
-    <div class="close" onclick="closeLogin()">×</div>
+    <div class="close" onclick="closeModal('loginModal')">×</div>
     <h3>เข้าสู่ระบบ</h3>
 
-    <label>อีเมล</label>
-    <input id="loginEmail" type="email">
+    <label for="loginEmail">อีเมล</label>
+    <input id="loginEmail" type="email" placeholder="email@example.com">
 
-    <label>รหัสผ่าน</label>
-    <input id="loginPass" type="password">
+    <label for="loginPass">รหัสผ่าน</label>
+    <div class="input-row">
+      <input id="loginPass" type="password" placeholder="รหัสผ่าน">
+      <button class="toggle-eye" type="button" onclick="togglePass('loginPass', this)">👁</button>
+    </div>
+    <div id="loginError" class="error">ข้อมูลไม่ถูกต้อง หรือยังไม่ได้สมัคร</div>
 
-    <button onclick="login()">เข้าสู่ระบบ</button>
+    <button class="btn-primary" onclick="handleLogin()">เข้าสู่ระบบ</button>
+    <div class="link-switch" onclick="openRegister()">ยังไม่มีบัญชี? สมัครสมาชิก</div>
   </div>
 </div>
 
-<footer>© MC Command Bedrock</footer>
+<!-- MODAL: REGISTER -->
+<div class="modal" id="registerModal">
+  <div class="modal-box">
+    <div class="close" onclick="closeModal('registerModal')">×</div>
+    <h3>สมัครสมาชิก</h3>
+
+    <label for="regNick">ชื่อเล่น</label>
+    <input id="regNick" type="text" placeholder="ชื่อเล่นที่ต้องการ">
+
+    <label for="regEmail">อีเมล</label>
+    <input id="regEmail" type="email" placeholder="email@example.com">
+    <div id="emailUsed" class="error">อีเมลนี้ถูกใช้แล้ว</div>
+
+    <label for="regPass">รหัสผ่าน (อย่างน้อย 8 ตัว)</label>
+    <div class="input-row">
+      <input id="regPass" type="password" placeholder="อย่างน้อย 8 ตัว">
+      <button class="toggle-eye" type="button" onclick="togglePass('regPass', this)">👁</button>
+    </div>
+
+    <label for="regPassConfirm">ยืนยันรหัสผ่าน</label>
+    <div class="input-row">
+      <input id="regPassConfirm" type="password" placeholder="พิมพ์รหัสอีกครั้ง">
+      <button class="toggle-eye" type="button" onclick="togglePass('regPassConfirm', this)">👁</button>
+    </div>
+    <div id="passMismatch" class="error">รหัสไม่ตรงหรือไม่พอจำนวนตัว</div>
+
+    <button class="btn-primary" onclick="handleRegister()">สมัครสมาชิก</button>
+    <div class="link-switch" onclick="openLoginFromRegister()">มีบัญชีแล้ว? เข้าสู่ระบบ</div>
+  </div>
+</div>
+
+<footer style="padding:40px 12px;text-align:center;color:#aaa">© MC Command Bedrock</footer>
 
 <script>
-const sideMenu = document.getElementById("sideMenu");
-const loginModal = document.getElementById("loginModal");
+/* ---------- Helpers & State ---------- */
+function q(id){return document.getElementById(id)}
+function toggleMenu(){ q('sideMenu').classList.toggle('active') }
+function openModal(id){ q(id).classList.add('active') }
+function closeModal(id){ q(id).classList.remove('active') }
+function openRegister(){ closeModal('loginModal'); openModal('registerModal') }
+function openLoginFromRegister(){ closeModal('registerModal'); openModal('loginModal') }
 
-function toggleMenu(){
-  sideMenu.classList.toggle("active");
+/* ---------- Password toggle ---------- */
+function togglePass(fieldId, btn){
+  const input = q(fieldId);
+  if(!input) return;
+  if(input.type === 'password'){ input.type = 'text'; btn.textContent = '🙈'; }
+  else { input.type = 'password'; btn.textContent = '👁'; }
 }
 
-function openLogin(){
-  loginModal.classList.add("active");
+/* ---------- LocalStorage users format ----------
+   users = { "email@example.com": { pass:"hashed-or-plain", nick:"ชื่อเล่น" } }
+   session: 'logged' = email
+-------------------------------------------*/
+
+/* load users */
+function getUsers(){
+  try{ return JSON.parse(localStorage.getItem('mc_users') || '{}') }catch(e){ return {} }
 }
+function setUsers(obj){ localStorage.setItem('mc_users', JSON.stringify(obj)) }
 
-function closeLogin(){
-  loginModal.classList.remove("active");
-}
+/* update UI after login state */
+function refreshAuthUI(){
+  const logged = localStorage.getItem('mc_logged') || '';
+  const authArea = document.getElementById('authArea');
+  const logoutLink = document.getElementById('logoutLink');
 
-function login(){
-  const email = document.getElementById("loginEmail").value.trim();
-  const pass  = document.getElementById("loginPass").value;
+  if(logged){
+    // show profile
+    const users = getUsers();
+    const profile = users[logged];
+    const nick = profile && profile.nick ? profile.nick : logged.split('@')[0];
+    const avatarUrl = 'https://ui-avatars.com/api/?name='+encodeURIComponent(nick)+'&background=4da3ff&color=ffffff';
 
-  if(!email || !pass){
-    alert("กรอกให้ครบก่อน");
-    return;
+    authArea.innerHTML = '<div class="profile" id="topProfile"><img src="'+avatarUrl+'" alt="pf"/><span>'+escapeHtml(nick)+'</span></div>';
+    logoutLink.style.display = 'block';
+  } else {
+    authArea.innerHTML = '<button class="login-btn" onclick="openModal(\'loginModal\')">เข้าสู่ระบบ</button>';
+    logoutLink.style.display = 'none';
   }
-
-  alert("ล็อกอินผ่าน (demo)");
-  closeLogin();
 }
-</script>
 
+/* escape for safety in innerHTML text */
+function escapeHtml(s){ return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;') }
+
+/* ---------- Registration ---------- */
+function handleRegister(){
+  const nick = q('regNick').value.trim();
+  const email = q('regEmail').value.trim().toLowerCase();
+  const pass = q('regPass').value;
+  const confirm = q('regPassConfirm').value;
+
+  q('emailUsed').style.display='none';
+  q('passMismatch').style.display='none';
+
+  if(!nick || !email || !pass || !confirm){ alert('กรอกข้อมูลให้ครบทุกช่อง'); return; }
+  if(pass.length < 8){ q('passMismatch').textContent='รหัสต้องมีอย่างน้อย 8 ตัว'; q('passMismatch').style.display='block'; return; }
+  if(pass !== confirm){ q('passMismatch').textContent='รหัสไม่ตรงกัน'; q('passMismatch').style.display='block'; return; }
+
+  const users = getUsers();
+  if(users[email]){ q('emailUsed').style.display='block'; return; }
+
+  // store user (note: demo - password stored plain; replace with hash on real backend)
+  users[email] = { pass: pass, nick: nick };
+  setUsers(users);
+
+  closeModal('registerModal');
+  alert('สมัครสมาชิกสำเร็จ! ล็อกอินจากหน้านี้ได้เลย');
+  openModal('loginModal');
+}
+
+/* ---------- Login ---------- */
+function handleLogin(){
+  const email = q('loginEmail').value.trim().toLowerCase();
+  const pass = q('loginPass').value;
+
+  q('loginError').style.display='none';
+
+  if(!email || !pass){ q('loginError').textContent='กรอกข้อมูลให้ครบ'; q('loginError').style.display='block'; return; }
+
+  const users = getUsers();
+  if(!users[email]){ q('loginError').textContent='อีเมลยังไม่ได้สมัคร'; q('loginError').style.display='block'; return; }
+
+  if(users[email].pass !== pass){ q('loginError').textContent='รหัสไม่ถูกต้อง'; q('loginError').style.display='block'; return; }
+
+  // success
+  localStorage.setItem('mc_logged', email);
+  refreshAuthUI();
+  closeModal('loginModal');
+  // ensure side menu logout visible
+  alert('เข้าสู่ระบบเรียบร้อย');
+}
+
+/* ---------- Logout ---------- */
+function handleLogout(){
+  localStorage.removeItem('mc_logged');
+  refreshAuthUI();
+  toggleMenu(); // close side menu
+  alert('ออกจากระบบแล้ว');
+}
+
+/* ---------- Init ---------- */
+document.addEventListener('DOMContentLoaded', function(){
+  refreshAuthUI();
+  // close modals on backdrop click
+  document.querySelectorAll('.modal').forEach(m=>{
+    m.addEventListener('click', e=>{
+      if(e.target === m) m.classList.remove('active');
+    })
+  });
+});
+</script>
 </body>
-</html>
+      </html>
