@@ -7,60 +7,53 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:Tahoma,Arial,sans-serif}
 body{background:#0e0e0e;color:#fff}
 a{text-decoration:none;color:inherit}
-button{border:none;cursor:pointer}header{position:sticky;top:0;z-index:1000;background:#111;border-bottom:1px solid #222} .nav{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:14px 18px} .left-nav{display:flex;align-items:center;gap:14px} .logo{font-size:22px;font-weight:bold;color:#4da3ff} .hamburger{font-size:26px;cursor:pointer} .right-nav{display:flex;align-items:center;gap:10px} .profile{display:none;align-items:center;gap:8px;cursor:pointer} .profile img{width:32px;height:32px;border-radius:50%;border:2px solid #4da3ff} .logout{display:none;padding:6px 10px;border-radius:6px;background:#222;color:#fff;font-size:14px} .nav{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:14px 18px} .logo{font-size:22px;font-weight:bold;color:#4da3ff}
+button{border:none;cursor:pointer}header{position:sticky;top:0;z-index:1000;background:#111;border-bottom:1px solid #222} .nav{max-width:1200px;margin:auto;display:flex;align-items:center;gap:14px;padding:14px 18px}
 
-.auth{display:flex;gap:10px} .auth button{padding:8px 14px;border-radius:6px;background:#4da3ff;color:#000;font-weight:bold}
+.hamburger{font-size:26px;cursor:pointer} .logo{font-size:22px;font-weight:bold;color:#4da3ff}
 
-.hamburger{font-size:26px;cursor:pointer}
+.spacer{flex:1}
 
-.side-menu{position:fixed;top:0;left:-280px;width:260px;height:100%;background:#0f0f0f;border-right:1px solid #222;transition:.3s;z-index:2000;padding:20px} .side-menu.active{left:0} .side-menu h3{margin-bottom:20px;color:#4da3ff} .side-menu a{display:block;padding:10px 0;border-bottom:1px solid #222} .side-menu .close{position:absolute;top:15px;right:15px;font-size:22px;cursor:pointer}
+.profile{display:none;align-items:center;gap:10px} .profile img{width:34px;height:34px;border-radius:50%;background:#333} .profile span{font-size:14px;opacity:.85}
+
+.auth button{padding:8px 14px;border-radius:6px;background:#4da3ff;color:#000;font-weight:bold}
+
+.side-menu{position:fixed;top:0;left:-280px;width:260px;height:100%;background:#0f0f0f;border-right:1px solid #222;transition:.3s;z-index:2000;padding:20px} .side-menu.active{left:0} .side-menu h3{margin-bottom:20px;color:#4da3ff} .side-menu a{display:block;padding:12px 0;border-bottom:1px solid #222} .side-menu .logout{color:#ff4d4d;text-decoration:underline;margin-top:20px} .side-menu .close{position:absolute;top:15px;right:15px;font-size:22px;cursor:pointer}
 
 .hero{max-width:1200px;margin:auto;padding:70px 20px} .hero h1{font-size:42px;margin-bottom:20px} .hero p{opacity:.85;max-width:600px} .hero .cta{margin-top:30px;display:flex;gap:15px} .hero .cta a{padding:14px 22px;border-radius:8px;font-weight:bold} .hero .main{background:#4da3ff;color:#000} .hero .alt{background:#222;border:1px solid #333}
 
-section{max-width:1200px;margin:auto;padding:60px 20px} .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px} .card{background:#111;border:1px solid #222;border-radius:12px;padding:22px} .card h3{color:#4da3ff;margin-bottom:10px}
+footer{background:#111;border-top:1px solid #222;padding:30px;text-align:center;opacity:.7}
 
-.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:3000} .modal.active{display:flex} .modal-box{background:#0f0f0f;border:1px solid #222;border-radius:14px;width:100%;max-width:420px;padding:25px;position:relative} .modal-box h3{text-align:center;margin-bottom:20px} .modal-box label{display:block;margin-top:14px;margin-bottom:6px;opacity:.85} .modal-box input{width:100%;padding:12px;border-radius:8px;border:1px solid #333;background:#000;color:#fff} .modal-box button{width:100%;margin-top:20px;padding:12px;border-radius:8px;background:#4da3ff;color:#000;font-weight:bold} .modal-box .switch{text-align:center;margin-top:15px;opacity:.8;font-size:14px;cursor:pointer} .modal-box .close{position:absolute;top:15px;right:18px;font-size:22px;cursor:pointer}
-
-.user-bar{display:none;background:#0b2b4a;color:#9fd0ff;padding:10px;text-align:center}
-
-footer{background:#111;border-top:1px solid #222;padding:30px;text-align:center;opacity:.7} </style>
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:3000} .modal.active{display:flex} .modal-box{background:#0f0f0f;border:1px solid #222;border-radius:14px;width:100%;max-width:420px;padding:25px;position:relative} .modal-box h3{text-align:center;margin-bottom:20px} .modal-box label{display:block;margin-top:14px;margin-bottom:6px;opacity:.85} .modal-box input{width:100%;padding:12px;border-radius:8px;border:1px solid #333;background:#000;color:#fff} .modal-box button{width:100%;margin-top:20px;padding:12px;border-radius:8px;background:#4da3ff;color:#000;font-weight:bold} .modal-box .switch{text-align:center;margin-top:15px;opacity:.8;font-size:14px;cursor:pointer} .modal-box .close{position:absolute;top:15px;right:18px;font-size:22px;cursor:pointer} </style>
 
 </head>
 <body><header>
   <div class="nav">
-  <div class="left-nav">
     <div class="hamburger" onclick="openMenu()">☰</div>
     <div class="logo">MC Command</div>
-  </div>
-  <div class="right-nav">
-    <button id="loginBtn" onclick="openLogin()">เข้าสู่ระบบ</button>
-    <div class="profile" id="profileBox">
-      <img src="https://i.imgur.com/8Km9tLL.png">
+    <div class="spacer"></div>
+    <div class="auth" id="authBtn">
+      <button onclick="openLogin()">เข้าสู่ระบบ</button>
     </div>
-    <button class="logout" id="logoutBtn" onclick="logout()">ออกจากระบบ</button>
+    <div class="profile" id="profile">
+      <img src="https://via.placeholder.com/64">
+      <span id="profileEmail"></span>
+    </div>
   </div>
-</div>
 </header><div class="side-menu" id="sideMenu">
   <div class="close" onclick="closeMenu()">×</div>
   <h3>เมนู</h3>
   <a href="#">คำสั่งพื้นฐาน</a>
   <a href="#">คำสั่งขั้นสูง</a>
   <a href="#">ระบบแมพ</a>
-  <a onclick="openLogin()">เข้าสู่ระบบ</a>
-</div><div class="user-bar" id="userBar"></div><div class="hero">
+  <a class="logout" id="logoutBtn" onclick="logout()">ออกจากระบบ</a>
+</div><div class="hero">
   <h1>เว็บแจกคำสั่ง<br>Minecraft Bedrock</h1>
   <p>Bedrock แท้ 100% ก็อปใช้ได้จริง สำหรับสายทำแมพ</p>
   <div class="cta">
     <a class="main" href="#">ดูคำสั่งทั้งหมด</a>
     <a class="alt" href="#">เกี่ยวกับเว็บนี้</a>
   </div>
-</div><section>
-  <div class="cards">
-    <div class="card"><h3>Bedrock แท้</h3><p>ไม่มีคำสั่ง Java ปน</p></div>
-    <div class="card"><h3>ใช้งานจริง</h3><p>ก็อปแล้วใช้ได้เลย</p></div>
-    <div class="card"><h3>จัดระบบ</h3><p>เหมาะกับสายทำแมพ</p></div>
-  </div>
-</section><footer>© MC Command Bedrock</footer><div class="modal" id="loginModal">
+</div><footer>© MC Command Bedrock</footer><div class="modal" id="loginModal">
   <div class="modal-box">
     <div class="close" onclick="closeModal()">×</div>
     <h3>เข้าสู่ระบบ</h3>
@@ -69,70 +62,45 @@ footer{background:#111;border-top:1px solid #222;padding:30px;text-align:center;
     <label>รหัสผ่าน</label>
     <input id="loginPass" type="password">
     <button onclick="login()">เข้าสู่ระบบ</button>
-    <div class="switch" onclick="switchRegister()">ยังไม่มีบัญชี? สมัครสมาชิก</div>
-  </div>
-</div><div class="modal" id="registerModal">
-  <div class="modal-box">
-    <div class="close" onclick="closeModal()">×</div>
-    <h3>สมัครสมาชิก</h3>
-    <label>ชื่อผู้ใช้</label>
-    <input id="regUser">
-    <label>อีเมล</label>
-    <input id="regEmail" type="email">
-    <label>รหัสผ่าน</label>
-    <input id="regPass" type="password">
-    <label>ยืนยันรหัสผ่าน</label>
-    <input id="regPass2" type="password">
-    <button onclick="register()">สมัครสมาชิก</button>
   </div>
 </div><script>
+const sideMenu=document.getElementById('sideMenu')
+const authBtn=document.getElementById('authBtn')
+const profile=document.getElementById('profile')
+const profileEmail=document.getElementById('profileEmail')
+const loginModal=document.getElementById('loginModal')
+
 function openMenu(){sideMenu.classList.add('active')}
 function closeMenu(){sideMenu.classList.remove('active')}
 
-function openLogin(){closeModal();loginModal.classList.add('active')}
-function switchRegister(){closeModal();registerModal.classList.add('active')}
-function closeModal(){loginModal.classList.remove('active');registerModal.classList.remove('active')}
-
-function register(){
-  const email=regEmail.value.trim();
-  const pass=regPass.value;
-  if(!email||!pass||pass!==regPass2.value)return alert('ข้อมูลไม่ถูกต้อง');
-  if(localStorage.getItem('user_'+email))return alert('อีเมลซ้ำ');
-  localStorage.setItem('user_'+email,JSON.stringify({u:regUser.value,p:pass}));
-  closeModal();
-  openLogin();
-}
+function openLogin(){loginModal.classList.add('active')}
+function closeModal(){loginModal.classList.remove('active')}
 
 function login(){
-  const email=loginEmail.value.trim();
-  const raw=localStorage.getItem('user_'+email);
-  if(!raw)return alert('ไม่พบบัญชี');
-  if(JSON.parse(raw).p!==loginPass.value)return alert('รหัสผิด');
-  localStorage.setItem('login',email);
-  closeModal();
-  updateUI();
+  const email=loginEmail.value.trim()
+  if(!email)return
+  localStorage.setItem('login',email)
+  closeModal()
+  updateUI()
+}
+
+function logout(){
+  localStorage.removeItem('login')
+  updateUI()
+  closeMenu()
 }
 
 function updateUI(){
-  const email=localStorage.getItem('login');
+  const email=localStorage.getItem('login')
   if(email){
-    loginBtn.style.display='none';
-    profileBox.style.display='flex';
-    logoutBtn.style.display='block';
-    userBar.style.display='block';
-    userBar.innerText='เข้าสู่ระบบแล้ว: '+email;
+    authBtn.style.display='none'
+    profile.style.display='flex'
+    profileEmail.innerText=email
   }else{
-    loginBtn.style.display='block';
-    profileBox.style.display='none';
-    logoutBtn.style.display='none';
-    userBar.style.display='none';
+    authBtn.style.display='block'
+    profile.style.display='none'
   }
 }
-function logout(){
-  localStorage.removeItem('login');
-  updateUI();
-}
-}
-updateUI();
+updateUI()
 </script></body>
-  </html>
+</html>
