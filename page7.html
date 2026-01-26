@@ -91,10 +91,17 @@ header {
   z-index: 998;
 }
 
+.overlay {
+  opacity: 0;
+  pointer-events: none;
+  display: none;
+}
+
 .overlay.active {
+  display: block;
   opacity: 1;
   pointer-events: auto;
-}
+  }
 
 /* เนื้อหา */
 main {
@@ -153,9 +160,9 @@ function toggleMenu() {
   overlay.classList.toggle("active");
 
   if (sidebar.classList.contains("active")) {
-    btn.innerHTML = "✕";  // X
+    btn.innerHTML = "X";
   } else {
-    btn.innerHTML = "☰";  // สามขีด
+    btn.innerHTML = "≡";
   }
   }
 </script>
