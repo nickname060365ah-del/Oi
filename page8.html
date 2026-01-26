@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MC Command - Bedrock Only</title>
+<style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:Tahoma,Arial,sans-serif}
+    body{background:#0e0e0e;color:#fff}
+    a{text-decoration:none;color:inherit;cursor:pointer}
+    button{border:none;cursor:pointer}
+    
+    header{position:sticky;top:0;z-index:1000;background:#111;border-bottom:1px solid #222} 
+    .nav{max-width:1200px;margin:auto;display:flex;align-items:center;padding:14px 18px} 
+    
+    /* 1. แก้ไขให้สามขีดชิดซ้าย */
+    .hamburger{font-size:26px;cursor:pointer;margin-right:20px}
+    .logo{font-size:22px;font-weight:bold;color:#4da3ff;flex-grow:0}
+
+    .desktop-menu{display:flex;gap:18px;margin-left:30px;flex-grow:1} 
+    .desktop-menu a{opacity:.85} .desktop-menu a:hover{opacity:1;color:#4da3ff}
+
+    .auth{display:flex;gap:10px} 
+    .auth button{padding:8px 14px;border-radius:6px;background:#4da3ff;color:#000;font-weight:bold}
+    
+    /* สไตล์ตอนล็อกอินเสร็จแล้ว */
+    .user-profile {display:none;align-items:center;gap:10px;background:#222;padding:5px 12px;border-radius:20px;border:1px solid #333}
+    .user-profile img {width:24px;height:24px;border-radius:50%;background:#4da3ff}
+
+    @media(max-width:900px){ 
+        .desktop-menu{display:none} 
+        .logo {flex-grow: 1;} /* ดัน Profile ไปทางขวาในมือถือ */
+    }
+
+    .side-menu{position:fixed;top:0;left:-280px;width:260px;height:100%;background:#0f0f0f;border-right:1px solid #222;transition:.3s;z-index:2000;padding:20px;display:flex;flex-direction:column} 
+    .side-menu.active{left:0} 
+    .side-menu h3{margin-bottom:20px;color:#4da3ff} 
+    .side-menu a{display:block;padding:12px 0;border-bottom:1px solid #222} 
+    .side-menu .close{position:absolute;top:15px;right:15px;font-size:22px;cursor:pointer}
+    
+    /* 2. ออกจากระบบล่างสุด */
+    .logout-item {margin-top: auto; color: #ff4d4d !important; border-bottom: none !important; display: none !important;}
+    .logout-item.show {display: block !important;}
+
+    .hero{max-width:1200px;margin:auto;padding:70px 20px} .hero h1{font-size:42px;margin-bottom:20px} .hero p{opacity:.85;max-width:600px} .hero .cta{margin-top:30px;display:flex;gap:15px} .hero .cta a{padding:14px 22px;border-radius:8px;font-weight:bold} .hero .main{background:#4da3ff;color:#000} .hero .alt{background:#222;border:1px solid #333}
+
+    section{max-width:1200px;margin:auto;padding:60px 20px} .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px} .card{background:#111;border:1px solid #222;border-radius:12px;padding:22px} .card h3{color:#4da3ff;margin-bottom:10px}
+
+    .modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:3000} .modal.active{display:flex} .modal-box{background:#0f0f0f;border:1px solid #222;border-radius:14px;width:100%;max-width:420px;padding:25px;position:relative} .modal-box h3{text-align:center;margin-bottom:20px} .modal-box label{display:block;margin-top:14px;margin-bottom:6px;opacity:.85} .modal-box input{width:100%;padding:12px;border-radius:8px;border:1px solid #333;background:#000;color:#fff} .modal-box button{width:100%;margin-top:20px;padding:12px;border-radius:8px;background:#4da3ff;color:#000;font-weight:bold} .modal-box .switch{text-align:center;margin-top:15px;opacity:.8;font-size:14px;cursor:pointer} .modal-box .close{position:absolute;top:15px;right:18px;font-size:22px;cursor:pointer}
+
+    footer{background:#111;border-top:1px solid #222;padding:30px;text-align:center;opacity:.7} 
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="hamburger" onclick="openMenu()">☰</div>
+    <div class="logo">MC Command</div>
+    <nav class="desktop-menu">
+      <a href="#">คำสั่งพื้นฐาน</a>
+      <a href="#">คำสั่งขั้นสูง</a>
+      <a href="#">ระบบแมพ</a>
+    </nav>
+    
+    <!-- 3. โปรไฟล์แสดงตอนล็อกอินเสร็จ -->
+    <div class="auth" id="authBtn">
+      <button onclick="openLogin()">เข้าสู่ระบบ</button>
+    </div>
+    <div class="user-profile" id="userProfile">
+        <img src="https://ui-avatars.com" alt="avatar">
+        <span id="userNameDisplay">Username</span>
+    </div>
+  </div>
+</header>
+
+<div class="side-menu" id="sideMenu">
+  <div class="close" onclick="closeMenu()">×</div>
+  <h3>เมนู</h3>
+  <a href="#">คำสั่งพื้นฐาน</a>
+  <a href="#">คำสั่งขั้นสูง</a>
+  <a href="#">ระบบแมพ</a>
+  <a id="sideLoginBtn" onclick="openLogin()">เข้าสู่ระบบ</a>
+  
+  <!-- 2. ปุ่มออกจากระบบในหมวดสามขีดล่างสุด -->
+  <a class="logout-item" id="logoutBtn" onclick="logout()">ออกจากระบบ</a>
+</div>
+
+<div class="hero">
+  <h1>เว็บแจกคำสั่ง<br>Minecraft Bedrock</h1>
+  <p>Bedrock แท้ 100% ก็อปใช้ได้จริง ไม่มั่ว ไม่ Java สำหรับสายระบบตัวจริง</p>
+  <div class="cta">
+    <a class="main" href="#">ดูคำสั่งทั้งหมด</a>
+    <a class="alt" href="#">เกี่ยวกับเว็บนี้</a>
+  </div>
+</div>
+
+<section>
+  <div class="cards">
+    <div class="card"><h3>Bedrock แท้</h3><p>ไม่มีคำสั่ง Java ปน</p></div>
+    <div class="card"><h3>ใช้งานจริง</h3><p>ก็อปแล้วใช้ได้เลย</p></div>
+    <div class="card"><h3>จัดระบบ</h3><p>เหมาะกับสายทำแมพ</p></div>
+  </div>
+</section>
+
+<footer>© MC Command Bedrock</footer>
+
+<!-- Modal เข้าสู่ระบบ -->
+<div class="modal" id="loginModal">
+  <div class="modal-box">
+    <div class="close" onclick="closeModal()">×</div>
+    <h3>เข้าสู่ระบบ</h3>
+    <label>อีเมล</label>
+    <input id="loginEmail" type="email" placeholder="test@email.com">
+    <label>รหัสผ่าน</label>
+    <input id="loginPass" type="password" placeholder="1234">
+    <button onclick="handleLogin()">เข้าสู่ระบบ</button>
+    <div class="switch">ยังไม่มีบัญชี? สมัครสมาชิก</div>
+  </div>
+</div>
+
+<script>
+    const sideMenu = document.getElementById('sideMenu');
+    const loginModal = document.getElementById('loginModal');
+    const authBtn = document.getElementById('authBtn');
+    const userProfile = document.getElementById('userProfile');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const sideLoginBtn = document.getElementById('sideLoginBtn');
+    const userNameDisplay = document.getElementById('userNameDisplay');
+
+    function openMenu() { sideMenu.classList.add('active'); }
+    function closeMenu() { sideMenu.classList.remove('active'); }
+    
+    function openLogin() { 
+        closeMenu();
+        loginModal.classList.add('active'); 
+    }
+    function closeModal() { loginModal.classList.remove('active'); }
+
+    // ฟังก์ชันจำลองการล็อกอิน
+    function handleLogin() {
+        const email = document.getElementById('loginEmail').value;
+        if(email !== "") {
+            // แสดงผลตอนล็อกอินสำเร็จ
+            authBtn.style.display = 'none';
+            userProfile.style.display = 'flex';
+            userNameDisplay.innerText = email.split('@')[0]; // เอาชื่อหน้า @ มาแสดง
+            
+            // แสดงปุ่มออกจากระบบใน Side Menu และซ่อนปุ่มล็อกอินเดิม
+            logoutBtn.classList.add('show');
+            sideLoginBtn.style.display = 'none';
+            
+            closeModal();
+            alert('เข้าสู่ระบบสำเร็จ!');
+        } else {
+            alert('กรุณากรอกอีเมล');
+        }
+    }
+
+    // ฟังก์ชันออกจากระบบ
+    function logout() {
+        authBtn.style.display = 'flex';
+        userProfile.style.display = 'none';
+        logoutBtn.classList.remove('show');
+        sideLoginBtn.style.display = 'block';
+        closeMenu();
+        alert('ออกจากระบบแล้ว');
+    }
+</script>
+
+</body>
+                 </html>
+  
