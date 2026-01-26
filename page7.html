@@ -6,243 +6,200 @@
 <title>MC Command | แจกคำสั่ง Bedrock</title>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box}
 
-body {
-  font-family: system-ui, sans-serif;
-  background: #f5f6f7;
-  color: #222;
+body{
+  font-family:system-ui,sans-serif;
+  background:#f5f6f7;
+  color:#222;
 }
 
 /* ===== HEADER ===== */
-header {
-  background: #fff;
-  border-bottom: 1px solid #e0e0e0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+header{
+  background:#fff;
+  border-bottom:1px solid #ddd;
+  position:sticky;
+  top:0;
+  z-index:100;
 }
 
-.header-inner {
-  max-width: 1200px;
-  margin: auto;
-  padding: 14px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
+.header{
+  max-width:1200px;
+  margin:auto;
+  padding:14px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-.left-header {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+.left{
+  display:flex;
+  align-items:center;
+  gap:14px;
 }
 
-.menu-btn {
-  font-size: 26px;
-  cursor: pointer;
+.menu-btn{
+  font-size:26px;
+  cursor:pointer;
 }
 
-.logo {
-  font-size: 18px;
-  font-weight: 700;
+.logo{
+  font-weight:700;
+  font-size:18px;
 }
 
-.auth-btns {
-  display: flex;
-  gap: 14px;
+.auth{
+  display:flex;
+  gap:14px;
 }
 
-.auth-btns button {
-  font-size: 14px;
-  padding: 8px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  border: none;
+.auth button{
+  padding:8px 16px;
+  border-radius:8px;
+  border:none;
+  cursor:pointer;
+  font-size:14px;
 }
 
-.login-btn {
-  background: transparent;
-  color: #0066cc;
-}
-
-.register-btn {
-  background: #0066cc;
-  color: #fff;
-}
+.login{background:none;color:#0066cc}
+.register{background:#0066cc;color:#fff}
 
 /* ===== SIDEBAR ===== */
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: -300px;
-  width: 300px;
-  height: 100%;
-  background: #fff;
-  border-right: 1px solid #ddd;
-  transition: 0.3s;
-  z-index: 1000;
+.sidebar{
+  position:fixed;
+  top:0;
+  left:-300px;
+  width:300px;
+  height:100%;
+  background:#fff;
+  border-right:1px solid #ddd;
+  z-index:1000;
+  transition:.3s;
 }
 
-.sidebar.active {
-  left: 0;
+.sidebar.show{left:0}
+
+.sidebar-header{
+  padding:16px;
+  font-size:18px;
+  font-weight:700;
+  display:flex;
+  justify-content:space-between;
+  border-bottom:1px solid #eee;
 }
 
-.sidebar-header {
-  padding: 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #eee;
-  font-size: 18px;
-  font-weight: 700;
+.close{
+  font-size:26px;
+  cursor:pointer;
 }
 
-.close-btn {
-  font-size: 26px;
-  cursor: pointer;
+.menu-item{
+  padding:16px;
+  display:flex;
+  justify-content:space-between;
+  text-decoration:none;
+  color:#222;
+  border-bottom:1px solid #eee;
 }
 
-.menu-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-  text-decoration: none;
-  color: #222;
-  border-bottom: 1px solid #eee;
-}
-
-.menu-item:hover {
-  background: #f5f5f5;
-}
-
-.arrow {
-  color: #999;
-  font-size: 22px;
-}
+.menu-item:hover{background:#f2f2f2}
 
 /* ===== OVERLAY ===== */
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.35);
-  display: none;
-  z-index: 900;
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.4);
+  display:none;
+  z-index:900;
 }
 
-.overlay.active {
-  display: block;
-}
+.overlay.show{display:block}
 
 /* ===== MAIN ===== */
-main {
-  max-width: 1200px;
-  margin: auto;
-  padding: 48px 20px;
+main{
+  max-width:1200px;
+  margin:auto;
+  padding:48px 20px;
 }
 
-/* ===== HERO ===== */
-.hero h1 {
-  font-size: 34px;
-  line-height: 1.35;
-  margin-bottom: 16px;
+.hero h1{
+  font-size:34px;
+  line-height:1.35;
+  margin-bottom:16px;
 }
 
-.hero p {
-  font-size: 16px;
-  color: #555;
-  max-width: 720px;
-  margin-bottom: 28px;
+.hero p{
+  max-width:720px;
+  color:#555;
+  margin-bottom:28px;
 }
 
-.hero-buttons {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
+.hero-btns{
+  display:flex;
+  gap:16px;
 }
 
-.hero-buttons button {
-  padding: 12px 22px;
-  font-size: 15px;
-  border-radius: 10px;
-  cursor: pointer;
-  border: none;
+.hero-btns button{
+  padding:12px 22px;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
 }
 
-.primary {
-  background: #0066cc;
-  color: #fff;
-}
-
-.secondary {
-  background: #fff;
-  border: 1px solid #ccc;
-}
+.primary{background:#0066cc;color:#fff}
+.secondary{background:#fff;border:1px solid #ccc}
 
 /* ===== MODAL ===== */
-.modal {
-  position: fixed;
-  inset: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
+.modal{
+  position:fixed;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:2000;
 }
 
-.modal.active {
-  display: flex;
+.modal.show{display:flex}
+
+.modal-box{
+  background:#fff;
+  padding:24px;
+  width:100%;
+  max-width:360px;
+  border-radius:12px;
 }
 
-.modal-box {
-  background: #fff;
-  padding: 24px;
-  width: 100%;
-  max-width: 360px;
-  border-radius: 12px;
+.modal-box h2{margin-bottom:16px}
+
+.modal-box input{
+  width:100%;
+  padding:10px;
+  margin-bottom:12px;
 }
 
-.modal-box h2 {
-  margin-bottom: 16px;
+.modal-box button{
+  width:100%;
+  padding:10px;
+  background:#0066cc;
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
 }
 
-.modal-box input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 12px;
-  font-size: 14px;
+.modal-close{
+  text-align:right;
+  font-size:14px;
+  cursor:pointer;
+  color:#666;
+  margin-bottom:10px;
 }
 
-.modal-box button {
-  width: 100%;
-  padding: 10px;
-  background: #0066cc;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.modal-close {
-  text-align: right;
-  font-size: 14px;
-  cursor: pointer;
-  color: #666;
-  margin-bottom: 10px;
-}
-
-/* ===== FOOTER ===== */
-footer {
-  margin-top: 80px;
-  text-align: center;
-  font-size: 13px;
-  color: #777;
-  padding: 24px;
+footer{
+  text-align:center;
+  color:#777;
+  font-size:13px;
+  padding:40px 0;
 }
 </style>
 </head>
@@ -250,14 +207,14 @@ footer {
 <body>
 
 <header>
-  <div class="header-inner">
-    <div class="left-header">
-      <div class="menu-btn" onclick="openMenu()">☰</div>
+  <div class="header">
+    <div class="left">
+      <div class="menu-btn" onclick="openSidebar()">☰</div>
       <div class="logo">MC Command แจกคำสั่ง</div>
     </div>
-    <div class="auth-btns">
-      <button class="login-btn" onclick="openLogin()">เข้าสู่ระบบ</button>
-      <button class="register-btn" onclick="openRegister()">สมัครสมาชิก</button>
+    <div class="auth">
+      <button class="login" onclick="openLogin()">เข้าสู่ระบบ</button>
+      <button class="register" onclick="openRegister()">สมัครสมาชิก</button>
     </div>
   </div>
 </header>
@@ -265,11 +222,11 @@ footer {
 <div class="sidebar" id="sidebar">
   <div class="sidebar-header">
     เมนู
-    <span class="close-btn" onclick="closeMenu()">×</span>
+    <span class="close" onclick="closeAll()">×</span>
   </div>
-  <a class="menu-item" href="#"><span>คำสั่งพื้นฐาน</span><span class="arrow">›</span></a>
-  <a class="menu-item" href="#"><span>คำสั่งขั้นสูง</span><span class="arrow">›</span></a>
-  <a class="menu-item" href="#"><span>ระบบสกิล</span><span class="arrow">›</span></a>
+  <a class="menu-item" href="#">คำสั่งพื้นฐาน</a>
+  <a class="menu-item" href="#">คำสั่งขั้นสูง</a>
+  <a class="menu-item" href="#">ระบบแมพ</a>
 </div>
 
 <div class="overlay" id="overlay" onclick="closeAll()"></div>
@@ -278,10 +235,10 @@ footer {
   <section class="hero">
     <h1>เว็บแจกคำสั่ง Minecraft Bedrock<br>ก็อปไปใช้ได้จริง</h1>
     <p>
-      รวมคำสั่ง Bedrock 100% ตั้งแต่พื้นฐานถึงขั้นสูง  
-      ไม่หลุด Java เหมาะสำหรับสายทำแมพ ระบบ และสายจริง
+      รวมคำสั่ง Bedrock 100% ไม่หลุด Java  
+      เหมาะสำหรับสายทำแมพ ระบบ และสายจริง
     </p>
-    <div class="hero-buttons">
+    <div class="hero-btns">
       <button class="primary">ดูคำสั่งทั้งหมด</button>
       <button class="secondary" onclick="openRegister()">สมัครสมาชิก</button>
     </div>
@@ -289,57 +246,58 @@ footer {
 </main>
 
 <footer>
-  © 2026 MC Command | Minecraft Bedrock
+  © 2026 MC Command
 </footer>
 
 <!-- LOGIN -->
-<div class="modal" id="loginModal">
+<div class="modal" id="login">
   <div class="modal-box">
     <div class="modal-close" onclick="closeAll()">ปิด</div>
     <h2>เข้าสู่ระบบ</h2>
-    <input type="text" placeholder="ชื่อผู้ใช้">
+    <input placeholder="ชื่อผู้ใช้">
     <input type="password" placeholder="รหัสผ่าน">
     <button>เข้าสู่ระบบ</button>
   </div>
 </div>
 
 <!-- REGISTER -->
-<div class="modal" id="registerModal">
+<div class="modal" id="register">
   <div class="modal-box">
     <div class="modal-close" onclick="closeAll()">ปิด</div>
     <h2>สมัครสมาชิก</h2>
-    <input type="text" placeholder="ชื่อผู้ใช้">
-    <input type="email" placeholder="อีเมล">
+    <input placeholder="ชื่อผู้ใช้">
+    <input placeholder="อีเมล">
     <input type="password" placeholder="รหัสผ่าน">
     <button>สมัครสมาชิก</button>
   </div>
 </div>
 
 <script>
-function openMenu() {
-  sidebar.classList.add("active");
-  overlay.classList.add("active");
+const overlay=document.getElementById("overlay")
+const sidebar=document.getElementById("sidebar")
+const login=document.getElementById("login")
+const register=document.getElementById("register")
+
+function openSidebar(){
+  sidebar.classList.add("show")
+  overlay.classList.add("show")
 }
 
-function closeMenu() {
-  sidebar.classList.remove("active");
+function openLogin(){
+  login.classList.add("show")
+  overlay.classList.add("show")
 }
 
-function openLogin() {
-  loginModal.classList.add("active");
-  overlay.classList.add("active");
+function openRegister(){
+  register.classList.add("show")
+  overlay.classList.add("show")
 }
 
-function openRegister() {
-  registerModal.classList.add("active");
-  overlay.classList.add("active");
-}
-
-function closeAll() {
-  sidebar.classList.remove("active");
-  loginModal.classList.remove("active");
-  registerModal.classList.remove("active");
-  overlay.classList.remove("active");
+function closeAll(){
+  sidebar.classList.remove("show")
+  login.classList.remove("show")
+  register.classList.remove("show")
+  overlay.classList.remove("show")
 }
 </script>
 
