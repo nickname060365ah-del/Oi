@@ -1,173 +1,338 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MC Command - Bedrock Only</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>MC Command - Bedrock</title>
+<!-- Firebase SDKs (Auth) -->
+<script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-auth-compat.js"></script>
+
 <style>
-    *{margin:0;padding:0;box-sizing:border-box;font-family:Tahoma,Arial,sans-serif}
-    body{background:#0e0e0e;color:#fff}
-    a{text-decoration:none;color:inherit;cursor:pointer}
-    button{border:none;cursor:pointer}
-    
-    header{position:sticky;top:0;z-index:1000;background:#111;border-bottom:1px solid #222} 
-    .nav{max-width:1200px;margin:auto;display:flex;align-items:center;padding:14px 18px} 
-    
-    /* 1. แก้ไขให้สามขีดชิดซ้าย */
-    .hamburger{font-size:26px;cursor:pointer;margin-right:20px}
-    .logo{font-size:22px;font-weight:bold;color:#4da3ff;flex-grow:0}
+  *{box-sizing:border-box;margin:0;padding:0;font-family:Tahoma,Arial,sans-serif}
+  body{background:#0e0e0e;color:#fff;-webkit-font-smoothing:antialiased}
+  a{text-decoration:none;color:inherit}
+  header{position:sticky;top:0;background:#0b0b0b;border-bottom:1px solid #161616;z-index:1000}
+  .nav{max-width:1200px;margin:0 auto;display:flex;align-items:center;padding:14px 18px;gap:12px}
+  .hamburger{font-size:26px;cursor:pointer;color:#fff}
+  .logo{font-size:22px;font-weight:700;color:#4da3ff;margin-left:4px}
+  .spacer{flex:1}
+  .auth-btn{background:#4da3ff;color:#000;padding:8px 14px;border-radius:8px;font-weight:700;border:0;cursor:pointer}
+  .user-badge{display:flex;align-items:center;gap:10px;background:#111;padding:6px 10px;border-radius:20px;border:1px solid #222}
+  .user-badge img{width:34px;height:34px;border-radius:50%}
+  .side-menu{position:fixed;left:-300px;top:0;width:300px;height:100%;background:#0f0f0f;border-right:1px solid #222;padding:22px;transition:0.28s;z-index:2000}
+  .side-menu.active{left:0}
+  .side-close{position:absolute;right:16px;top:12px;font-size:22px;cursor:pointer}
+  .side-menu h3{color:#4da3ff;margin-bottom:18px;font-size:20px}
+  .side-menu a{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #171717;color:#ddd}
+  .side-menu a .arrow{color:#999}
+  .side-menu .extras{margin-top:18px;padding:12px;background:#0b0b0b;border-radius:8px}
+  .logout{color:#ff4d4d;text-decoration:underline;margin-top:14px;display:none;cursor:pointer}
+  .logout.show{display:block}
 
-    .desktop-menu{display:flex;gap:18px;margin-left:30px;flex-grow:1} 
-    .desktop-menu a{opacity:.85} .desktop-menu a:hover{opacity:1;color:#4da3ff}
+  .hero{max-width:1200px;margin:40px auto;padding:20px}
+  .hero h1{font-size:42px;margin-bottom:18px}
+  .hero p{opacity:.9;max-width:700px;margin-bottom:22px}
+  .cta{display:flex;gap:16px}
+  .btn-primary{background:#4da3ff;color:#000;padding:14px 20px;border-radius:12px;border:0;font-weight:700}
+  .btn-alt{background:#111;border:1px solid #222;color:#fff;padding:14px 20px;border-radius:12px}
 
-    .auth{display:flex;gap:10px} 
-    .auth button{padding:8px 14px;border-radius:6px;background:#4da3ff;color:#000;font-weight:bold}
-    
-    /* สไตล์ตอนล็อกอินเสร็จแล้ว */
-    .user-profile {display:none;align-items:center;gap:10px;background:#222;padding:5px 12px;border-radius:20px;border:1px solid #333}
-    .user-profile img {width:24px;height:24px;border-radius:50%;background:#4da3ff}
+  .cards{max-width:1200px;margin:40px auto;display:grid;gap:18px;padding:0 20px}
+  .card{background:#0b0b0b;border-radius:12px;padding:20px;border:1px solid #171717}
+  .card h3{color:#4da3ff;margin-bottom:8px}
 
-    @media(max-width:900px){ 
-        .desktop-menu{display:none} 
-        .logo {flex-grow: 1;} /* ดัน Profile ไปทางขวาในมือถือ */
-    }
+  footer{padding:30px;text-align:center;opacity:.7;margin-top:40px}
 
-    .side-menu{position:fixed;top:0;left:-280px;width:260px;height:100%;background:#0f0f0f;border-right:1px solid #222;transition:.3s;z-index:2000;padding:20px;display:flex;flex-direction:column} 
-    .side-menu.active{left:0} 
-    .side-menu h3{margin-bottom:20px;color:#4da3ff} 
-    .side-menu a{display:block;padding:12px 0;border-bottom:1px solid #222} 
-    .side-menu .close{position:absolute;top:15px;right:15px;font-size:22px;cursor:pointer}
-    
-    /* 2. ออกจากระบบล่างสุด */
-    .logout-item {margin-top: auto; color: #ff4d4d !important; border-bottom: none !important; display: none !important;}
-    .logout-item.show {display: block !important;}
+  /* modal */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:3000}
+  .modal.show{display:flex}
+  .modal-box{width:92%;max-width:420px;background:#0f0f0f;border-radius:14px;padding:22px;border:1px solid #222;position:relative}
+  .modal-box h3{text-align:center;margin-bottom:14px}
+  .modal-box label{display:block;margin:10px 0 6px;color:#ddd}
+  .modal-box input{width:100%;padding:12px;border-radius:8px;border:1px solid #222;background:#020202;color:#fff}
+  .modal-box .row{position:relative}
+  .toggle-eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:transparent;border:0;color:#9fbfe6;font-weight:700;cursor:pointer}
+  .modal-box .error{color:#ff6b6b;font-size:13px;margin-top:6px;display:none}
+  .modal-box .submit{margin-top:14px;padding:12px;border-radius:10px;border:0;background:#4da3ff;color:#000;font-weight:700;width:100%;cursor:pointer}
 
-    .hero{max-width:1200px;margin:auto;padding:70px 20px} .hero h1{font-size:42px;margin-bottom:20px} .hero p{opacity:.85;max-width:600px} .hero .cta{margin-top:30px;display:flex;gap:15px} .hero .cta a{padding:14px 22px;border-radius:8px;font-weight:bold} .hero .main{background:#4da3ff;color:#000} .hero .alt{background:#222;border:1px solid #333}
+  /* big choice buttons */
+  .choices{display:flex;gap:12px;justify-content:center;margin-top:30px;flex-wrap:wrap}
+  .choice{min-width:76px;padding:16px 20px;border-radius:12px;background:#111;border:1px solid #222;font-size:20px;text-align:center}
 
-    section{max-width:1200px;margin:auto;padding:60px 20px} .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px} .card{background:#111;border:1px solid #222;border-radius:12px;padding:22px} .card h3{color:#4da3ff;margin-bottom:10px}
-
-    .modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:3000} .modal.active{display:flex} .modal-box{background:#0f0f0f;border:1px solid #222;border-radius:14px;width:100%;max-width:420px;padding:25px;position:relative} .modal-box h3{text-align:center;margin-bottom:20px} .modal-box label{display:block;margin-top:14px;margin-bottom:6px;opacity:.85} .modal-box input{width:100%;padding:12px;border-radius:8px;border:1px solid #333;background:#000;color:#fff} .modal-box button{width:100%;margin-top:20px;padding:12px;border-radius:8px;background:#4da3ff;color:#000;font-weight:bold} .modal-box .switch{text-align:center;margin-top:15px;opacity:.8;font-size:14px;cursor:pointer} .modal-box .close{position:absolute;top:15px;right:18px;font-size:22px;cursor:pointer}
-
-    footer{background:#111;border-top:1px solid #222;padding:30px;text-align:center;opacity:.7} 
+  @media(min-width:901px){
+    .hamburger{display:none}
+  }
 </style>
 </head>
 <body>
 
 <header>
   <div class="nav">
-    <div class="hamburger" onclick="openMenu()">☰</div>
+    <div class="hamburger" id="hamburger">☰</div>
     <div class="logo">MC Command</div>
-    <nav class="desktop-menu">
-      <a href="#">คำสั่งพื้นฐาน</a>
-      <a href="#">คำสั่งขั้นสูง</a>
-      <a href="#">ระบบแมพ</a>
-    </nav>
-    
-    <!-- 3. โปรไฟล์แสดงตอนล็อกอินเสร็จ -->
-    <div class="auth" id="authBtn">
-      <button onclick="openLogin()">เข้าสู่ระบบ</button>
-    </div>
-    <div class="user-profile" id="userProfile">
-        <img src="https://ui-avatars.com" alt="avatar">
-        <span id="userNameDisplay">Username</span>
+    <div class="spacer"></div>
+    <button class="auth-btn" id="authOpenBtn">เข้าสู่ระบบ</button>
+    <div id="userBadge" class="user-badge" style="display:none">
+      <img id="avatar" src="" alt="avatar">
+      <div id="userName">โปรไฟล์</div>
     </div>
   </div>
 </header>
 
-<div class="side-menu" id="sideMenu">
-  <div class="close" onclick="closeMenu()">×</div>
+<!-- side -->
+<nav id="side" class="side-menu" aria-hidden="true">
+  <div class="side-close" id="sideClose">×</div>
   <h3>เมนู</h3>
-  <a href="#">คำสั่งพื้นฐาน</a>
-  <a href="#">คำสั่งขั้นสูง</a>
-  <a href="#">ระบบแมพ</a>
-  <a id="sideLoginBtn" onclick="openLogin()">เข้าสู่ระบบ</a>
-  
-  <!-- 2. ปุ่มออกจากระบบในหมวดสามขีดล่างสุด -->
-  <a class="logout-item" id="logoutBtn" onclick="logout()">ออกจากระบบ</a>
-</div>
+  <a href="#"><span>คำสั่งทั้งหมด</span><span class="arrow">›</span></a>
+  <a href="#"><span>เกี่ยวกับเว็บ</span><span class="arrow">›</span></a>
+  <a href="#"><span>ระบบแมพ</span><span class="arrow">›</span></a>
 
-<div class="hero">
-  <h1>เว็บแจกคำสั่ง<br>Minecraft Bedrock</h1>
-  <p>Bedrock แท้ 100% ก็อปใช้ได้จริง ไม่มั่ว ไม่ Java สำหรับสายระบบตัวจริง</p>
-  <div class="cta">
-    <a class="main" href="#">ดูคำสั่งทั้งหมด</a>
-    <a class="alt" href="#">เกี่ยวกับเว็บนี้</a>
+  <!-- เพิ่มช่องข้อความ 5 ช่อง -->
+  <div class="extras">
+    <div style="color:#9fd0ff;margin-bottom:8px;font-weight:700">ข้อมูลเว็บ</div>
+    <div style="color:#ddd;margin-bottom:6px">• แจกคำสั่ง Bedrock</div>
+    <div style="color:#ddd;margin-bottom:6px">• คำสั่งแก้ปัญหาแมพ</div>
+    <div style="color:#ddd;margin-bottom:6px">• ระบบสกิล</div>
+    <div style="color:#ddd;margin-bottom:6px">• วิธีติดตั้ง</div>
+    <div style="color:#ddd">• ติดต่อทีมงาน</div>
   </div>
-</div>
 
-<section>
-  <div class="cards">
+  <div id="sideLogout" class="logout">ออกจากระบบ</div>
+</nav>
+
+<main>
+  <section class="hero">
+    <h1>เว็บแจกคำสั่ง<br/>Minecraft Bedrock</h1>
+    <p>รวมคำสั่ง Bedrock 100% ก็อปแล้วใช้ได้จริง เหมาะกับสายทำแมพจริง ๆ</p>
+
+    <div class="cta">
+      <button class="btn-primary">ดูคำสั่งทั้งหมด</button>
+      <button class="btn-alt">เกี่ยวกับเว็บนี้</button>
+    </div>
+
+    <div class="choices" style="margin-top:26px">
+      <div class="choice">1</div>
+      <div class="choice">2</div>
+      <div class="choice">3</div>
+    </div>
+  </section>
+
+  <section class="cards">
     <div class="card"><h3>Bedrock แท้</h3><p>ไม่มีคำสั่ง Java ปน</p></div>
     <div class="card"><h3>ใช้งานจริง</h3><p>ก็อปแล้วใช้ได้เลย</p></div>
     <div class="card"><h3>จัดระบบ</h3><p>เหมาะกับสายทำแมพ</p></div>
-  </div>
-</section>
+  </section>
+</main>
 
 <footer>© MC Command Bedrock</footer>
 
-<!-- Modal เข้าสู่ระบบ -->
-<div class="modal" id="loginModal">
-  <div class="modal-box">
-    <div class="close" onclick="closeModal()">×</div>
-    <h3>เข้าสู่ระบบ</h3>
+<!-- login modal -->
+<div id="modal" class="modal" aria-hidden="true">
+  <div class="modal-box" role="dialog" aria-modal="true">
+    <div style="position:absolute;right:12px;top:10px;cursor:pointer" id="closeModal">×</div>
+    <h3 id="modalTitle">เข้าสู่ระบบ</h3>
+
     <label>อีเมล</label>
-    <input id="loginEmail" type="email" placeholder="test@email.com">
+    <input id="email" type="email" placeholder="example@mail.com">
+
     <label>รหัสผ่าน</label>
-    <input id="loginPass" type="password" placeholder="1234">
-    <button onclick="handleLogin()">เข้าสู่ระบบ</button>
-    <div class="switch">ยังไม่มีบัญชี? สมัครสมาชิก</div>
+    <div class="row">
+      <input id="password" type="password" placeholder="ต้องอย่างน้อย 8 ตัว">
+      <button class="toggle-eye" id="toggleEye">ดู</button>
+    </div>
+
+    <div id="generalError" class="error" style="display:none"></div>
+
+    <button id="submitBtn" class="submit">เข้าสู่ระบบ</button>
+
+    <div style="text-align:center;margin-top:10px;color:#9aa">ยังไม่มีบัญชี? <a id="openRegister" style="color:#4da3ff;cursor:pointer">สมัครสมาชิก</a></div>
+  </div>
+</div>
+
+<!-- register modal -->
+<div id="regModal" class="modal" aria-hidden="true">
+  <div class="modal-box">
+    <div style="position:absolute;right:12px;top:10px;cursor:pointer" id="closeReg">×</div>
+    <h3>สมัครสมาชิก</h3>
+
+    <label>ชื่อเล่น</label>
+    <input id="nick" type="text">
+
+    <label>อีเมล</label>
+    <input id="regEmail" type="email">
+
+    <label>รหัสผ่าน</label>
+    <div class="row">
+      <input id="regPass" type="password" placeholder="8 ตัวขึ้นไป">
+      <button class="toggle-eye" data-target="regPass">ดู</button>
+    </div>
+
+    <label>ยืนยันรหัสผ่าน</label>
+    <div class="row">
+      <input id="regConfirm" type="password">
+      <button class="toggle-eye" data-target="regConfirm">ดู</button>
+    </div>
+
+    <div id="regError" class="error"></div>
+
+    <button id="regSubmit" class="submit">สมัครสมาชิก</button>
+    <div style="text-align:center;margin-top:10px;color:#9aa">มีบัญชีแล้ว? <a id="openLoginFromReg" style="color:#4da3ff;cursor:pointer">เข้าสู่ระบบ</a></div>
   </div>
 </div>
 
 <script>
-    const sideMenu = document.getElementById('sideMenu');
-    const loginModal = document.getElementById('loginModal');
-    const authBtn = document.getElementById('authBtn');
-    const userProfile = document.getElementById('userProfile');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const sideLoginBtn = document.getElementById('sideLoginBtn');
-    const userNameDisplay = document.getElementById('userNameDisplay');
+  // ====== Firebase config: เปลี่ยนตรงนี้เป็นของมึง ======
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    // ... ถ้ามึงใช้ firebase console ให้เอา config ทั้งหมดมาแทนที่
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
 
-    function openMenu() { sideMenu.classList.add('active'); }
-    function closeMenu() { sideMenu.classList.remove('active'); }
-    
-    function openLogin() { 
-        closeMenu();
-        loginModal.classList.add('active'); 
-    }
-    function closeModal() { loginModal.classList.remove('active'); }
+  // DOM
+  const side = document.getElementById('side');
+  const hamburger = document.getElementById('hamburger');
+  const sideClose = document.getElementById('sideClose');
+  const authOpenBtn = document.getElementById('authOpenBtn');
+  const modal = document.getElementById('modal');
+  const regModal = document.getElementById('regModal');
+  const closeModalBtn = document.getElementById('closeModal');
+  const closeRegBtn = document.getElementById('closeReg');
+  const submitBtn = document.getElementById('submitBtn');
+  const regSubmit = document.getElementById('regSubmit');
+  const openRegister = document.getElementById('openRegister');
+  const openLoginFromReg = document.getElementById('openLoginFromReg');
+  const toggleEye = document.getElementById('toggleEye');
+  const userBadge = document.getElementById('userBadge');
+  const userName = document.getElementById('userName');
+  const avatar = document.getElementById('avatar');
+  const sideLogout = document.getElementById('sideLogout');
+  const generalError = document.getElementById('generalError');
+  const regError = document.getElementById('regError');
 
-    // ฟังก์ชันจำลองการล็อกอิน
-    function handleLogin() {
-        const email = document.getElementById('loginEmail').value;
-        if(email !== "") {
-            // แสดงผลตอนล็อกอินสำเร็จ
-            authBtn.style.display = 'none';
-            userProfile.style.display = 'flex';
-            userNameDisplay.innerText = email.split('@')[0]; // เอาชื่อหน้า @ มาแสดง
-            
-            // แสดงปุ่มออกจากระบบใน Side Menu และซ่อนปุ่มล็อกอินเดิม
-            logoutBtn.classList.add('show');
-            sideLoginBtn.style.display = 'none';
-            
-            closeModal();
-            alert('เข้าสู่ระบบสำเร็จ!');
-        } else {
-            alert('กรุณากรอกอีเมล');
-        }
-    }
+  // side menu handlers
+  hamburger.addEventListener('click', ()=> side.classList.add('active'));
+  sideClose.addEventListener('click', ()=> side.classList.remove('active'));
 
-    // ฟังก์ชันออกจากระบบ
-    function logout() {
-        authBtn.style.display = 'flex';
-        userProfile.style.display = 'none';
-        logoutBtn.classList.remove('show');
-        sideLoginBtn.style.display = 'block';
-        closeMenu();
-        alert('ออกจากระบบแล้ว');
+  // modal open/close
+  authOpenBtn.addEventListener('click', ()=>{
+    modal.classList.add('show'); document.getElementById('modalTitle').innerText='เข้าสู่ระบบ';
+    submitBtn.innerText='เข้าสู่ระบบ'; generalError.style.display='none';
+  });
+  closeModalBtn.addEventListener('click', ()=> modal.classList.remove('show'));
+  closeRegBtn.addEventListener('click', ()=> regModal.classList.remove('show'));
+  openRegister.addEventListener('click', ()=> { modal.classList.remove('show'); regModal.classList.add('show'); });
+  openLoginFromReg.addEventListener('click', ()=> { regModal.classList.remove('show'); modal.classList.add('show'); });
+
+  // eye toggles
+  document.querySelectorAll('.toggle-eye').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      const targetId = btn.dataset.target || 'password';
+      const input = document.getElementById(targetId);
+      if(!input) return;
+      if(input.type === 'password'){ input.type='text'; btn.innerText='ซ่อน'; }
+      else { input.type='password'; btn.innerText='ดู'; }
+    });
+  });
+
+  // show logout only when logged in
+  sideLogout.addEventListener('click', ()=>{
+    auth.signOut().then(()=> {
+      alert('ออกจากระบบแล้ว');
+      side.classList.remove('active');
+    });
+  });
+
+  // ===== register =====
+  regSubmit.addEventListener('click', async ()=>{
+    regError.style.display='none';
+    const nick = document.getElementById('nick').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const pass = document.getElementById('regPass').value;
+    const confirm = document.getElementById('regConfirm').value;
+
+    if(!nick || !email || !pass || !confirm){
+      regError.style.display='block'; regError.innerText='กรอกข้อมูลให้ครบทุกช่อง';
+      return;
     }
+    if(pass.length < 8){ regError.style.display='block'; regError.innerText='รหัสต้องมีอย่างน้อย 8 ตัว'; return; }
+    if(pass !== confirm){ regError.style.display='block'; regError.innerText='รหัสไม่ตรงกัน'; return; }
+
+    try{
+      // create user on Firebase -> this will fail if email already used (cross-device safe)
+      const userCred = await auth.createUserWithEmailAndPassword(email, pass);
+      // set display name (optional)
+      await userCred.user.updateProfile({ displayName: nick });
+      regModal.classList.remove('show');
+      // after successful register: redirect to login modal (or auto-login)
+      modal.classList.add('show');
+      document.getElementById('modalTitle').innerText='เข้าสู่ระบบ';
+      alert('สมัครสำเร็จ! กรุณาเข้าสู่ระบบ (หรือระบบล็อกอินอัตโนมัติขึ้นอยู่กับการตั้งค่า)');
+    }catch(err){
+      // handle firebase errors
+      if(err.code === 'auth/email-already-in-use'){
+        regError.style.display='block'; regError.innerText='อีเมลนี้ถูกใช้ไปแล้ว';
+      } else if(err.code === 'auth/invalid-email'){
+        regError.style.display='block'; regError.innerText='อีเมลไม่ถูกต้อง';
+      } else if(err.code === 'auth/weak-password'){
+        regError.style.display='block'; regError.innerText='รหัสอ่อนเกินไป';
+      } else {
+        regError.style.display='block'; regError.innerText= err.message || 'เกิดข้อผิดพลาด';
+      }
+    }
+  });
+
+  // ===== login =====
+  submitBtn.addEventListener('click', async ()=>{
+    generalError.style.display='none';
+    const email = document.getElementById('email').value.trim();
+    const pass = document.getElementById('password').value;
+    if(!email || !pass){ generalError.style.display='block'; generalError.innerText='กรุณากรอกอีเมลและรหัสผ่าน'; return; }
+    try{
+      await auth.signInWithEmailAndPassword(email, pass);
+      modal.classList.remove('show');
+      alert('เข้าสู่ระบบสำเร็จ');
+    }catch(err){
+      if(err.code === 'auth/user-not-found'){
+        generalError.style.display='block'; generalError.innerText='ไม่พบบัญชีนี้ กรุณาสมัครก่อน';
+      } else if(err.code === 'auth/wrong-password'){
+        generalError.style.display='block'; generalError.innerText='รหัสผ่านไม่ถูกต้อง';
+      } else {
+        generalError.style.display='block'; generalError.innerText = err.message || 'เกิดข้อผิดพลาด';
+      }
+    }
+  });
+
+  // ===== onAuthStateChanged =====
+  auth.onAuthStateChanged(user=>{
+    if(user){
+      // logged in
+      userBadge.style.display='flex';
+      authOpenBtn.style.display='none';
+      sideLogout.classList.add('show');
+      userName.innerText = user.displayName || (user.email? user.email.split('@')[0] : 'ผู้ใช้');
+      // avatar: simple initials generated image (ui-avatars)
+      avatar.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName||user.email||'U')}&background=4da3ff&color=fff&rounded=true`;
+      side.classList.remove('active');
+    } else {
+      // logged out
+      userBadge.style.display='none';
+      authOpenBtn.style.display='inline-block';
+      sideLogout.classList.remove('show');
+      avatar.src = '';
+    }
+  });
+
+  // close modals on outside click
+  document.querySelectorAll('.modal').forEach(m=>{
+    m.addEventListener('click', (e)=>{ if(e.target === m) m.classList.remove('show'); });
+  });
+
+  // prevent accidental form submit on enter
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Enter'){ e.preventDefault(); }});
 </script>
 
 </body>
-                 </html>
-  
+         </html>
