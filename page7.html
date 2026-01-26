@@ -29,14 +29,18 @@ header {
 
   .menu-item {
   display: flex;
-  justify-content: space-between; /* ดันลูกศรไปขวา */
+  justify-content: space-between;
   align-items: center;
+
+  width: 100%;          /* ⭐ ตัวนี้แหละ สำคัญ */
+  box-sizing: border-box;
+
   padding: 14px 16px;
   text-decoration: none;
   color: #000;
   font-size: 16px;
   border-bottom: 1px solid #eee;
-}
+  }
 
 .menu-item .arrow {
   color: #999;        /* สีเทา */
