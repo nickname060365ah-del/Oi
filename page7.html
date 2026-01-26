@@ -105,68 +105,76 @@
 
 <footer>© MC Command Bedrock</footer>
 
-<!-- Modal เข้าสู่ระบบ -->
-<div class="modal" id="loginModal">
-  <div class="modal-box">
-    <div class="close" onclick="closeModal()">×</div>
-    <h3>เข้าสู่ระบบ</h3>
-    <label>อีเมล</label>
-    <input id="loginEmail" type="email" placeholder="test@email.com">
-    <label>รหัสผ่าน</label>
-    <input id="loginPass" type="password" placeholder="1234">
-    <button onclick="handleLogin()">เข้าสู่ระบบ</button>
-    <div class="switch">ยังไม่มีบัญชี? สมัครสมาชิก</div>
-  </div>
-</div>
-
 <script>
-    const sideMenu = document.getElementById('sideMenu');
-    const loginModal = document.getElementById('loginModal');
-    const authBtn = document.getElementById('authBtn');
-    const userProfile = document.getElementById('userProfile');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const sideLoginBtn = document.getElementById('sideLoginBtn');
-    const userNameDisplay = document.getElementById('userNameDisplay');
+function togglePassword(id, icon){
+  const input = document.getElementById(id);
+  if(input.type === "password"){
+    input.type = "text";
+    icon.classList.remove("fa-eye");
+    icon.classList.add("fa-eye-slash");
+  }else{
+    input.type = "password";
+    icon.classList.remove("fa-eye-slash");
+    icon.classList.add("fa-eye");
+  }
+}
 
-    function openMenu() { sideMenu.classList.add('active'); }
-    function closeMenu() { sideMenu.classList.remove('active'); }
-    
-    function openLogin() { 
-        closeMenu();
-        loginModal.classList.add('active'); 
-    }
-    function closeModal() { loginModal.classList.remove('active'); }
+// สมัครสมาชิก
+function handleRegister(){
+  const email = document.getElementById("regEmail").value.trim();
+  const pass = document.getElementById("regPass").value;
+  const confirm = document.getElementById("regConfirmPass").value;
 
-    // ฟังก์ชันจำลองการล็อกอิน
-    function handleLogin() {
-        const email = document.getElementById('loginEmail').value;
-        if(email !== "") {
-            // แสดงผลตอนล็อกอินสำเร็จ
-            authBtn.style.display = 'none';
-            userProfile.style.display = 'flex';
-            userNameDisplay.innerText = email.split('@')[0]; // เอาชื่อหน้า @ มาแสดง
-            
-            // แสดงปุ่มออกจากระบบใน Side Menu และซ่อนปุ่มล็อกอินเดิม
-            logoutBtn.classList.add('show');
-            sideLoginBtn.style.display = 'none';
-            
-            closeModal();
-            alert('เข้าสู่ระบบสำเร็จ!');
-        } else {
-            alert('กรุณากรอกอีเมล');
-        }
-    }
+  if(!email || !pass || !confirm){
+    alert("กรอกข้อมูลให้ครบ");
+    return;
+  }
 
-    // ฟังก์ชันออกจากระบบ
-    function logout() {
-        authBtn.style.display = 'flex';
-        userProfile.style.display = 'none';
-        logoutBtn.classList.remove('show');
-        sideLoginBtn.style.display = 'block';
-        closeMenu();
-        alert('ออกจากระบบแล้ว');
-    }
+  if(pass.length < 8){
+    alert("รหัสผ่านต้องอย่างน้อย 8 ตัว");
+    return;
+  }
+
+  if(pass !== confirm){
+    alert("รหัสผ่านไม่ตรงกัน");
+    return;
+  }
+
+  let users = JSON.parse(localStorage.getItem("users") || "{}");
+
+  if(users[email]){
+    alert("อีเมลนี้ถูกใช้แล้ว");
+    return;
+  }
+
+  users[email] = pass;
+  localStorage.setItem("users", JSON.stringify(users));
+
+  alert("สมัครสำเร็จ");
+  closeModal("registerModal");
+  openLogin();
+}
+
+// ล็อคอิน
+function handleLogin(){
+  const email = document.getElementById("loginEmail").value.trim();
+  const pass = document.getElementById("loginPass").value;
+
+  let users = JSON.parse(localStorage.getItem("users") || "{}");
+
+  if(!users[email]){
+    alert("ยังไม่ได้สมัครสมาชิก");
+    return;
+  }
+
+  if(users[email] !== pass){
+    alert("รหัสผ่านผิด");
+    return;
+  }
+
+  alert("เข้าสู่ระบบสำเร็จ");
+  closeModal("loginModal");
+}
 </script>
-
 </body>
 </html>
