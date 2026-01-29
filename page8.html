@@ -1,31 +1,44 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>หน้าหลัก - เว็บไซต์คำสั่ง Minecraft</title>
-    <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>หน้าแรก - MC Command</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="commands.html">คำสั่งทั้งหมด</a></li>
-                <li><a href="about.html">เกี่ยวกับเว็บ</a></li>
-                <li><a href="map.html">ระบบแมพ</a></li>
-                <li><a href="features.html">จุดเด่น: Bedrock 100% ก็อปใช้ได้</a></li>
-                <li><a href="guide.html">แนะนำ: วิธีติดตั้งคำสั่ง</a></li>
-                <li><a href="rules.html">กฎการใช้งาน: ห้ามแจกคำสั่งผิด</a></li>
-                <li><a href="https://t.me/yourchannel" target="_blank">ติดต่อเรา: t.me/yourchannel</a></li>
-                <li><a href="faq.html">FAQ: คำถามที่พบบ่อย</a></li>
-            </ul>
-        </nav>
-    </header>
+  <div class="container">
+    <!-- เมนูด้านซ้าย -->
+    <nav class="sidebar">
+      <ul>
+        <li><a href="features.html" target="_blank">จุดเด่น: Bedrock 100% ก็อปใช้ได้</a></li>
+        <li><a href="how-to-install.html" target="_blank">แนะนำ: วิธีติดตั้งคำสั่ง</a></li>
+        <li><a href="rules.html" target="_blank">กฎการใช้งาน: ห้ามแจกคำสั่งผิด</a></li>
+        <li><a href="contact.html" target="_blank">ติดต่อเรา: t.me/yourchannel</a></li>
+        <li><a href="faq.html" target="_blank">FAQ: คำถามที่พบบ่อย</a></li>
+      </ul>
+    </nav>
 
-    <main>
-        <h1>ยินดีต้อนรับสู่เว็บไซต์คำสั่ง Minecraft</h1>
-        <p>เว็บไซต์นี้เป็นแหล่งรวบรวมคำสั่งและชุดคำสั่งสำหรับเกม Minecraft โดยเฉพาะ เน้นความเข้ากันได้กับเวอร์ชัน Bedrock ซึ่งทีมงานของเราพยายามคัดสรรและทดสอบคำสั่งต่าง ๆ ให้ใช้งานได้อย่างเต็มประสิทธิภาพ 100% ทั้งยังมีคำแนะนำในการติดตั้งและการใช้งาน ที่ถูกต้องและปลอดภัย</p>
-        <p>คุณสามารถเลือกเมนูด้านบนเพื่อไปยังหน้าต่าง ๆ เช่น ดู <strong>คำสั่งทั้งหมด</strong> ที่เราเตรียมไว้, ศึกษา <strong>วิธีติดตั้งคำสั่ง</strong>, รับชม <strong>ระบบแมพ</strong> ต่าง ๆ ที่จัดทำขึ้น หรืออ่าน <strong>กฎการใช้งาน</strong> ที่จะช่วยให้เว็บไซต์ของเราคงคุณภาพและความปลอดภัยสำหรับผู้ใช้ทุกคน</p>
-    </main>
+    <!-- เนื้อหาหลัก -->
+    <div class="content">
+      <h1>MC Command</h1>
+      <p>MC Command คือแหล่งรวบรวมคำสั่งมายคราฟต์เวอร์ชัน Bedrock 100% ที่ใช้งานได้จริง พร้อมคำแนะนำการติดตั้งและตัวอย่างการใช้งานต่าง ๆ</p>
+
+      <!-- กล่องตัวเลือก 3 กล่อง -->
+      <div class="home-boxes">
+        <a href="commands.html" target="_blank" class="box">
+          <h2>ใช้งานจริง</h2>
+          <p>ตัวอย่างคำสั่งใช้งานจริง พร้อมวิธีใช้ที่ชัดเจน</p>
+        </a>
+        <a href="map-system.html" target="_blank" class="box">
+          <h2>จัดระบบ</h2>
+          <p>แสดงระบบแผนผังและการจัดการคำสั่งอย่างเป็นระเบียบ</p>
+        </a>
+        <a href="features.html" target="_blank" class="box">
+          <h2>จัดระบบ — แนวทาง</h2>
+          <p>คำแนะนำการจัดระบบคำสั่งและแนวทางปฏิบัติที่ถูกต้อง</p>
+        </a>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
