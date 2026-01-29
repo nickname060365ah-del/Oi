@@ -1,99 +1,31 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>MC Command Bedrock</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>หน้าหลัก - เว็บไซต์คำสั่ง Minecraft</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="topbar">
-    <button id="openMenuBtn" class="hamburger" aria-label="เปิดเมนู">☰</button>
-    <div class="brand">
-      <a href="index.html" class="logo">MC Command</a>
-    </div>
-  </header>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="commands.html">คำสั่งทั้งหมด</a></li>
+                <li><a href="about.html">เกี่ยวกับเว็บ</a></li>
+                <li><a href="map.html">ระบบแมพ</a></li>
+                <li><a href="features.html">จุดเด่น: Bedrock 100% ก็อปใช้ได้</a></li>
+                <li><a href="guide.html">แนะนำ: วิธีติดตั้งคำสั่ง</a></li>
+                <li><a href="rules.html">กฎการใช้งาน: ห้ามแจกคำสั่งผิด</a></li>
+                <li><a href="https://t.me/yourchannel" target="_blank">ติดต่อเรา: t.me/yourchannel</a></li>
+                <li><a href="faq.html">FAQ: คำถามที่พบบ่อย</a></li>
+            </ul>
+        </nav>
+    </header>
 
-  <!-- side menu -->
-  <aside id="sideMenu" class="side-menu" aria-hidden="true">
-    <div class="side-head">
-      <h2>เมนู</h2>
-      <button id="closeMenuBtn" class="close" aria-label="ปิดเมนู">✕</button>
-    </div>
-
-    <nav class="main-links">
-      <a href="commands.html">คำสั่งทั้งหมด</a>
-      <a href="about.html">เกี่ยวกับเว็บ</a>
-      <a href="map.html">ระบบแมพ</a>
-    </nav>
-
-    <hr class="sep">
-
-    <!-- ข้อความด้านล่าง ตามที่สั่ง: ไม่มีสีเขียว ไม่มีตัวเลข -->
-    <div class="menu-info">
-      <div class="info-item">จุดเด่น: Bedrock แท้ 100% ก็อปใช้ได้จริง</div>
-      <div class="info-item">แนะนำ: วิธีติดตั้งคำสั่ง สำหรับมือใหม่</div>
-      <div class="info-item">กฎการใช้งาน: ห้ามแจกคำสั่งผิด</div>
-      <div class="info-item">ติดต่อเรา: t.me/yourchannel</div>
-      <div class="info-item">FAQ: คำถามที่พบบ่อย</div>
-    </div>
-  </aside>
-
-  <!-- main content -->
-  <main class="page">
-    <section class="hero">
-      <h1>เว็บแจกคำสั่ง<br>Minecraft Bedrock</h1>
-      <p class="lead">รวมคำสั่ง Bedrock 100% ที่ทดสอบแล้ว ก็อปไปใช้ได้เลย — เหมาะสำหรับสายทำแมพและสายระบบ</p>
-
-      <div class="card-grid">
-        <a class="card" href="commands.html">
-          <h3>Bedrock แท้</h3>
-          <p>ไม่มีคำสั่ง Java ปน ใช้งานได้จริง</p>
-        </a>
-
-        <a class="card" href="commands.html">
-          <h3>ใช้งานจริง</h3>
-          <p>ก็อปแล้วใส่ได้เลย ไม่ต้องแก้รูปแบบ</p>
-        </a>
-
-        <a class="card" href="map.html">
-          <h3>จัดระบบ</h3>
-          <p>ออกแบบสำหรับคนทำแมพและระบบ</p>
-        </a>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div>© MC Command Bedrock</div>
-  </footer>
-
-<script>
-  const side = document.getElementById('sideMenu');
-  const openBtn = document.getElementById('openMenuBtn');
-  const closeBtn = document.getElementById('closeMenuBtn');
-
-  function openMenu(){
-    side.classList.add('visible');
-    side.setAttribute('aria-hidden','false');
-  }
-  function closeMenu(){
-    side.classList.remove('visible');
-    side.setAttribute('aria-hidden','true');
-  }
-
-  openBtn.addEventListener('click', openMenu);
-  closeBtn.addEventListener('click', closeMenu);
-
-  // ปิดเมนูเมื่อคลิกลิงก์ (ไปหน้าใหม่จะโหลดหน้าใหม่จริง ๆ)
-  document.querySelectorAll('.main-links a').forEach(a=>{
-    a.addEventListener('click', ()=> closeMenu());
-  });
-
-  // ปิดเมนูด้วย Escape
-  window.addEventListener('keydown', (e)=>{
-    if(e.key === 'Escape') closeMenu();
-  });
-</script>
+    <main>
+        <h1>ยินดีต้อนรับสู่เว็บไซต์คำสั่ง Minecraft</h1>
+        <p>เว็บไซต์นี้เป็นแหล่งรวบรวมคำสั่งและชุดคำสั่งสำหรับเกม Minecraft โดยเฉพาะ เน้นความเข้ากันได้กับเวอร์ชัน Bedrock ซึ่งทีมงานของเราพยายามคัดสรรและทดสอบคำสั่งต่าง ๆ ให้ใช้งานได้อย่างเต็มประสิทธิภาพ 100% ทั้งยังมีคำแนะนำในการติดตั้งและการใช้งาน ที่ถูกต้องและปลอดภัย</p>
+        <p>คุณสามารถเลือกเมนูด้านบนเพื่อไปยังหน้าต่าง ๆ เช่น ดู <strong>คำสั่งทั้งหมด</strong> ที่เราเตรียมไว้, ศึกษา <strong>วิธีติดตั้งคำสั่ง</strong>, รับชม <strong>ระบบแมพ</strong> ต่าง ๆ ที่จัดทำขึ้น หรืออ่าน <strong>กฎการใช้งาน</strong> ที่จะช่วยให้เว็บไซต์ของเราคงคุณภาพและความปลอดภัยสำหรับผู้ใช้ทุกคน</p>
+    </main>
 </body>
 </html>
