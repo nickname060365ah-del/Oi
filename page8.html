@@ -3,334 +3,274 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>MC Command - Bedrock</title>
+<title>MC Command — Bedrock</title>
 <style>
 /* reset + base */
-*{box-sizing:border-box;margin:0;padding:0;font-family:Tahoma,Arial,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
-body{background:#0e0e0e;color:#fff;-webkit-font-smoothing:antialiased}
-a{color:inherit;text-decoration:none}
-button{cursor:pointer;border:0;background:transparent}
+body{
+  background:#0e0e0e;
+  color:#fff;
+  font-family: "Noto Sans Thai", Tahoma, Arial, sans-serif;
+  -webkit-font-smoothing:antialiased;
+  -webkit-tap-highlight-color: transparent; /* ปิดสี่เหลี่ยมมือถือ */
+  touch-action: manipulation;
+}
 
 /* header */
-header{position:sticky;top:0;background:#0f0f0f;border-bottom:1px solid #1b1b1b;z-index:40}
-.header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;padding:14px 16px;gap:12px}
-.hamburger{width:36px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center}
-.hamburger svg{width:22px;height:22px;fill:#cfdfff}
-.logo{font-size:22px;font-weight:700;color:#4da3ff;margin-left:6px}
+header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:#0b0b0b;
+  border-bottom:1px solid #141414;
+}
+.header-inner{
+  max-width:1200px;margin:0 auto;display:flex;align-items:center;padding:14px 16px;gap:12px;
+}
+.hamburger{
+  font-size:26px;color:#fff;cursor:pointer;
+  width:44px;height:44px;display:flex;align-items:center;justify-content:center;
+}
+.logo{color:#4da3ff;font-weight:700;font-size:22px;margin-left:6px}
 .spacer{flex:1}
-.auth-btn{background:#4da3ff;color:#000;padding:8px 14px;border-radius:8px;font-weight:700}
-.user-box{display:none;align-items:center;gap:10px}
-.user-box img{width:34px;height:34px;border-radius:50%;background:#4da3ff}
-.user-box span{font-size:14px;color:#dff}
+
+/* top button (เอาไว้แต่ยังไม่ใช่ล็อคอิน) */
+.top-btn{
+  background:#4da3ff;color:#000;padding:8px 14px;border-radius:8px;font-weight:700;border:none;cursor:pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.top-btn:focus{outline:none;box-shadow:none}
 
 /* side menu */
-.side-wrap{position:fixed;inset:0;display:none;z-index:50}
-.side-wrap.show{display:block}
-.side-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.45)}
-.side{position:absolute;left:0;top:0;width:320px;max-width:78vw;height:100%;background:#0b0b0b;border-right:1px solid #171717;padding:22px 18px;transform:translateX(-10%);transition:transform .26s ease}
-.side.show{transform:translateX(0)}
-.side h3{color:#4da3ff;margin-bottom:12px;font-size:20px}
-.side a.item{display:block;padding:14px 6px;border-bottom:1px solid #121212;color:#ddd}
-.side .note{font-size:13px;opacity:.75;padding:12px 6px}
-.side .five{margin-top:10px;padding:8px;background:#0d0d0d;border-radius:8px}
-.side .five p{padding:8px 6px;border-bottom:1px solid #0f0f0f;color:#cfe}
-.side .logout{margin-top:auto;color:#ff4d4d;text-decoration:underline;display:none;padding:12px 6px}
+.side-wrap{position:fixed;left:0;top:0;height:100%;width:320px;max-width:86%;transform:translateX(-110%);transition:transform .28s ease;background:#0f0f0f;border-right:1px solid #171717;z-index:2000;padding:22px 18px;display:flex;flex-direction:column}
+.side-wrap.open{transform:translateX(0)}
+.side-close{position:absolute;right:12px;top:12px;font-size:28px;cursor:pointer;color:#fff}
+.side-title{color:#4da3ff;font-size:22px;margin-bottom:18px}
+.side-item{padding:14px 6px;border-bottom:1px solid #151515;color:#fff;display:flex;align-items:center;justify-content:space-between;text-decoration:none}
+.side-item .arrow{color:#9aa;opacity:.6}
 
-/* hero */
-.container{max-width:1100px;margin:28px auto;padding:0 16px}
-.hero h1{font-size:44px;line-height:1.02;margin-bottom:18px}
-.hero p{color:#bfc6cc;max-width:700px;margin-bottom:24px}
-.cta{display:flex;gap:14px}
-.btn-main{background:#4da3ff;color:#000;padding:14px 22px;border-radius:10px;font-weight:700}
-.btn-alt{background:#161616;border:1px solid #262626;padding:14px 22px;border-radius:10px;color:#ddd}
+/* extra textual boxes (5 ข้อความในเมนู) */
+.side-extra{margin-top:12px;padding:10px;border-radius:10px;background:#0d0d0d;color:#cfeeea;line-height:1.5}
+.side-extra li{padding:8px 0;list-style:none}
 
-/* cards */
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:30px}
-.card{background:#0d0d0d;border:1px solid #121212;border-radius:12px;padding:18px}
-.card h3{color:#4da3ff;margin-bottom:8px}
+/* main content */
+.container{max-width:1100px;margin:36px auto;padding:0 16px}
+.hero{padding:20px 0 26px}
+.hero h1{font-size:36px;line-height:1.05;margin-bottom:12px}
+.hero p{opacity:.85;margin-bottom:20px}
 
-/* modal */
-.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.55);z-index:60;padding:22px}
-.modal.show{display:flex}
-.modal-box{background:#0f0f0f;border-radius:12px;padding:20px;width:100%;max-width:440px;border:1px solid #222;box-shadow:0 8px 30px rgba(0,0,0,.6)}
-.modal-box h3{text-align:center;margin-bottom:16px;font-size:20px}
-.modal-box label{display:block;margin-top:10px;margin-bottom:6px;color:#d7dde2}
-.modal-box input{width:100%;padding:12px;border-radius:8px;border:1px solid #252525;background:#070707;color:#fff}
-.row{display:flex;gap:8px;align-items:center}
-.err{color:#ff6b6b;font-size:13px;margin-top:8px;display:none}
+/* three cards */
+.cards{display:flex;flex-direction:column;gap:18px}
+@media(min-width:760px){.cards{flex-direction:row}}
+.card{
+  background:#111;border:1px solid #1b1b1b;padding:22px;border-radius:12px;text-decoration:none;color:#fff;
+  transition:transform .12s ease, background .12s ease;cursor:pointer;
+}
+.card h3{color:#4da3ff;margin-bottom:6px;font-size:20px}
+.card p{opacity:.9}
 
-/* password toggle */
-.pw-wrap{position:relative}
-.pw-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:transparent;color:#bfc6cc}
+/* hover */
+.card:hover{transform:translateY(-4px);background:#121212}
 
-/* small */
-@media (max-width:700px){ .hero h1{font-size:36px} .header-inner{padding:12px} }
+/* content panes */
+.content-pane{margin-top:28px;background:#090909;border:1px solid #121212;padding:18px;border-radius:12px;display:none}
+.content-pane.active{display:block}
+
+/* footer */
+footer{margin-top:40px;padding:26px 0;text-align:center;color:#9a9a9a}
+
+/* remove focus ring globally */
+:focus{outline:none;box-shadow:none}
+
+/* prevent blue highlight on Android chrome when clicking links */
+a, button { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+
+/* small UI niceties */
+.small-muted{color:#9aa; font-size:13px}
+.menu-spacer{height:12px}
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <header>
   <div class="header-inner">
-    <button class="hamburger" id="hamburger" aria-label="เมนู">
-      <!-- simple 3-lines icon -->
-      <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="2"></rect><rect x="3" y="11" width="18" height="2"></rect><rect x="3" y="17" width="18" height="2"></rect></svg>
-    </button>
-
+    <div class="hamburger" id="hamburger" aria-label="เปิดเมนู">☰</div>
     <div class="logo">MC Command</div>
     <div class="spacer"></div>
-
-    <div class="user-box" id="userBox">
-      <img id="avatar" src="" alt="avatar">
-      <span id="userLabel">user</span>
-    </div>
-
-    <button class="auth-btn" id="authBtn">เข้าสู่ระบบ</button>
+    <!-- ไม่มีปุ่มเข้าสู่ระบบอีกแล้ว (ลบตามคำสั่ง) -->
   </div>
 </header>
 
-<!-- side menu -->
-<div class="side-wrap" id="sideWrap" aria-hidden="true">
-  <div class="side-overlay" id="sideOverlay"></div>
-  <aside class="side" id="side">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <h3>เมนู</h3>
-      <button id="sideClose" aria-label="ปิด">✕</button>
-    </div>
+<!-- SIDE MENU (ซ่อน/โชว์) -->
+<div class="side-wrap" id="sideWrap" role="navigation" aria-hidden="true">
+  <div class="side-close" id="sideClose">×</div>
+  <div class="side-title">เมนู</div>
 
-    <a class="item" href="#">คำสั่งทั้งหมด ›</a>
-    <a class="item" href="#">คำสั่งพื้นฐาน ›</a>
-    <a class="item" href="#">คำสั่งขั้นสูง ›</a>
-    <a class="item" href="#">ระบบแมพ ›</a>
+  <a class="side-item" href="#commands" data-target="commands">
+    <span>คำสั่งทั้งหมด</span><span class="arrow">›</span>
+  </a>
 
-    <div class="note">ข้อมูลเว็บสั้น ๆ</div>
+  <a class="side-item" href="#about" data-target="about">
+    <span>เกี่ยวกับเว็บ</span><span class="arrow">›</span>
+  </a>
 
-    <div class="five" aria-hidden="false">
-      <p>1. Bedrock แท้ — คำสั่งจริง</p>
-      <p>2. ใช้งานจริง — ก็อปแล้วใช้ได้</p>
-      <p>3. จัดระบบ — เหมาะกับแมพ</p>
-      <p>4. คู่มือเล็ก — Tips & Tricks</p>
-      <p>5. ติดต่อเรา — ช่องทาง</p>
-    </div>
+  <a class="side-item" href="#map" data-target="map">
+    <span>ระบบแมพ</span><span class="arrow">›</span>
+  </a>
 
-    <a class="item" id="sideLoginLink">เข้าสู่ระบบ</a>
-    <a class="logout" id="sideLogout">ออกจากระบบ</a>
-  </aside>
+  <a class="side-item" href="#howto" data-target="howto">
+    <span>วิธีติดตั้งคำสั่ง</span><span class="arrow">›</span>
+  </a>
+
+  <div class="menu-spacer"></div>
+
+  <div class="side-extra" aria-hidden="false">
+    <li>1. จุดเด่น: Bedrock แท้ 100%</li>
+    <li>2. แนะนำ: วิธีติดตั้งคำสั่ง</li>
+    <li>3. กฎการใช้งาน: ห้ามแจกคำสั่งผิด</li>
+    <li>4. ติดต่อเรา: t.me/yourchannel</li>
+    <li>5. FAQ: คำถามที่พบบ่อย</li>
+  </div>
 </div>
 
+<!-- MAIN -->
 <main class="container">
   <section class="hero">
-    <h1>เว็บแจกคำสั่ง<br>Minecraft Bedrock</h1>
-    <p>Bedrock แท้ 100% ก็อปใช้ได้จริง ไม่ปน Java — สำหรับสายทำแมพจริงจัง</p>
-    <div class="cta">
-      <a class="btn-main" href="#">ดูคำสั่งทั้งหมด</a>
-      <a class="btn-alt" href="#">เกี่ยวกับเว็บนี้</a>
-    </div>
-
-    <div class="cards" style="margin-top:28px">
-      <div class="card"><h3>Bedrock แท้</h3><p>ไม่มีคำสั่ง Java ปน</p></div>
-      <div class="card"><h3>ใช้งานจริง</h3><p>ก็อปแล้วใช้ได้เลย</p></div>
-      <div class="card"><h3>จัดระบบ</h3><p>เหมาะกับสายทำแมพ</p></div>
-    </div>
+    <h1>เว็บแจกคำสั่ง<br/>Minecraft Bedrock</h1>
+    <p class="small-muted">Bedrock แท้ 100% — ก็อปแล้วใช้ได้จริง สำหรับสายทำแมพ</p>
   </section>
+
+  <!-- three cards -->
+  <section class="cards" id="cards">
+    <a class="card" data-open="pane-bedrock" href="javascript:void(0)">
+      <h3>Bedrock แท้</h3>
+      <p>ไม่มีคำสั่ง Java ปน — ใช้ได้จริง</p>
+    </a>
+
+    <a class="card" data-open="pane-use" href="javascript:void(0)">
+      <h3>ใช้งานจริง</h3>
+      <p>ก็อปแล้วใช้ได้เลย — ตัวอย่างพร้อม</p>
+    </a>
+
+    <a class="card" data-open="pane-map" href="javascript:void(0)">
+      <h3>จัดระบบ</h3>
+      <p>เหมาะกับสายทำแมพ — ระบบ & สคริปต์</p>
+    </a>
+  </section>
+
+  <!-- content panes (แสดงเมื่อกด) -->
+  <section id="contentArea">
+    <article id="pane-bedrock" class="content-pane">
+      <h3>Bedrock แท้ — คำอธิบาย</h3>
+      <p>รวมคำสั่งที่เป็น Bedrock 100% ใช้งานได้จริง ไม่ใส่ Java command ใด ๆ</p>
+      <pre style="white-space:pre-wrap;background:#070707;padding:12px;border-radius:8px;margin-top:12px;color:#cde">
+/give @s diamond 1
+/setblock ~ ~-1 ~ dirt
+# ตัวอย่างคำสั่ง Bedrock (ก็อปไปใช้ได้เลย)
+      </pre>
+    </article>
+
+    <article id="pane-use" class="content-pane">
+      <h3>ใช้งานจริง — ตัวอย่าง</h3>
+      <p>วิธีใช้ตัวอย่างคำสั่ง หรือระบบที่วงในแมพ</p>
+      <ol style="margin-top:10px;color:#cde">
+        <li>Copy คำสั่ง</li>
+        <li>วางลงใน command block</li>
+        <li>ทดสอบในแมพ Bedrock</li>
+      </ol>
+    </article>
+
+    <article id="pane-map" class="content-pane">
+      <h3>จัดระบบ — แนวทาง</h3>
+      <p>แบ่งหมวดคำสั่งให้เป็นระบบ เช่น ระบบแมพ, ระบบ NPC, ระบบ economy</p>
+    </article>
+  </section>
+
+  <footer>
+    <div>© MC Command Bedrock</div>
+  </footer>
 </main>
 
-<footer style="padding:28px 0;text-align:center;color:#999">© MC Command Bedrock</footer>
-
-<!-- LOGIN MODAL -->
-<div class="modal" id="modalLogin" aria-hidden="true">
-  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
-    <h3 id="loginTitle">เข้าสู่ระบบ</h3>
-    <label>อีเมล</label>
-    <input id="loginEmail" type="email" autocomplete="username" placeholder="example@mail.com">
-    <label style="margin-top:10px">รหัสผ่าน</label>
-    <div class="pw-wrap" style="margin-bottom:6px">
-      <input id="loginPass" type="password" autocomplete="current-password" placeholder="อย่างน้อย 8 ตัว">
-      <button class="pw-toggle" id="loginToggle" aria-label="ดูรหัส">👁</button>
-    </div>
-    <div class="err" id="loginErr">ข้อความผิดพลาด</div>
-    <div style="margin-top:12px">
-      <button class="btn-main" id="doLogin" style="width:100%">เข้าสู่ระบบ</button>
-    </div>
-    <div style="margin-top:12px;text-align:center;color:#9fb">ยังไม่มีบัญชี? <a href="#" id="openRegisterLink">สมัครสมาชิก</a></div>
-  </div>
-</div>
-
-<!-- REGISTER MODAL -->
-<div class="modal" id="modalRegister" aria-hidden="true">
-  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="regTitle">
-    <h3 id="regTitle">สมัครสมาชิก</h3>
-    <label>ชื่อเล่น</label>
-    <input id="regNick" type="text" placeholder="ชื่อที่จะแสดง">
-    <label>อีเมล</label>
-    <input id="regEmail" type="email" placeholder="example@mail.com">
-    <div class="err" id="regEmailErr">อีเมลนี้ถูกใช้ไปแล้ว</div>
-    <label style="margin-top:10px">รหัสผ่าน</label>
-    <div class="pw-wrap" style="margin-bottom:6px">
-      <input id="regPass" type="password" placeholder="อย่างน้อย 8 ตัว">
-      <button class="pw-toggle" id="regToggle">👁</button>
-    </div>
-    <label>ยืนยันรหัสผ่าน</label>
-    <div class="pw-wrap" style="margin-bottom:6px">
-      <input id="regConfirm" type="password" placeholder="พิมพ์ซ้ำอีกครั้ง">
-      <button class="pw-toggle" id="regConfirmToggle">👁</button>
-    </div>
-    <div class="err" id="regPassErr">รหัสไม่ตรง / ความยาวน้อย</div>
-    <div style="margin-top:12px">
-      <button class="btn-main" id="doRegister" style="width:100%">สมัครสมาชิก</button>
-    </div>
-    <div style="margin-top:12px;text-align:center;color:#9fb">มีบัญชีแล้ว? <a href="#" id="openLoginLink">เข้าสู่ระบบ</a></div>
-  </div>
-</div>
-
 <script>
-/* helper */
-const $ = id => document.getElementById(id)
-const qs = s => document.querySelector(s)
+/* menu toggle */
+const hamburger = document.getElementById('hamburger');
+const sideWrap = document.getElementById('sideWrap');
+const sideClose = document.getElementById('sideClose');
 
-/* elements */
-const hamburger = $('hamburger')
-const sideWrap = $('sideWrap'), side = $('side'), sideOverlay = $('sideOverlay'), sideClose = $('sideClose')
-const sideLoginLink = $('sideLoginLink'), sideLogout = $('sideLogout')
-const authBtn = $('authBtn'), userBox = $('userBox'), userLabel = $('userLabel'), avatar = $('avatar')
-
-const modalLogin = $('modalLogin'), modalRegister = $('modalRegister')
-const loginEmail = $('loginEmail'), loginPass = $('loginPass'), loginErr = $('loginErr'), loginToggle = $('loginToggle'), doLogin = $('doLogin')
-const openRegisterLink = $('openRegisterLink')
-const regNick = $('regNick'), regEmail = $('regEmail'), regPass = $('regPass'), regConfirm = $('regConfirm')
-const regEmailErr = $('regEmailErr'), regPassErr = $('regPassErr'), doRegister = $('doRegister'), openLoginLink = $('openLoginLink')
-const regToggle = $('regToggle'), regConfirmToggle = $('regConfirmToggle')
-
-/* storage key */
-const USERS_KEY = 'mc_users_v1'
-const CURR_KEY = 'mc_current_v1'
-
-/* util: get users object from localStorage */
-function loadUsers(){
-  try{
-    const raw = localStorage.getItem(USERS_KEY)
-    return raw ? JSON.parse(raw) : {}
-  }catch(e){ return {} }
+function openSide(){
+  sideWrap.classList.add('open');
+  sideWrap.setAttribute('aria-hidden','false');
 }
-function saveUsers(obj){ localStorage.setItem(USERS_KEY, JSON.stringify(obj)) }
+function closeSide(){
+  sideWrap.classList.remove('open');
+  sideWrap.setAttribute('aria-hidden','true');
+}
+hamburger.addEventListener('click', openSide);
+sideClose.addEventListener('click', closeSide);
 
-/* UI: open/close side */
-function openSide(){ sideWrap.classList.add('show'); side.classList.add('show'); sideWrap.setAttribute('aria-hidden','false') }
-function closeSide(){ side.classList.remove('show'); sideWrap.classList.remove('show'); sideWrap.setAttribute('aria-hidden','true') }
+/* clicking menu items: scroll or show specific pane */
+document.querySelectorAll('.side-item').forEach(item=>{
+  item.addEventListener('click', e=>{
+    e.preventDefault();
+    const target = item.getAttribute('data-target');
+    closeSide();
+    if(!target) return;
+    if(target === 'commands'){
+      // show commands pane (we'll open Bedrock pane as default)
+      openPane('pane-bedrock');
+      scrollIntoView('#contentArea');
+    } else if(target === 'about'){
+      alert('เกี่ยวกับเว็บ: รวมคำสั่ง Bedrock 100%');
+    } else if(target === 'map'){
+      openPane('pane-map'); scrollIntoView('#contentArea');
+    } else if(target === 'howto'){
+      openPane('pane-use'); scrollIntoView('#contentArea');
+    }
+  })
+});
 
-/* UI: open/close modals */
-function openModal(m){ m.classList.add('show'); m.setAttribute('aria-hidden','false') }
-function closeModal(m){ m.classList.remove('show'); m.setAttribute('aria-hidden','true') }
+/* cards open panes */
+document.querySelectorAll('.card').forEach(c=>{
+  c.addEventListener('click', ()=>{
+    const pane = c.getAttribute('data-open');
+    if(pane) openPane(pane);
+    scrollIntoView('#contentArea');
+  });
+});
 
-/* password toggle helper */
-function toggleInputPw(inputEl, toggleEl){
-  if (inputEl.type === 'password'){ inputEl.type = 'text'; toggleEl.textContent = '🙈' } 
-  else { inputEl.type = 'password'; toggleEl.textContent = '👁' }
+function openPane(id){
+  // hide all panes
+  document.querySelectorAll('.content-pane').forEach(p=>p.classList.remove('active'));
+  const el = document.getElementById(id);
+  if(el) el.classList.add('active');
 }
 
-/* update header based on login */
-function refreshAuthUI(){
-  const curr = localStorage.getItem(CURR_KEY)
-  if(curr){
-    // logged in
-    const users = loadUsers()
-    const u = users[curr]
-    authBtn.style.display = 'none'
-    userBox.style.display = 'flex'
-    userLabel.textContent = u && u.nick ? u.nick : curr.split('@')[0]
-    avatar.src = u && u.avatar ? u.avatar : `https://ui-avatars.com/api/?name=${encodeURIComponent(userLabel.textContent)}&background=4da3ff&color=fff`
-    sideLogout.style.display = 'block'
-    sideLoginLink.style.display = 'none'
-  } else {
-    authBtn.style.display = 'inline-flex'
-    userBox.style.display = 'none'
-    sideLogout.style.display = 'none'
-    sideLoginLink.style.display = 'block'
+/* helper scroll */
+function scrollIntoView(sel){
+  const el = document.querySelector(sel);
+  if(!el) return;
+  setTimeout(()=> el.scrollIntoView({behavior:'smooth',block:'start'}), 120);
+}
+
+/* accessibility: close side when tapping outside on mobile */
+document.addEventListener('click', function(e){
+  if(sideWrap.classList.contains('open')){
+    const inside = sideWrap.contains(e.target) || hamburger.contains(e.target);
+    if(!inside) closeSide();
   }
-}
+});
 
-/* validations */
-function isEmail(val){ return /\S+@\S+\.\S+/.test(val) }
+/* keyboard: escape closes side */
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape'){
+    if(sideWrap.classList.contains('open')) closeSide();
+  }
+});
 
-/* login flow */
-function tryLogin(){
-  loginErr.style.display = 'none'
-  const email = loginEmail.value.trim().toLowerCase()
-  const pass = loginPass.value
-  if(!email || !pass){ loginErr.style.display='block'; loginErr.textContent='กรุณากรอกข้อมูลให้ครบ' ; return }
-  if(!isEmail(email)){ loginErr.style.display='block'; loginErr.textContent='รูปแบบอีเมลไม่ถูกต้อง'; return }
-  const users = loadUsers()
-  if(!users[email]){ loginErr.style.display='block'; loginErr.textContent='อีเมลยังไม่ถูกสมัคร'; return }
-  if(users[email].pass !== pass){ loginErr.style.display='block'; loginErr.textContent='รหัสผ่านไม่ถูกต้อง'; return }
-  // success
-  localStorage.setItem(CURR_KEY, email)
-  closeModal(modalLogin)
-  refreshAuthUI()
-  alert('เข้าสู่ระบบสำเร็จ')
-}
-
-/* register flow */
-function tryRegister(){
-  regEmailErr.style.display = 'none'; regPassErr.style.display = 'none'
-  const nick = regNick.value.trim()
-  const email = regEmail.value.trim().toLowerCase()
-  const pass = regPass.value
-  const confirm = regConfirm.value
-
-  if(!nick || !email || !pass || !confirm){ regPassErr.style.display='block'; regPassErr.textContent='กรุณากรอกข้อมูลให้ครบ'; return }
-  if(!isEmail(email)){ regEmailErr.style.display='block'; regEmailErr.textContent='รูปแบบอีเมลไม่ถูกต้อง'; return }
-  if(pass.length < 8){ regPassErr.style.display='block'; regPassErr.textContent='รหัสผ่านต้องมีอย่างน้อย 8 ตัว'; return }
-  if(pass !== confirm){ regPassErr.style.display='block'; regPassErr.textContent='รหัสผ่านไม่ตรงกัน'; return }
-
-  const users = loadUsers()
-  if(users[email]){ regEmailErr.style.display='block'; regEmailErr.textContent='อีเมลนี้ถูกใช้ไปแล้ว'; return }
-
-  // create user (client-side). Note: cross-device requires server.
-  users[email] = { nick: nick, pass: pass, created: Date.now() }
-  saveUsers(users)
-
-  closeModal(modalRegister)
-  alert('สมัครสำเร็จ กรุณาเข้าสู่ระบบ')
-  openModal(modalLogin)
-}
-
-/* logout */
-function doLogout(){ localStorage.removeItem(CURR_KEY); refreshAuthUI(); alert('ออกจากระบบแล้ว') }
-
-/* event listeners */
-document.addEventListener('DOMContentLoaded', () => {
-  // side menu
-  hamburger.addEventListener('click', openSide)
-  sideOverlay.addEventListener('click', closeSide)
-  sideClose.addEventListener('click', closeSide)
-
-  // auth actions
-  authBtn.addEventListener('click', () => openModal(modalLogin))
-  sideLoginLink.addEventListener('click', () => { closeSide(); openModal(modalLogin) })
-  sideLogout.addEventListener('click', () => { closeSide(); doLogout() })
-
-  // modal open/close links
-  openRegisterLink.addEventListener('click', e => { e.preventDefault(); closeModal(modalLogin); openModal(modalRegister) })
-  openLoginLink.addEventListener('click', e => { e.preventDefault(); closeModal(modalRegister); openModal(modalLogin) })
-
-  // modal close by clicking outside (already overlay), also ESC
-  window.addEventListener('keydown', (e) => { if(e.key === 'Escape'){ closeModal(modalLogin); closeModal(modalRegister); closeSide() } })
-
-  // password toggle
-  loginToggle.addEventListener('click', () => toggleInputPw(loginPass, loginToggle))
-  regToggle.addEventListener('click', () => toggleInputPw(regPass, regToggle))
-  regConfirmToggle.addEventListener('click', () => toggleInputPw(regConfirm, regConfirmToggle))
-
-  // actions
-  doLogin.addEventListener('click', tryLogin)
-  doRegister.addEventListener('click', tryRegister)
-
-  // simple accessibility: tap header logo hides open menus
-  qs('.logo')?.addEventListener('click', () => { closeSide(); closeModal(modalLogin); closeModal(modalRegister) })
-
-  // init
-  refreshAuthUI()
-})
+/* initial: show nothing until user clicks (as requested) */
+/* NO login / NO auth code included anywhere */
 </script>
 </body>
- </html>
+  </html>
