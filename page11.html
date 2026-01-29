@@ -66,18 +66,20 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 /* pressed state for download button (scale down) */
 .btn.pressed{transform:scale(0.96);box-shadow:0 10px 28px rgba(77,163,255,.12)}
 
-/* small floating white square effect for download */
+/* small floating white square effect - initial hidden and absolute/fixed */
 .download-effect{
   position:fixed;
-  left:50%;
-  top:40%;
-  transform:translate(-50%,-50%) scale(.9);
-  width:72px;height:72px;border-radius:12px;background:rgba(255,255,255,0.95);
+  left:0; top:0;
+  width:0; height:0;
+  border-radius:12px;
+  background:rgba(255,255,255,0.95);
   box-shadow:0 20px 60px rgba(0,0,0,0.5);
-  opacity:0;pointer-events:none;z-index:130;transition:transform .36s cubic-bezier(.2,.9,.2,1),opacity .28s;
-  mix-blend-mode:screen;
+  opacity:0;pointer-events:none;z-index:130;
+  transition:transform .28s cubic-bezier(.2,.9,.2,1),opacity .24s, width .12s, height .12s, left .12s, top .12s, border-radius .12s;
+  transform:scale(.98);
 }
-.download-effect.show{opacity:0.9;transform:translate(-50%,-50%) scale(1);}
+/* made visible (overlay shows then fade) */
+.download-effect.show{opacity:0.95;transform:scale(1);}
 
 /* boxes - category cards & code blocks */
 .boxes{display:flex;flex-direction:column;gap:16px;will-change:transform,opacity}
@@ -235,7 +237,7 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   </main>
 </div>
 
-<!-- download white square effect -->
+<!-- download white square effect (will be positioned over the button) -->
 <div id="downloadEffect" class="download-effect" aria-hidden="true"></div>
 
 <div id="navFlash" class="navFlash" aria-hidden="true"></div>
@@ -310,20 +312,38 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     return visible.join("\n\n---\n\n");
   }
 
-  /* DOWNLOAD with visual effect */
+  /* DOWNLOAD with visual effect positioned over the button */
   downloadBtn.addEventListener('click', (e)=>{
-    // visual: button scale + show white rounded square in center
+    // button pressed visual
     downloadBtn.classList.add('pressed');
+
+    // compute button rect after paint (so mobile zoom/scroll accounted)
+    const rect = downloadBtn.getBoundingClientRect();
+    const style = window.getComputedStyle(downloadBtn);
+    const br = style.borderRadius || '12px';
+
+    // position the effect exactly over the button
+    downloadEffect.style.left = rect.left + 'px';
+    downloadEffect.style.top = rect.top + 'px';
+    downloadEffect.style.width = rect.width + 'px';
+    downloadEffect.style.height = rect.height + 'px';
+    downloadEffect.style.borderRadius = br;
+    // show effect
     downloadEffect.classList.add('show');
-    // remove visuals after short time
+
+    // remove pressed effect quickly
     setTimeout(()=> {
       downloadBtn.classList.remove('pressed');
-    }, 260);
+    }, 220);
+
+    // hide effect after short time
     setTimeout(()=> {
       downloadEffect.classList.remove('show');
+      // shrink to zero (optional smooth reset)
+      // keep properties until next click
     }, 420);
 
-    // real download logic (slightly delayed so effect is visible)
+    // real download (delay so effect visible)
     setTimeout(()=> {
       const text = collectVisibleCommands();
       if(!text){
