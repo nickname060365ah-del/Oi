@@ -5,119 +5,110 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>MC Command — Bedrock</title>
 <style>
-  /* reset & base */
-  :root{
-    --bg:#0d0d0d;
-    --panel:#0f0f10;
-    --muted:#9aa0a6;
-    --accent:#4da3ff;
-    --card:#111213;
-    --tap-gray: rgba(255,255,255,0.04);
-    --focus-gray: rgba(255,255,255,0.06);
-  }
-  html,body{height:100%;margin:0;background:var(--bg);color:#eee;font-family:Inter,Segoe UI,system-ui,Roboto,"Helvetica Neue",Arial;}
-  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;} /* remove blue on mobile */
-  a{color:inherit;text-decoration:none}
-  button{font-family:inherit}
+:root{
+  --bg:#0b0b0b;
+  --panel:#0f0f10;
+  --muted:#9aa0a6;
+  --accent:#4da3ff;
+  --card:#101112;
+  --tap-gray: rgba(255,255,255,0.03);
+  --focus-gray: rgba(255,255,255,0.06);
+}
+/* base reset */
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0;background:var(--bg);color:#eee;font-family:Inter, "Noto Sans", Roboto, system-ui, Arial;}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
 
-  /* header */
-  header{
-    display:flex;align-items:center;gap:14px;
-    padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.03);
-    background:linear-gradient(0deg, rgba(0,0,0,0.35), rgba(0,0,0,0.35));
-    position:sticky;top:0;z-index:50;
-  }
-  .hamburger{
-    width:36px;height:36px;border-radius:8px;display:grid;place-items:center;
-    cursor:pointer;background:transparent;border:1px solid rgba(255,255,255,0.03);
-  }
-  .brand{font-weight:800;color:var(--accent);font-size:24px;letter-spacing:0.2px}
-  .header-right{margin-left:auto;display:flex;align-items:center;gap:12px}
-  .header-img{
-    width:44px;height:36px;border-radius:8px;background-size:cover;background-position:center;border:1px solid rgba(255,255,255,0.04);
-    display:block;
-  }
+/* header */
+header{
+  display:flex;align-items:center;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.03);
+  position:sticky;top:0;z-index:60;background:linear-gradient(0deg, rgba(0,0,0,0.35), rgba(0,0,0,0.35));
+}
+.hamburger{width:40px;height:40px;border-radius:8px;display:grid;place-items:center;cursor:pointer;border:1px solid rgba(255,255,255,0.03)}
+.brand{font-weight:800;color:var(--accent);font-size:24px;margin-left:12px}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.header-img{width:44px;height:36px;border-radius:8px;background-size:cover;background-position:center;border:1px solid rgba(255,255,255,0.04)}
 
-  /* side menu (overlay) */
-  .side-overlay{position:fixed;inset:0;pointer-events:none;z-index:80;}
-  .side-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.45);opacity:0;transition:opacity .28s ease;pointer-events:none;}
-  .side-menu{
-    position:fixed;top:0;left:0;height:100%;width:82%;max-width:420px;
-    transform:translateX(-110%);background:linear-gradient(180deg,var(--panel),#0b0b0b);
-    box-shadow:2px 6px 28px rgba(0,0,0,0.6);border-right:1px solid rgba(255,255,255,0.02);
-    padding:18px 14px;transition:transform .32s cubic-bezier(.2,.9,.25,1);
-    pointer-events:auto;overflow:auto;border-radius:0 16px 16px 0;
-  }
-  .side-menu.open{transform:translateX(0)}
-  .side-backdrop.show{opacity:1;pointer-events:auto}
+/* side menu overlay */
+.side-overlay{position:fixed;inset:0;z-index:80;pointer-events:none}
+.side-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.45);opacity:0;transition:opacity .28s ease;pointer-events:none}
+.side-menu{
+  position:fixed;top:0;left:0;height:100%;width:80%;max-width:420px;
+  transform:translateX(-110%);background:var(--panel);padding:18px;border-right:1px solid rgba(255,255,255,0.02);
+  transition:transform .32s cubic-bezier(.2,.9,.25,1);pointer-events:auto;overflow:auto;border-radius:0 14px 14px 0;box-shadow:2px 8px 30px rgba(0,0,0,0.6)
+}
+.side-menu.open{transform:translateX(0)}
+.side-backdrop.show{opacity:1;pointer-events:auto}
 
-  .side-top{display:flex;align-items:center;gap:12px;padding-bottom:8px}
-  .side-title{font-size:22px;color:var(--accent);font-weight:700}
-  .side-close{margin-left:auto;width:40px;height:40px;border-radius:8px;display:grid;place-items:center;border:1px solid rgba(255,255,255,0.03);cursor:pointer}
+.side-top{display:flex;align-items:center;gap:12px;padding-bottom:8px}
+.side-title{font-size:22px;color:var(--accent);font-weight:700}
+.side-close{margin-left:auto;width:44px;height:44px;border-radius:10px;display:grid;place-items:center;border:1px solid rgba(255,255,255,0.04);cursor:pointer}
 
-  .side-list{margin-top:10px}
-  .side-item{padding:20px 12px;border-bottom:1px solid rgba(255,255,255,0.03);font-size:20px;color:#fff;display:flex;align-items:center;justify-content:space-between}
-  .side-item:active{background:var(--focus-gray)}
-  .side-card{margin:18px 8px;padding:14px;border-radius:12px;background:rgba(255,255,255,0.02);color:var(--muted);}
+/* menu items (ลดขนาดให้พอดีตามที่มึงขอ) */
+.side-list{margin-top:6px}
+.side-item{padding:18px 12px;border-bottom:1px solid rgba(255,255,255,0.03);font-size:18px;color:#fff;display:flex;align-items:center;justify-content:space-between}
+.side-item:active{background:var(--focus-gray)}
+.side-card{margin:18px 8px;padding:14px;border-radius:12px;background:rgba(255,255,255,0.02);color:var(--muted)}
 
-  /* hero */
-  .hero{max-width:1100px;margin:26px auto;padding:0 18px;animation:fadeUp .6s ease both}
-  .hero-content{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:28px;border-radius:14px}
-  /* make heading aligned left and readable */
-  .hero h1{
-    margin:0 0 12px 0;font-size:36px;line-height:1.02;font-weight:800;color:#f4f6f7;text-align:left;
-  }
-  .hero p{margin:0;color:var(--muted);font-size:16px;line-height:1.6;text-align:left;max-width:86%}
+.clickable{cursor:pointer;user-select:none}
 
-  /* cards list */
-  .cards{display:grid;grid-template-columns:1fr;gap:18px;margin:26px 18px 100px}
-  .card{background:var(--card);padding:20px;border-radius:14px;border:1px solid rgba(255,255,255,0.02)}
-  .card h3{color:var(--accent);margin:0 0 8px;font-size:22px}
-  .card p{margin:0;color:var(--muted)}
+/* hero area - make title truly left aligned with comfortable margin */
+.container{max-width:1100px;margin:0 auto;padding:0 18px}
+.hero{padding:24px 0 8px}
+.hero-content{background:transparent;padding:14px 0 0;border-radius:12px;animation:fadeUp .6s ease both}
+.hero-inner{ /* keep text left and aligned to page edge (padding-left matches header) */
+  padding-left:6px;
+  padding-right:6px;
+}
+.hero h1{
+  margin:0 0 12px 0;font-size:34px;line-height:1.02;font-weight:800;color:#f4f6f7;text-align:left;
+  letter-spacing:0;
+}
+.hero p{margin:0;color:var(--muted);font-size:15.5px;line-height:1.6;text-align:left;max-width:84%}
 
-  /* footer */
-  footer{padding:34px;text-align:center;color:var(--muted);opacity:.9}
+/* cards */
+.cards{display:grid;grid-template-columns:1fr;gap:18px;margin:18px}
+.card{background:var(--card);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.02)}
+.card h3{color:var(--accent);margin:0 0 8px;font-size:20px}
+.card p{margin:0;color:var(--muted);font-size:14.5px}
 
-  /* animations */
-  @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-  .fade-smooth{transition:all .36s cubic-bezier(.2,.9,.25,1)}
+/* footer */
+footer{padding:34px;text-align:center;color:var(--muted);opacity:.95}
 
-  /* focus & remove blue outline while keeping accessible focus style */
-  :focus{outline:none;box-shadow:0 0 0 3px rgba(77,163,255,0.08)}
-  button:focus, a:focus{box-shadow:0 0 0 3px rgba(77,163,255,0.06)}
-  /* remove default tap highlight on Android */
-  html,body,button,a,input{ -webkit-tap-highlight-color: rgba(0,0,0,0); }
+/* animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.fade-smooth{transition:all .36s cubic-bezier(.2,.9,.25,1)}
 
-  /* responsive tweaks */
-  @media(min-width:900px){
-    .hero h1{font-size:48px}
-    .hero p{font-size:18px}
-    .side-menu{width:360px}
-  }
+/* focus - remove blue, keep subtle focus */
+:focus{outline:none;box-shadow:0 0 0 3px rgba(77,163,255,0.06)}
+button:focus, a:focus{box-shadow:0 0 0 3px rgba(77,163,255,0.05)}
+html,body,button,a,input{-webkit-tap-highlight-color: rgba(0,0,0,0);}
 
-  /* subtle active (gray) for clickable items */
-  .clickable:active{background:var(--tap-gray)}
+/* responsive text sizes */
+@media(min-width:900px){ .hero h1{font-size:48px} .hero p{font-size:17px} .side-menu{width:360px} }
+@media(max-width:420px){ .hero h1{font-size:30px} .hero p{font-size:15px} .side-item{font-size:17px} }
+
 </style>
 </head>
 <body>
 
 <header>
-  <div class="hamburger" id="openMenu" aria-label="เปิดเมนู" role="button">≡</div>
+  <div class="hamburger" id="openMenu" aria-label="เปิดเมนู">≡</div>
   <div class="brand">MC Command</div>
-
   <div class="header-right">
-    <!-- placeholder image (มึงเปลี่ยนลิงก์ได้) -->
     <div class="header-img" id="headerImg" style="background-image:url('https://cdn.discordapp.com/attachments/1413488736620122133/1466364383197265940/images_17.jpg?ex=697c79c0&is=697b2840&hm=8f3bc3376027ece85015456ce0a7650a698727618bf65ed953d0da9af0587e02&');"></div>
   </div>
 </header>
 
-<!-- side menu overlay -->
+<!-- side overlay + menu -->
 <div class="side-overlay" id="sideOverlay" aria-hidden="true">
   <div class="side-backdrop" id="sideBackdrop"></div>
-  <nav class="side-menu" id="sideMenu" aria-label="เมนูหลัก">
+
+  <nav class="side-menu" id="sideMenu" aria-label="เมนู">
     <div class="side-top">
       <div class="side-title">เมนู</div>
-      <div class="side-close" id="closeMenu" role="button" aria-label="ปิดเมนู">✕</div>
+      <div class="side-close" id="closeMenu" aria-label="ปิดเมนู">✕</div>
     </div>
 
     <div class="side-list">
@@ -131,33 +122,35 @@
       <div style="font-weight:700;margin-bottom:6px;color:#fff">จุดเด่น</div>
       <div style="color:var(--muted)">Bedrock แท้ 100% — ก็อปแล้วใช้ได้จริง</div>
     </div>
-
-    <div style="height:26px"></div>
   </nav>
 </div>
 
 <main>
   <section class="hero">
-    <div class="hero-content fade-smooth" id="heroBlock">
-      <!-- HEADER TEXT — ชิดซ้ายตามคำขอ -->
-      <h1 id="heroTitle">เว็บแจกคำสั่ง<br>Minecraft Bedrock</h1>
-      <p id="heroDesc">รวมคำสั่ง Bedrock แท้ 100% ที่ทดสอบแล้ว ก๊อปไปใช้ได้จริง — เหมาะสำหรับสายทำแมพและระบบ</p>
+    <div class="container">
+      <div class="hero-content fade-smooth">
+        <div class="hero-inner">
+          <!-- ทำให้ชิดซ้ายจริงๆ โดยไม่ขึ้นกับกรอบการ์ด -->
+          <h1 id="heroTitle">เว็บแจกคำสั่ง<br>Minecraft Bedrock</h1>
+          <p id="heroDesc">รวมคำสั่ง Bedrock แท้ 100% ที่ทดสอบแล้ว ก๊อปไปใช้ได้จริง — เหมาะสำหรับสายทำแมพและระบบ</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="cards">
-    <article class="card fade-smooth">
+  <section class="cards container">
+    <article class="card fade-smooth" id="all">
       <h3>ใช้งานจริง</h3>
       <p>ตัวอย่างคำสั่งใช้งานจริง พร้อมวิธีติดตั้งแบบสั้น</p>
     </article>
 
-    <article class="card fade-smooth">
+    <article class="card fade-smooth" id="systems">
       <h3>จัดระบบ</h3>
       <p>แบ่งหมวดคำสั่งให้เป็นระบบ เช่น ระบบแมพ, ระบบ NPC, ระบบ economy</p>
     </article>
 
-    <article class="card fade-smooth">
-      <h3>จัดระบบ — แนวทาง</h3>
+    <article class="card fade-smooth" id="advanced">
+      <h3>แนวทาง</h3>
       <p>คำแนะนำการจัดระบบคำสั่งและแนวทางปฏิบัติที่ถูกต้อง</p>
     </article>
   </section>
@@ -168,20 +161,20 @@
 </footer>
 
 <script>
-  // menu open/close
+  // elements
   const openBtn = document.getElementById('openMenu');
   const sideMenu = document.getElementById('sideMenu');
-  const sideOverlay = document.getElementById('sideOverlay');
   const sideBackdrop = document.getElementById('sideBackdrop');
   const closeBtn = document.getElementById('closeMenu');
+  const sideOverlay = document.getElementById('sideOverlay');
 
   function openMenu(){
     sideMenu.classList.add('open');
     sideBackdrop.classList.add('show');
     sideOverlay.setAttribute('aria-hidden','false');
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow='hidden';
   }
-  function closeMenuFunc(){
+  function closeMenu(){
     sideMenu.classList.remove('open');
     sideBackdrop.classList.remove('show');
     sideOverlay.setAttribute('aria-hidden','true');
@@ -189,50 +182,39 @@
   }
 
   openBtn.addEventListener('click', openMenu);
-  closeBtn.addEventListener('click', closeMenuFunc);
-  sideBackdrop.addEventListener('click', closeMenuFunc);
+  closeBtn.addEventListener('click', closeMenu);
+  sideBackdrop.addEventListener('click', closeMenu);
 
-  // clickable side links (navigate to sections/pages)
-  document.querySelectorAll('.side-item').forEach(it=>{
-    it.addEventListener('click', (e)=>{
-      // close menu first with smooth effect
-      closeMenuFunc();
-      const target = it.dataset.link;
-      // simulate navigation: here we just scroll to anchor (if exists) or could window.location = targetPage
-      if(document.querySelector(target)){
-        setTimeout(()=> document.querySelector(target).scrollIntoView({behavior:'smooth',block:'start'}), 280);
-      }
+  // side nav items -> navigate to anchors (or change to real pages)
+  document.querySelectorAll('.side-item').forEach(item=>{
+    item.addEventListener('click', ()=>{
+      const target = item.dataset.link;
+      closeMenu();
+      setTimeout(()=>{
+        const el = document.querySelector(target);
+        if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+        else window.location = target; // fallback (if replaced with real URL)
+      }, 260);
     });
   });
 
-  // hero animation on load
-  window.addEventListener('load', ()=>{
-    const hero = document.getElementById('heroBlock');
-    hero.style.transform = 'translateY(0)';
-    hero.style.opacity = '1';
-  });
+  // ensure hero left alignment on load/resize (fine-tuning)
+  function heroAdjust(){
+    const hero = document.getElementById('heroTitle');
+    const w = window.innerWidth;
+    // tweak font sizing a bit for readability
+    if(w < 400){ hero.style.fontSize='30px' }
+    else if(w < 700){ hero.style.fontSize='34px' }
+    else hero.style.fontSize='48px';
+  }
+  window.addEventListener('resize', heroAdjust);
+  window.addEventListener('load', heroAdjust);
 
-  // remove default focus blue on mobile (extra)
+  // keyboard escape
+  document.addEventListener('keydown', e => { if(e.key==='Escape') closeMenu(); });
+
+  // remove default selection highlight on mobile (extra)
   document.addEventListener('touchstart', function(){}, {passive:true});
-
-  // accessibility: allow Esc to close
-  document.addEventListener('keydown', (e)=>{
-    if(e.key === 'Escape') closeMenuFunc();
-  });
-
-  // small tweak: ensure hero title left aligned and responsive font sizing
-  (function adjustHero(){
-    const title = document.getElementById('heroTitle');
-    const desc = document.getElementById('heroDesc');
-    function resize(){
-      const w = window.innerWidth;
-      if(w < 400){ title.style.fontSize = '32px'; desc.style.fontSize='15px' }
-      else if(w < 700){ title.style.fontSize = '36px'; desc.style.fontSize='16px' }
-      else { title.style.fontSize='48px'; desc.style.fontSize='18px' }
-    }
-    resize();
-    window.addEventListener('resize', resize);
-  })();
 </script>
 
 </body>
