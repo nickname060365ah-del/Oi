@@ -61,7 +61,7 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 .search input{background:transparent;border:0;color:var(--white);width:100%;font-size:15px}
 .select{background:var(--card);padding:8px 12px;border-radius:12px;border:1px solid var(--line);min-width:120px;color:var(--muted)}
 
-/* new download button style (ตามที่มึงให้มา) */
+/* download button */
 .download-btn {
   background: rgb(59, 130, 246);
   color: white;
@@ -80,34 +80,33 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
   min-width:110px;
   box-shadow: 0 8px 24px rgba(59,130,246,0.16);
 }
-.download-btn:hover {
-  background: rgb(37, 99, 235);
-}
-.download-btn:active {
-  background: rgb(29, 78, 216);
-  transform: scale(0.96);
-}
-/* pressed class for JS fallback */
+.download-btn:hover { background: rgb(37, 99, 235); }
+.download-btn:active { background: rgb(29, 78, 216); transform: scale(0.96); }
 .download-btn.pressed { transform: scale(0.96); background: rgb(29,78,216); }
+/* flash inside */
+.download-btn .flash { position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(1);width:90%;height:62%;border-radius:12px;background:rgba(255,255,255,0.12);pointer-events:none;opacity:0;transition:opacity .18s ease, transform .18s ease; }
+.download-btn .flash.show { opacity:1; transform:translate(-50%,-50%) scale(0.98); }
 
-/* the flash element that appears INSIDE button (we size/position it exactly) */
-.download-btn .flash {
-  position: absolute;
-  left: 50%; top: 50%;
-  transform: translate(-50%, -50%) scale(1);
-  width: 90%; height: 62%;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.12);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity .18s ease, transform .18s ease;
+/* copy section button (small, near heading) */
+.copy-section-btn {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  color:var(--white);
+  border-radius:10px;
+  padding:8px 10px;
+  font-weight:600;
+  border:1px solid rgba(255,255,255,0.03);
+  cursor:pointer;
+  margin-left:10px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  min-width:96px;
+  position:relative;
+  overflow:hidden;
 }
-
-/* when active, flash quickly fades in then out */
-.download-btn .flash.show {
-  opacity: 1;
-  transform: translate(-50%,-50%) scale(0.98);
-}
+.copy-section-btn .flash { position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(1);width:82%;height:56%;border-radius:10px;background:rgba(255,255,255,0.08);pointer-events:none;opacity:0;transition:opacity .15s ease, transform .15s ease;}
+.copy-section-btn.pressed { transform: scale(0.97); }
+.copy-section-btn .flash.show { opacity:1; transform:translate(-50%,-50%) scale(0.98); }
 
 /* ghost button */
 .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--white);padding:10px 14px;border-radius:12px}
@@ -122,7 +121,8 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 
 /* content sections and code */
 .section{margin-bottom:18px}
-.section h3{font-size:18px;margin:0 0 8px;color:var(--white)}
+.section .heading-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.section h3{font-size:18px;margin:0;color:var(--white);flex:1}
 .lead{color:var(--muted);margin:0 0 12px}
 .codewrap{background:#060606;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);overflow:auto}
 pre.cmd{margin:0;color:#e6eef8;background:transparent;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Roboto Mono, "Courier New",monospace;font-size:14px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
@@ -186,7 +186,7 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
       <select id="filterSelect" class="select" aria-label="กรองหมวด">
         <option value="all">ทั้งหมด</option>
         <option value="chat">คำสั่งช่องแชท</option>
-        <option value="cmdblock">คำสั่งคอมมานด์บล็อก</option>
+        <option value="cmdblock">คำสั่งคอมมานบล็อก</option>
         <option value="npc">คำสั่ง NPC</option>
       </select>
 
@@ -194,20 +194,25 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
         <span class="flash" aria-hidden="true"></span>
       </button>
 
-      <button id="copyBtn" class="btn ghost">คัดลอกทั้งหมด</button>
+      <button id="copyAllBtn" class="btn ghost">คัดลอกทั้งหมด</button>
     </div>
 
     <!-- content sections -->
-    <section class="section" data-cat="chat">
-      <h3>คำสั่งในช่องแชท</h3>
-      <p class="lead">เรียงตามที่มึงให้มา — ก๊อปแล้ววาง</p>
+    <section class="section" data-cat="chat" id="sec-chat">
+      <div class="heading-row">
+        <h3>คำสั่งในช่องแชท</h3>
+        <button class="copy-section-btn" data-target="chatCommands">คัดลอกหมวด
+          <span class="flash" aria-hidden="true"></span>
+        </button>
+      </div>
+      <p class="lead">แนะนำก๊อปทีละคำสั่งแล้ววาง</p>
       <div class="codewrap fade-in-up">
 <pre id="chatCommands" class="cmd">
 /give @s command_block
 /give @s spawn_egg 1 51
 /gamerule commandblockoutput false
 /gamerule sendcommandfeedback false
-/tickingarea add circle ~~~ 4 t
+/tickingarea add circle ~~~ 4 t   ไปยืนใกล้คอมมานแล้วพิมพ์คำสั่งนี้ในแชท
 /scoreboard objectives add m dummy
 
 /tag @n[type=npc] add b   ไปยืนในตัว NPC แล้วพิมพ์คำสั่งนี้ในแชท
@@ -215,9 +220,14 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
       </div>
     </section>
 
-    <section class="section" data-cat="cmdblock">
-      <h3>คำสั่งในคอมมานด์บล็อก (ตัวอย่าง)</h3>
-      <p class="lead">คำสั่งที่จะใส่ในคอมมานด์บล็อก หรือฟังก์ชัน</p>
+    <section class="section" data-cat="cmdblock" id="sec-cmd">
+      <div class="heading-row">
+        <h3>คำสั่งในคอมมานบล็อก</h3>
+        <button class="copy-section-btn" data-target="cmdBlockCommands">คัดลอกหมวด
+          <span class="flash" aria-hidden="true"></span>
+        </button>
+      </div>
+      <p class="lead">คำสั่งที่จะใส่ในคอมมานบล็อกสีม่วง - ทำงานตลอด</p>
       <div class="codewrap fade-in-up">
 <pre id="cmdBlockCommands" class="cmd">
 dialogue open @e[type=npc,tag=b] @a[tag=b]
@@ -229,27 +239,32 @@ execute as @a at @s run titleraw @s actionbar {"rawtext":[{"text":"§6Money  
       </div>
     </section>
 
-    <section class="section" data-cat="npc">
-      <h3>คำสั่งใน NPC (ตัวหลัก & ตัวซื้อ)</h3>
-      <p class="lead">แยกเป็น 2 กลุ่ม — ตัวหลัก (initiator) และ ตัวซื้อ (b)</p>
+    <section class="section" data-cat="npc" id="sec-npc">
+      <div class="heading-row">
+        <h3>คำสั่งใน NPC (ตัวหลัก & ตัวซื้อ)</h3>
+        <button class="copy-section-btn" data-target="npcBuy">คัดลอกหมวด
+          <span class="flash" aria-hidden="true"></span>
+        </button>
+      </div>
+      <p class="lead">แยกเป็น 2 กลุ่ม — ตัวหลักพูดคุยและตัวซื้อ</p>
       <div class="codewrap fade-in-up">
 <pre id="npcMain" class="cmd">
-/tag @initiator add b
+1. /tag @initiator add b  (ตัวหลักพูดคุย)
 </pre>
         <div style="height:10px"></div>
 <pre id="npcBuy" class="cmd">
-playsound mob.villager.no @initiator[scores={m=..19}]
+
+1. playsound mob.villager.no @initiator[scores={m=..19}]
 playsound note.harp @initiator[scores={m=..19}]
 tellraw @initiator[scores={m=..19}] {"rawtext":[{"text":" §eคนขายของ§r: §cซื้อไม่สำเร็จ§r"}]}
-
 playsound mob.villager.yes @initiator[scores={m=20..}]
 playsound note.bell @initiator[scores={m=20..}]
 tellraw @initiator[scores={m=20..}] {"rawtext":[{"text":" §eคนขายของ§r: §aซื้อสำเร็จ§r"}]}
-
 give @initiator[scores={m=20..}] wooden_sword 1
 scoreboard players remove @initiator[scores={m=20..}] m 20
 
-/tag @initiator remove b
+2. /tag @initiator remove b
+(ตัวซื้อของ)
 </pre>
       </div>
     </section>
@@ -267,7 +282,7 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   const searchInput = document.getElementById('searchInput');
   const filterSelect = document.getElementById('filterSelect');
   const downloadBtn = document.getElementById('downloadBtn');
-  const copyBtn = document.getElementById('copyBtn');
+  const copyAllBtn = document.getElementById('copyAllBtn');
 
   // hide header image placeholder if any
   const headerImg = document.getElementById('headerImg');
@@ -297,7 +312,7 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   filterSelect.addEventListener('change', applyFilter);
   applyFilter();
 
-  // collect & download visible commands
+  // collect visible commands (used for download & copy-all)
   function collectVisibleCommands(){
     const visible = Array.from(document.querySelectorAll('section.section'))
       .filter(s => s.style.display !== 'none')
@@ -310,23 +325,21 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     return visible.join("\n\n---\n\n");
   }
 
-  // download: make flash INSIDE button (no centered overlay)
+  // DOWNLOAD button behavior (same as before but no centered overlay)
   downloadBtn.addEventListener('click', (e)=>{
     const text = collectVisibleCommands();
     if(!text){ alert('ไม่มีคำสั่งที่มองเห็นเพื่อดาวน์โหลด'); return; }
 
-    // visual feedback: scale + flash inside button
+    // visual feedback: scale + flash INSIDE button
     downloadBtn.classList.add('pressed');
     const flash = downloadBtn.querySelector('.flash');
     if(flash){
-      // ensure flash sizes correctly - already CSS uses % of button so it fits
       flash.classList.add('show');
-      // remove after short time
-      setTimeout(()=> flash.classList.remove('show'), 220);
+      setTimeout(()=> flash.classList.remove('show'), 260);
     }
-    setTimeout(()=> downloadBtn.classList.remove('pressed'), 180);
+    setTimeout(()=> downloadBtn.classList.remove('pressed'), 200);
 
-    // do download
+    // create download blob (txt). Later มึงใส่ไฟล์จริงแทนที่นี่ได้
     const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -338,20 +351,50 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     setTimeout(()=> URL.revokeObjectURL(url), 1500);
   });
 
-  // copy to clipboard
-  copyBtn.addEventListener('click', async ()=>{
+  // COPY ALL visible
+  copyAllBtn.addEventListener('click', async ()=>{
     const text = collectVisibleCommands();
-    if(!text){ alert('ไม่มีคำสั่งให้คัดลอก'); return; }
+    if(!text){ alert('ไม่มีคำสั่งที่มองเห็นให้คัดลอก'); return; }
     try{
       await navigator.clipboard.writeText(text);
-      copyBtn.innerText = 'คัดลอกแล้ว';
-      setTimeout(()=> copyBtn.innerText = 'คัดลอกทั้งหมด', 1200);
+      // feedback
+      const orig = copyAllBtn.innerText;
+      copyAllBtn.innerText = 'คัดลอกแล้ว';
+      copyAllBtn.classList.add('pressed');
+      setTimeout(()=> { copyAllBtn.innerText = orig; copyAllBtn.classList.remove('pressed'); }, 1200);
     }catch(e){
       alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
     }
   });
 
-  // pre blocks small click feedback
+  // Per-section copy buttons
+  document.querySelectorAll('.copy-section-btn').forEach(btn=>{
+    btn.addEventListener('click', async (ev)=>{
+      const targetId = btn.getAttribute('data-target');
+      const pre = document.getElementById(targetId);
+      if(!pre){ alert('ไม่พบข้อมูลที่จะคัดลอก'); return; }
+      const text = pre.innerText.trim();
+      if(!text){ alert('หมวดนี้ไม่มีข้อความ'); return; }
+
+      // visual: flash inside button
+      btn.classList.add('pressed');
+      const flash = btn.querySelector('.flash');
+      if(flash){ flash.classList.add('show'); setTimeout(()=> flash.classList.remove('show'), 220); }
+      setTimeout(()=> btn.classList.remove('pressed'), 180);
+
+      // copy
+      try{
+        await navigator.clipboard.writeText(text);
+        const origText = btn.innerText;
+        btn.innerText = 'คัดลอกแล้ว';
+        setTimeout(()=> btn.innerText = origText, 1100);
+      }catch(e){
+        alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
+      }
+    });
+  });
+
+  // small click feedback for pre blocks
   document.querySelectorAll('pre.cmd').forEach(pre=>{
     pre.addEventListener('click', ()=> {
       pre.style.background = 'rgba(255,255,255,0.01)';
