@@ -200,14 +200,14 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
     <!-- content sections -->
     <section class="section" data-cat="chat">
       <h3>คำสั่งในช่องแชท</h3>
-      <p class="lead">ก๊อปทีละคำสั่งแล้ววาง</p>
+      <p class="lead">แนะนำก๊อปทีละคำสั่งแล้ววาง</p>
       <div class="codewrap fade-in-up">
 <pre id="chatCommands" class="cmd">
 /give @s command_block
 /give @s spawn_egg 1 51
 /gamerule commandblockoutput false
 /gamerule sendcommandfeedback false
-/tickingarea add circle ~~~ 4 t
+/tickingarea add circle ~~~ 4 t   ไปยืนใกล้คอมมานแล้วพิมพ์คำสั่งนี้ในแชท
 /scoreboard objectives add m dummy
 
 /tag @n[type=npc] add b   ไปยืนในตัว NPC แล้วพิมพ์คำสั่งนี้ในแชท
@@ -231,7 +231,7 @@ execute as @a at @s run titleraw @s actionbar {"rawtext":[{"text":"§6Money  
 
     <section class="section" data-cat="npc">
       <h3>คำสั่งใน NPC (ตัวหลัก & ตัวซื้อ)</h3>
-      <p class="lead">แยกเป็น 2 กลุ่ม — ตัวหลัก (initiator) และ ตัวซื้อ (b)</p>
+      <p class="lead">แยกเป็น 2 กลุ่ม — ตัวหลักพูดคุยและตัวซื้อ</p>
       <div class="codewrap fade-in-up">
 <pre id="npcMain" class="cmd">
 1. /tag @initiator add b  (ตัวหลักพูดคุย)
