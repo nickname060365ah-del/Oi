@@ -3,274 +3,97 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>MC Command — Bedrock</title>
-<style>
-/* reset + base */
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{
-  background:#0e0e0e;
-  color:#fff;
-  font-family: "Noto Sans Thai", Tahoma, Arial, sans-serif;
-  -webkit-font-smoothing:antialiased;
-  -webkit-tap-highlight-color: transparent; /* ปิดสี่เหลี่ยมมือถือ */
-  touch-action: manipulation;
-}
-
-/* header */
-header{
-  position:sticky;
-  top:0;
-  z-index:1000;
-  background:#0b0b0b;
-  border-bottom:1px solid #141414;
-}
-.header-inner{
-  max-width:1200px;margin:0 auto;display:flex;align-items:center;padding:14px 16px;gap:12px;
-}
-.hamburger{
-  font-size:26px;color:#fff;cursor:pointer;
-  width:44px;height:44px;display:flex;align-items:center;justify-content:center;
-}
-.logo{color:#4da3ff;font-weight:700;font-size:22px;margin-left:6px}
-.spacer{flex:1}
-
-/* top button (เอาไว้แต่ยังไม่ใช่ล็อคอิน) */
-.top-btn{
-  background:#4da3ff;color:#000;padding:8px 14px;border-radius:8px;font-weight:700;border:none;cursor:pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-.top-btn:focus{outline:none;box-shadow:none}
-
-/* side menu */
-.side-wrap{position:fixed;left:0;top:0;height:100%;width:320px;max-width:86%;transform:translateX(-110%);transition:transform .28s ease;background:#0f0f0f;border-right:1px solid #171717;z-index:2000;padding:22px 18px;display:flex;flex-direction:column}
-.side-wrap.open{transform:translateX(0)}
-.side-close{position:absolute;right:12px;top:12px;font-size:28px;cursor:pointer;color:#fff}
-.side-title{color:#4da3ff;font-size:22px;margin-bottom:18px}
-.side-item{padding:14px 6px;border-bottom:1px solid #151515;color:#fff;display:flex;align-items:center;justify-content:space-between;text-decoration:none}
-.side-item .arrow{color:#9aa;opacity:.6}
-
-/* extra textual boxes (5 ข้อความในเมนู) */
-.side-extra{margin-top:12px;padding:10px;border-radius:10px;background:#0d0d0d;color:#cfeeea;line-height:1.5}
-.side-extra li{padding:8px 0;list-style:none}
-
-/* main content */
-.container{max-width:1100px;margin:36px auto;padding:0 16px}
-.hero{padding:20px 0 26px}
-.hero h1{font-size:36px;line-height:1.05;margin-bottom:12px}
-.hero p{opacity:.85;margin-bottom:20px}
-
-/* three cards */
-.cards{display:flex;flex-direction:column;gap:18px}
-@media(min-width:760px){.cards{flex-direction:row}}
-.card{
-  background:#111;border:1px solid #1b1b1b;padding:22px;border-radius:12px;text-decoration:none;color:#fff;
-  transition:transform .12s ease, background .12s ease;cursor:pointer;
-}
-.card h3{color:#4da3ff;margin-bottom:6px;font-size:20px}
-.card p{opacity:.9}
-
-/* hover */
-.card:hover{transform:translateY(-4px);background:#121212}
-
-/* content panes */
-.content-pane{margin-top:28px;background:#090909;border:1px solid #121212;padding:18px;border-radius:12px;display:none}
-.content-pane.active{display:block}
-
-/* footer */
-footer{margin-top:40px;padding:26px 0;text-align:center;color:#9a9a9a}
-
-/* remove focus ring globally */
-:focus{outline:none;box-shadow:none}
-
-/* prevent blue highlight on Android chrome when clicking links */
-a, button { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
-
-/* small UI niceties */
-.small-muted{color:#9aa; font-size:13px}
-.menu-spacer{height:12px}
-</style>
+<title>MC Command Bedrock</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <header class="topbar">
+    <button id="openMenuBtn" class="hamburger" aria-label="เปิดเมนู">☰</button>
+    <div class="brand">
+      <a href="index.html" class="logo">MC Command</a>
+    </div>
+  </header>
 
-<!-- HEADER -->
-<header>
-  <div class="header-inner">
-    <div class="hamburger" id="hamburger" aria-label="เปิดเมนู">☰</div>
-    <div class="logo">MC Command</div>
-    <div class="spacer"></div>
-    <!-- ไม่มีปุ่มเข้าสู่ระบบอีกแล้ว (ลบตามคำสั่ง) -->
-  </div>
-</header>
+  <!-- side menu -->
+  <aside id="sideMenu" class="side-menu" aria-hidden="true">
+    <div class="side-head">
+      <h2>เมนู</h2>
+      <button id="closeMenuBtn" class="close" aria-label="ปิดเมนู">✕</button>
+    </div>
 
-<!-- SIDE MENU (ซ่อน/โชว์) -->
-<div class="side-wrap" id="sideWrap" role="navigation" aria-hidden="true">
-  <div class="side-close" id="sideClose">×</div>
-  <div class="side-title">เมนู</div>
+    <nav class="main-links">
+      <a href="commands.html">คำสั่งทั้งหมด</a>
+      <a href="about.html">เกี่ยวกับเว็บ</a>
+      <a href="map.html">ระบบแมพ</a>
+    </nav>
 
-  <a class="side-item" href="#commands" data-target="commands">
-    <span>คำสั่งทั้งหมด</span><span class="arrow">›</span>
-  </a>
+    <hr class="sep">
 
-  <a class="side-item" href="#about" data-target="about">
-    <span>เกี่ยวกับเว็บ</span><span class="arrow">›</span>
-  </a>
+    <!-- ข้อความด้านล่าง ตามที่สั่ง: ไม่มีสีเขียว ไม่มีตัวเลข -->
+    <div class="menu-info">
+      <div class="info-item">จุดเด่น: Bedrock แท้ 100% ก็อปใช้ได้จริง</div>
+      <div class="info-item">แนะนำ: วิธีติดตั้งคำสั่ง สำหรับมือใหม่</div>
+      <div class="info-item">กฎการใช้งาน: ห้ามแจกคำสั่งผิด</div>
+      <div class="info-item">ติดต่อเรา: t.me/yourchannel</div>
+      <div class="info-item">FAQ: คำถามที่พบบ่อย</div>
+    </div>
+  </aside>
 
-  <a class="side-item" href="#map" data-target="map">
-    <span>ระบบแมพ</span><span class="arrow">›</span>
-  </a>
+  <!-- main content -->
+  <main class="page">
+    <section class="hero">
+      <h1>เว็บแจกคำสั่ง<br>Minecraft Bedrock</h1>
+      <p class="lead">รวมคำสั่ง Bedrock 100% ที่ทดสอบแล้ว ก็อปไปใช้ได้เลย — เหมาะสำหรับสายทำแมพและสายระบบ</p>
 
-  <a class="side-item" href="#howto" data-target="howto">
-    <span>วิธีติดตั้งคำสั่ง</span><span class="arrow">›</span>
-  </a>
+      <div class="card-grid">
+        <a class="card" href="commands.html">
+          <h3>Bedrock แท้</h3>
+          <p>ไม่มีคำสั่ง Java ปน ใช้งานได้จริง</p>
+        </a>
 
-  <div class="menu-spacer"></div>
+        <a class="card" href="commands.html">
+          <h3>ใช้งานจริง</h3>
+          <p>ก็อปแล้วใส่ได้เลย ไม่ต้องแก้รูปแบบ</p>
+        </a>
 
-  <div class="side-extra" aria-hidden="false">
-    <li>1. จุดเด่น: Bedrock แท้ 100%</li>
-    <li>2. แนะนำ: วิธีติดตั้งคำสั่ง</li>
-    <li>3. กฎการใช้งาน: ห้ามแจกคำสั่งผิด</li>
-    <li>4. ติดต่อเรา: t.me/yourchannel</li>
-    <li>5. FAQ: คำถามที่พบบ่อย</li>
-  </div>
-</div>
+        <a class="card" href="map.html">
+          <h3>จัดระบบ</h3>
+          <p>ออกแบบสำหรับคนทำแมพและระบบ</p>
+        </a>
+      </div>
+    </section>
+  </main>
 
-<!-- MAIN -->
-<main class="container">
-  <section class="hero">
-    <h1>เว็บแจกคำสั่ง<br/>Minecraft Bedrock</h1>
-    <p class="small-muted">Bedrock แท้ 100% — ก็อปแล้วใช้ได้จริง สำหรับสายทำแมพ</p>
-  </section>
-
-  <!-- three cards -->
-  <section class="cards" id="cards">
-    <a class="card" data-open="pane-bedrock" href="javascript:void(0)">
-      <h3>Bedrock แท้</h3>
-      <p>ไม่มีคำสั่ง Java ปน — ใช้ได้จริง</p>
-    </a>
-
-    <a class="card" data-open="pane-use" href="javascript:void(0)">
-      <h3>ใช้งานจริง</h3>
-      <p>ก็อปแล้วใช้ได้เลย — ตัวอย่างพร้อม</p>
-    </a>
-
-    <a class="card" data-open="pane-map" href="javascript:void(0)">
-      <h3>จัดระบบ</h3>
-      <p>เหมาะกับสายทำแมพ — ระบบ & สคริปต์</p>
-    </a>
-  </section>
-
-  <!-- content panes (แสดงเมื่อกด) -->
-  <section id="contentArea">
-    <article id="pane-bedrock" class="content-pane">
-      <h3>Bedrock แท้ — คำอธิบาย</h3>
-      <p>รวมคำสั่งที่เป็น Bedrock 100% ใช้งานได้จริง ไม่ใส่ Java command ใด ๆ</p>
-      <pre style="white-space:pre-wrap;background:#070707;padding:12px;border-radius:8px;margin-top:12px;color:#cde">
-/give @s diamond 1
-/setblock ~ ~-1 ~ dirt
-# ตัวอย่างคำสั่ง Bedrock (ก็อปไปใช้ได้เลย)
-      </pre>
-    </article>
-
-    <article id="pane-use" class="content-pane">
-      <h3>ใช้งานจริง — ตัวอย่าง</h3>
-      <p>วิธีใช้ตัวอย่างคำสั่ง หรือระบบที่วงในแมพ</p>
-      <ol style="margin-top:10px;color:#cde">
-        <li>Copy คำสั่ง</li>
-        <li>วางลงใน command block</li>
-        <li>ทดสอบในแมพ Bedrock</li>
-      </ol>
-    </article>
-
-    <article id="pane-map" class="content-pane">
-      <h3>จัดระบบ — แนวทาง</h3>
-      <p>แบ่งหมวดคำสั่งให้เป็นระบบ เช่น ระบบแมพ, ระบบ NPC, ระบบ economy</p>
-    </article>
-  </section>
-
-  <footer>
+  <footer class="site-footer">
     <div>© MC Command Bedrock</div>
   </footer>
-</main>
 
 <script>
-/* menu toggle */
-const hamburger = document.getElementById('hamburger');
-const sideWrap = document.getElementById('sideWrap');
-const sideClose = document.getElementById('sideClose');
+  const side = document.getElementById('sideMenu');
+  const openBtn = document.getElementById('openMenuBtn');
+  const closeBtn = document.getElementById('closeMenuBtn');
 
-function openSide(){
-  sideWrap.classList.add('open');
-  sideWrap.setAttribute('aria-hidden','false');
-}
-function closeSide(){
-  sideWrap.classList.remove('open');
-  sideWrap.setAttribute('aria-hidden','true');
-}
-hamburger.addEventListener('click', openSide);
-sideClose.addEventListener('click', closeSide);
+  function openMenu(){
+    side.classList.add('visible');
+    side.setAttribute('aria-hidden','false');
+  }
+  function closeMenu(){
+    side.classList.remove('visible');
+    side.setAttribute('aria-hidden','true');
+  }
 
-/* clicking menu items: scroll or show specific pane */
-document.querySelectorAll('.side-item').forEach(item=>{
-  item.addEventListener('click', e=>{
-    e.preventDefault();
-    const target = item.getAttribute('data-target');
-    closeSide();
-    if(!target) return;
-    if(target === 'commands'){
-      // show commands pane (we'll open Bedrock pane as default)
-      openPane('pane-bedrock');
-      scrollIntoView('#contentArea');
-    } else if(target === 'about'){
-      alert('เกี่ยวกับเว็บ: รวมคำสั่ง Bedrock 100%');
-    } else if(target === 'map'){
-      openPane('pane-map'); scrollIntoView('#contentArea');
-    } else if(target === 'howto'){
-      openPane('pane-use'); scrollIntoView('#contentArea');
-    }
-  })
-});
+  openBtn.addEventListener('click', openMenu);
+  closeBtn.addEventListener('click', closeMenu);
 
-/* cards open panes */
-document.querySelectorAll('.card').forEach(c=>{
-  c.addEventListener('click', ()=>{
-    const pane = c.getAttribute('data-open');
-    if(pane) openPane(pane);
-    scrollIntoView('#contentArea');
+  // ปิดเมนูเมื่อคลิกลิงก์ (ไปหน้าใหม่จะโหลดหน้าใหม่จริง ๆ)
+  document.querySelectorAll('.main-links a').forEach(a=>{
+    a.addEventListener('click', ()=> closeMenu());
   });
-});
 
-function openPane(id){
-  // hide all panes
-  document.querySelectorAll('.content-pane').forEach(p=>p.classList.remove('active'));
-  const el = document.getElementById(id);
-  if(el) el.classList.add('active');
-}
-
-/* helper scroll */
-function scrollIntoView(sel){
-  const el = document.querySelector(sel);
-  if(!el) return;
-  setTimeout(()=> el.scrollIntoView({behavior:'smooth',block:'start'}), 120);
-}
-
-/* accessibility: close side when tapping outside on mobile */
-document.addEventListener('click', function(e){
-  if(sideWrap.classList.contains('open')){
-    const inside = sideWrap.contains(e.target) || hamburger.contains(e.target);
-    if(!inside) closeSide();
-  }
-});
-
-/* keyboard: escape closes side */
-document.addEventListener('keydown', function(e){
-  if(e.key === 'Escape'){
-    if(sideWrap.classList.contains('open')) closeSide();
-  }
-});
-
-/* initial: show nothing until user clicks (as requested) */
-/* NO login / NO auth code included anywhere */
+  // ปิดเมนูด้วย Escape
+  window.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape') closeMenu();
+  });
 </script>
 </body>
-  </html>
+</html>
