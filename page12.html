@@ -24,7 +24,6 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 .hamb svg{width:22px;height:22px;fill:var(--white)}
 .brand{font-weight:800;font-size:22px;color:var(--accent);margin-left:6px}
 .spacer{flex:1}
-/* hide removed header image area visually (we remove with JS too) */
 .header-img{display:none}
 
 /* layout */
@@ -61,8 +60,57 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 }
 .search input{background:transparent;border:0;color:var(--white);width:100%;font-size:15px}
 .select{background:var(--card);padding:8px 12px;border-radius:12px;border:1px solid var(--line);min-width:120px;color:var(--muted)}
-.btn{background:var(--accent);color:#022;border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer;border:0;box-shadow:0 6px 18px rgba(77,163,255,.08)}
-.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--white)}
+
+/* new download button style (ตามที่มึงให้มา) */
+.download-btn {
+  background: rgb(59, 130, 246);
+  color: white;
+  border-radius: 14px;
+  padding: 12px 18px;
+  font-weight: 600;
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.18s ease;
+  position: relative;
+  overflow: hidden;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:110px;
+  box-shadow: 0 8px 24px rgba(59,130,246,0.16);
+}
+.download-btn:hover {
+  background: rgb(37, 99, 235);
+}
+.download-btn:active {
+  background: rgb(29, 78, 216);
+  transform: scale(0.96);
+}
+/* pressed class for JS fallback */
+.download-btn.pressed { transform: scale(0.96); background: rgb(29,78,216); }
+
+/* the flash element that appears INSIDE button (we size/position it exactly) */
+.download-btn .flash {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  width: 90%; height: 62%;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.12);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .18s ease, transform .18s ease;
+}
+
+/* when active, flash quickly fades in then out */
+.download-btn .flash.show {
+  opacity: 1;
+  transform: translate(-50%,-50%) scale(0.98);
+}
+
+/* ghost button */
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--white);padding:10px 14px;border-radius:12px}
 
 /* boxes - category cards & code blocks */
 .boxes{display:flex;flex-direction:column;gap:16px;will-change:transform,opacity}
@@ -86,12 +134,6 @@ pre.cmd{margin:0;color:#e6eef8;background:transparent;font-family:ui-monospace,S
 /* footer */
 footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid var(--line);margin-top:18px}
 
-/* small screens tweaks */
-@media(max-width:420px){
-  .hero h1{font-size:28px}
-  .tool-row{gap:8px}
-}
-
 /* remove outlines on focus */
 :focus{outline:none}
 </style>
@@ -105,7 +147,6 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
   </button>
   <div class="brand">MC Command</div>
   <div class="spacer"></div>
-  <!-- header-img intentionally kept but hidden/removed via JS per user's request -->
   <div class="header-img" id="headerImg" title="user-image"></div>
 </div>
 
@@ -145,18 +186,21 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
       <select id="filterSelect" class="select" aria-label="กรองหมวด">
         <option value="all">ทั้งหมด</option>
         <option value="chat">คำสั่งช่องแชท</option>
-        <option value="cmdblock">คำสั่งคอมมานด์บล็อก</option>
+        <option value="cmdblock">คำสั่งคอมมานบล็อก</option>
         <option value="npc">คำสั่ง NPC</option>
       </select>
 
-      <button id="downloadBtn" class="btn">ดาวน์โหลด</button>
+      <button id="downloadBtn" class="download-btn" aria-label="ดาวน์โหลด">ดาวน์โหลด
+        <span class="flash" aria-hidden="true"></span>
+      </button>
+
       <button id="copyBtn" class="btn ghost">คัดลอกทั้งหมด</button>
     </div>
 
     <!-- content sections -->
     <section class="section" data-cat="chat">
       <h3>คำสั่งในช่องแชท</h3>
-      <p class="lead">เรียงตามที่มึงให้มา — ก๊อปแล้ววาง</p>
+      <p class="lead">ก๊อปทีละคำสั่งแล้ววาง</p>
       <div class="codewrap fade-in-up">
 <pre id="chatCommands" class="cmd">
 /give @s command_block
@@ -172,8 +216,8 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
     </section>
 
     <section class="section" data-cat="cmdblock">
-      <h3>คำสั่งในคอมมานด์บล็อก (ตัวอย่าง)</h3>
-      <p class="lead">คำสั่งที่จะใส่ในคอมมานด์บล็อก หรือฟังก์ชัน</p>
+      <h3>คำสั่งในคอมมานบล็อก</h3>
+      <p class="lead">คำสั่งที่จะใส่ในคอมมานบล็อกสีม่วง - ทำงานตลอด</p>
       <div class="codewrap fade-in-up">
 <pre id="cmdBlockCommands" class="cmd">
 dialogue open @e[type=npc,tag=b] @a[tag=b]
@@ -190,22 +234,22 @@ execute as @a at @s run titleraw @s actionbar {"rawtext":[{"text":"§6Money  
       <p class="lead">แยกเป็น 2 กลุ่ม — ตัวหลัก (initiator) และ ตัวซื้อ (b)</p>
       <div class="codewrap fade-in-up">
 <pre id="npcMain" class="cmd">
-/tag @initiator add b
+1. /tag @initiator add b  (ตัวหลักพูดคุย)
 </pre>
         <div style="height:10px"></div>
 <pre id="npcBuy" class="cmd">
-playsound mob.villager.no @initiator[scores={m=..19}]
+
+1. playsound mob.villager.no @initiator[scores={m=..19}]
 playsound note.harp @initiator[scores={m=..19}]
 tellraw @initiator[scores={m=..19}] {"rawtext":[{"text":" §eคนขายของ§r: §cซื้อไม่สำเร็จ§r"}]}
-
 playsound mob.villager.yes @initiator[scores={m=20..}]
 playsound note.bell @initiator[scores={m=20..}]
 tellraw @initiator[scores={m=20..}] {"rawtext":[{"text":" §eคนขายของ§r: §aซื้อสำเร็จ§r"}]}
-
 give @initiator[scores={m=20..}] wooden_sword 1
 scoreboard players remove @initiator[scores={m=20..}] m 20
 
-/tag @initiator remove b
+2. /tag @initiator remove b
+(ตัวซื้อของ)
 </pre>
       </div>
     </section>
@@ -214,11 +258,8 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   </main>
 </div>
 
-<div id="navFlash" class="navFlash" aria-hidden="true"></div>
-
 <script>
 (() => {
-  /* base UI */
   const hamb = document.getElementById('hambBtn');
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('overlay');
@@ -227,55 +268,36 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   const filterSelect = document.getElementById('filterSelect');
   const downloadBtn = document.getElementById('downloadBtn');
   const copyBtn = document.getElementById('copyBtn');
-  const navFlash = document.getElementById('navFlash');
+
+  // hide header image placeholder if any
   const headerImg = document.getElementById('headerImg');
+  if(headerImg){ headerImg.style.display='none'; setTimeout(()=>headerImg.remove(),80); }
 
-  /* remove/hide header image (user asked to remove that empty pic) */
-  if(headerImg){
-    // hide visually and remove from DOM after initial paint
-    headerImg.style.display = 'none';
-    setTimeout(()=>{ headerImg.remove(); }, 80);
-  }
-
-  function openSidebar(){
-    sidebar.classList.add('open');
-    overlay.classList.add('show');
-    sidebar.setAttribute('aria-hidden','false');
-    overlay.setAttribute('aria-hidden','false');
-    document.documentElement.style.overflow = 'hidden';
-  }
-  function closeSidebar(){
-    sidebar.classList.remove('open');
-    overlay.classList.remove('show');
-    sidebar.setAttribute('aria-hidden','true');
-    overlay.setAttribute('aria-hidden','true');
-    document.documentElement.style.overflow = '';
-  }
+  function openSidebar(){ sidebar.classList.add('open'); overlay.classList.add('show'); sidebar.setAttribute('aria-hidden','false'); overlay.setAttribute('aria-hidden','false'); document.documentElement.style.overflow='hidden'; }
+  function closeSidebar(){ sidebar.classList.remove('open'); overlay.classList.remove('show'); sidebar.setAttribute('aria-hidden','true'); overlay.setAttribute('aria-hidden','true'); document.documentElement.style.overflow=''; }
   hamb.addEventListener('click', ()=> sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
   closeBtn.addEventListener('click', closeSidebar);
   overlay.addEventListener('click', closeSidebar);
-  document.addEventListener('keydown', (ev) => { if(ev.key === 'Escape') closeSidebar(); });
+  document.addEventListener('keydown', (ev)=>{ if(ev.key === 'Escape') closeSidebar(); });
 
-  /* search & filter */
+  // search & filter
   const sections = Array.from(document.querySelectorAll('section.section'));
   function applyFilter(){
     const q = (searchInput.value||'').trim().toLowerCase();
     const cat = filterSelect.value;
-    let anyVisible = 0;
     sections.forEach(sec=>{
       const catMatch = (cat === 'all') || (sec.dataset.cat === cat);
       const text = (sec.innerText || '').toLowerCase();
       const qMatch = q === '' || text.indexOf(q) !== -1;
       const show = catMatch && qMatch;
       sec.style.display = show ? '' : 'none';
-      if(show) anyVisible++;
     });
-    return anyVisible;
   }
-  searchInput.addEventListener('input', ()=> applyFilter());
-  filterSelect.addEventListener('change', ()=> applyFilter());
+  searchInput.addEventListener('input', applyFilter);
+  filterSelect.addEventListener('change', applyFilter);
+  applyFilter();
 
-  /* download visible commands as txt */
+  // collect & download visible commands
   function collectVisibleCommands(){
     const visible = Array.from(document.querySelectorAll('section.section'))
       .filter(s => s.style.display !== 'none')
@@ -288,12 +310,23 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     return visible.join("\n\n---\n\n");
   }
 
-  downloadBtn.addEventListener('click', ()=>{
+  // download: make flash INSIDE button (no centered overlay)
+  downloadBtn.addEventListener('click', (e)=>{
     const text = collectVisibleCommands();
-    if(!text){
-      alert('ไม่มีคำสั่งที่มองเห็นเพื่อดาวน์โหลด');
-      return;
+    if(!text){ alert('ไม่มีคำสั่งที่มองเห็นเพื่อดาวน์โหลด'); return; }
+
+    // visual feedback: scale + flash inside button
+    downloadBtn.classList.add('pressed');
+    const flash = downloadBtn.querySelector('.flash');
+    if(flash){
+      // ensure flash sizes correctly - already CSS uses % of button so it fits
+      flash.classList.add('show');
+      // remove after short time
+      setTimeout(()=> flash.classList.remove('show'), 220);
     }
+    setTimeout(()=> downloadBtn.classList.remove('pressed'), 180);
+
+    // do download
     const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -305,7 +338,7 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     setTimeout(()=> URL.revokeObjectURL(url), 1500);
   });
 
-  /* copy to clipboard */
+  // copy to clipboard
   copyBtn.addEventListener('click', async ()=>{
     const text = collectVisibleCommands();
     if(!text){ alert('ไม่มีคำสั่งให้คัดลอก'); return; }
@@ -318,19 +351,17 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     }
   });
 
-  /* make pre blocks selectable/clickable: on tap highlight (press) */
+  // pre blocks small click feedback
   document.querySelectorAll('pre.cmd').forEach(pre=>{
     pre.addEventListener('click', ()=> {
-      // simple visual feedback
       pre.style.background = 'rgba(255,255,255,0.01)';
       pre.style.border = '1px solid rgba(255,255,255,0.03)';
       setTimeout(()=>{ pre.style.background = ''; pre.style.border = ''; }, 200);
     });
   });
 
-  // initial filter apply
-  applyFilter();
 })();
 </script>
 </body>
-  </html>
+          </html>
+          
