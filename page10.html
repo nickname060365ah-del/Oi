@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
 <meta charset="utf-8" />
@@ -6,216 +6,257 @@
 <title>MC Command — Bedrock</title>
 <style>
 :root{
-  --bg:#0b0b0b;
-  --panel:#0f0f10;
-  --muted:#9aa0a6;
-  --accent:#4da3ff;
-  --card:#101112;
-  --tap-gray: rgba(255,255,255,0.03);
-  --focus-gray: rgba(255,255,255,0.06);
+  --bg:#0e0e0e; --panel:#0f0f0f; --card:#111213; --line:#202124;
+  --muted:#9aa0a6; --accent:#4da3ff; --white:#fff; --press:#232428;
+  --transition: .26s cubic-bezier(.2,.9,.2,1);
+  --hero-pad:20px;
 }
-/* base reset */
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;margin:0;background:var(--bg);color:#eee;font-family:Inter, "Noto Sans", Roboto, system-ui, Arial;}
+
+/* Reset */
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--white);font-family:Inter,system-ui,"Segoe UI",Tahoma,Arial,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
-button{font-family:inherit}
+button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer}
 
-/* header */
-header{
-  display:flex;align-items:center;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.03);
-  position:sticky;top:0;z-index:60;background:linear-gradient(0deg, rgba(0,0,0,0.35), rgba(0,0,0,0.35));
+/* remove mobile blue highlight */
+* { -webkit-tap-highlight-color: transparent; }
+
+/* Topbar */
+.topbar{position:sticky;top:0;z-index:60;background:var(--panel);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:12px 14px}
+.hamb{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.hamb svg{width:22px;height:22px;fill:var(--white)}
+.brand{font-weight:800;font-size:22px;color:var(--accent);margin-left:6px}
+.spacer{flex:1}
+
+/* header image (ใส่รูปที่มึงให้) */
+.header-img{
+  width:46px;
+  height:36px;
+  border-radius:8px;
+  border:2px solid rgba(255,255,255,0.06);
+  /* ใส่รูปตรงนี้ */
+  background-image: url("https://cdn.discordapp.com/attachments/1413488736620122133/1466364383197265940/images_17.jpg?ex=697c79c0&is=697b2840&hm=8f3bc3376027ece85015456ce0a7650a698727618bf65ed953d0da9af0587e02&");
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
-.hamburger{width:40px;height:40px;border-radius:8px;display:grid;place-items:center;cursor:pointer;border:1px solid rgba(255,255,255,0.03)}
-.brand{font-weight:800;color:var(--accent);font-size:24px;margin-left:12px}
-.header-right{margin-left:auto;display:flex;align-items:center;gap:12px}
-.header-img{width:44px;height:36px;border-radius:8px;background-size:cover;background-position:center;border:1px solid rgba(255,255,255,0.04)}
 
-/* side menu overlay */
-.side-overlay{position:fixed;inset:0;z-index:80;pointer-events:none}
-.side-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.45);opacity:0;transition:opacity .28s ease;pointer-events:none}
-.side-menu{
-  position:fixed;top:0;left:0;height:100%;width:80%;max-width:420px;
-  transform:translateX(-110%);background:var(--panel);padding:18px;border-right:1px solid rgba(255,255,255,0.02);
-  transition:transform .32s cubic-bezier(.2,.9,.25,1);pointer-events:auto;overflow:auto;border-radius:0 14px 14px 0;box-shadow:2px 8px 30px rgba(0,0,0,0.6)
-}
-.side-menu.open{transform:translateX(0)}
-.side-backdrop.show{opacity:1;pointer-events:auto}
+/* Layout */
+.container{display:flex;min-height:calc(100vh - 64px);position:relative}
 
-.side-top{display:flex;align-items:center;gap:12px;padding-bottom:8px}
-.side-title{font-size:22px;color:var(--accent);font-weight:700}
-.side-close{margin-left:auto;width:44px;height:44px;border-radius:10px;display:grid;place-items:center;border:1px solid rgba(255,255,255,0.04);cursor:pointer}
+/* Sidebar overlay (when menu open) */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);opacity:0;pointer-events:none;transition:opacity .22s;z-index:65}
+.overlay.show{opacity:1;pointer-events:auto}
 
-/* menu items (ลดขนาดให้พอดีตามที่มึงขอ) */
-.side-list{margin-top:6px}
-.side-item{padding:18px 12px;border-bottom:1px solid rgba(255,255,255,0.03);font-size:18px;color:#fff;display:flex;align-items:center;justify-content:space-between}
-.side-item:active{background:var(--focus-gray)}
-.side-card{margin:18px 8px;padding:14px;border-radius:12px;background:rgba(255,255,255,0.02);color:var(--muted)}
+/* Sidebar */
+.sidebar{position:fixed;left:-120%;top:0;height:100%;width:86vw;max-width:420px;background:var(--panel);box-shadow:2px 0 40px rgba(0,0,0,.6);z-index:70;padding:20px;transition:left var(--transition);overflow:auto;border-right:1px solid var(--line);border-radius:0 12px 12px 0}
+.sidebar.open{left:0}
 
-.clickable{cursor:pointer;user-select:none}
+/* Close X */
+.closeBtn{position:absolute;right:14px;top:14px;width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:rgba(255,255,255,0.02)}
+.closeBtn svg{width:20px;height:20px;fill:var(--white);opacity:.95}
 
-/* hero area - make title truly left aligned with comfortable margin */
-.container{max-width:1100px;margin:0 auto;padding:0 18px}
-.hero{padding:24px 0 8px}
-.hero-content{background:transparent;padding:14px 0 0;border-radius:12px;animation:fadeUp .6s ease both}
-.hero-inner{ /* keep text left and aligned to page edge (padding-left matches header) */
-  padding-left:6px;
-  padding-right:6px;
-}
+/* Menu items */
+.sidebar h3{color:var(--accent);font-size:28px;margin:6px 0 14px}
+
+/* --------- ปรับขนาดตัวหนังสือในเมนู (จุดที่มึงวง) ---------- */
+.menu-list{list-style:none;padding:0;margin:0}
+.menu-item{padding:16px 6px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.menu-item a{flex:1;font-size:18px;color:var(--white);padding-right:8px;line-height:1.2} /* <-- ลดขนาดจาก 20px เป็น 18px */
+.menu-item .chev{color:var(--muted);font-size:18px}
+.menu-item a:focus, .menu-item a.pressed { background:var(--press); border-radius:8px; outline:none; box-shadow:none; }
+
+/* Info blocks in menu */
+.info-pill{margin-top:14px;padding:12px;background:rgba(255,255,255,0.03);border-radius:10px;color:var(--muted);font-size:14px}
+.block-box{margin-top:18px;padding:14px;background:rgba(255,255,255,0.02);border-radius:12px}
+.block-box p{margin:8px 0;color:var(--muted);font-size:15px;line-height:1.4}
+
+/* Content */
+.content{flex:1;padding:22px 20px;max-width:1100px;margin:0 auto}
+.hero{padding:calc(var(--hero-pad) + 2px);border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);margin-bottom:18px;display:block}
+
+/* === IMPORTANT: hero typography tuned for reading and left-aligned === */
+/* ปรับให้ชิดซ้ายและขนาดหัวข้อไม่ใหญ่เกินไป */
+.hero-inner{max-width:920px;padding-left:0; /* <-- ทำให้ชิดซ้าย */ }
 .hero h1{
-  margin:0 0 12px 0;font-size:34px;line-height:1.02;font-weight:800;color:#f4f6f7;text-align:left;
-  letter-spacing:0;
+  font-size: clamp(22px, 4.5vw, 34px); /* ลดขนาดหัวข้อให้พอดี อ่านง่าย */
+  line-height: 1.06;
+  margin:0 0 8px;
+  color:var(--white);
+  font-weight:700;
+  text-align:left;
+  letter-spacing: -0.5px;
 }
-.hero p{margin:0;color:var(--muted);font-size:15.5px;line-height:1.6;text-align:left;max-width:84%}
+.hero p{
+  color:var(--muted);
+  margin:0 0 12px;
+  max-width:820px;
+  text-align:left;
+  font-size:15px;
+  line-height:1.5;
+  opacity:.95;
+}
 
-/* cards */
-.cards{display:grid;grid-template-columns:1fr;gap:18px;margin:18px}
-.card{background:var(--card);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.02)}
-.card h3{color:var(--accent);margin:0 0 8px;font-size:20px}
-.card p{margin:0;color:var(--muted);font-size:14.5px}
+/* Boxes */
+.boxes{display:flex;flex-direction:column;gap:16px;will-change:transform,opacity}
+@media(min-width:760px){.boxes{flex-direction:row}}
+.box{background:var(--card);padding:18px;border-radius:12px;border:1px solid var(--line);flex:1;transition:transform .12s,box-shadow .12s,background .12s;cursor:pointer;min-height:92px;display:flex;flex-direction:column;justify-content:center}
+.box h2{color:var(--accent);margin:0 0 8px;font-size:20px}
+.box p{margin:0;color:var(--muted)}
+.box:focus, .box.pressed { background:var(--press); outline:none; }
+
+/* subtle appear animation */
+.fade-in-up { animation: fadeUp .45s ease both; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
 /* footer */
-footer{padding:34px;text-align:center;color:var(--muted);opacity:.95}
+footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid var(--line);margin-top:18px}
 
-/* animations */
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.fade-smooth{transition:all .36s cubic-bezier(.2,.9,.25,1)}
+/* nav flash (much lighter + pointer-events none so it won't block) */
+.navFlash{position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;z-index:100;transition:opacity .14s}
+.navFlash.show{opacity:0.12}
 
-/* focus - remove blue, keep subtle focus */
-:focus{outline:none;box-shadow:0 0 0 3px rgba(77,163,255,0.06)}
-button:focus, a:focus{box-shadow:0 0 0 3px rgba(77,163,255,0.05)}
-html,body,button,a,input{-webkit-tap-highlight-color: rgba(0,0,0,0);}
-
-/* responsive text sizes */
-@media(min-width:900px){ .hero h1{font-size:48px} .hero p{font-size:17px} .side-menu{width:360px} }
-@media(max-width:420px){ .hero h1{font-size:30px} .hero p{font-size:15px} .side-item{font-size:17px} }
-
+/* remove outlines on focus */
+:focus{outline:none}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="hamburger" id="openMenu" aria-label="เปิดเมนู">≡</div>
+<!-- topbar -->
+<div class="topbar">
+  <button class="hamb" id="hambBtn" aria-label="เปิดเมนู">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z"/></svg>
+  </button>
   <div class="brand">MC Command</div>
-  <div class="header-right">
-    <div class="header-img" id="headerImg" style="background-image:url('https://cdn.discordapp.com/attachments/1413488736620122133/1466364383197265940/images_17.jpg?ex=697c79c0&is=697b2840&hm=8f3bc3376027ece85015456ce0a7650a698727618bf65ed953d0da9af0587e02&');"></div>
-  </div>
-</header>
-
-<!-- side overlay + menu -->
-<div class="side-overlay" id="sideOverlay" aria-hidden="true">
-  <div class="side-backdrop" id="sideBackdrop"></div>
-
-  <nav class="side-menu" id="sideMenu" aria-label="เมนู">
-    <div class="side-top">
-      <div class="side-title">เมนู</div>
-      <div class="side-close" id="closeMenu" aria-label="ปิดเมนู">✕</div>
-    </div>
-
-    <div class="side-list">
-      <div class="side-item clickable" data-link="#all">คำสั่งทั้งหมด <span>›</span></div>
-      <div class="side-item clickable" data-link="#basic">คำสั่งพื้นฐาน <span>›</span></div>
-      <div class="side-item clickable" data-link="#advanced">คำสั่งขั้นสูง <span>›</span></div>
-      <div class="side-item clickable" data-link="#systems">ระบบแมพ <span>›</span></div>
-    </div>
-
-    <div class="side-card">
-      <div style="font-weight:700;margin-bottom:6px;color:#fff">จุดเด่น</div>
-      <div style="color:var(--muted)">Bedrock แท้ 100% — ก็อปแล้วใช้ได้จริง</div>
-    </div>
-  </nav>
+  <div class="spacer"></div>
+  <div class="header-img" id="headerImg" title="MC Command"></div>
 </div>
 
-<main>
-  <section class="hero">
-    <div class="container">
-      <div class="hero-content fade-smooth">
-        <div class="hero-inner">
-          <!-- ทำให้ชิดซ้ายจริงๆ โดยไม่ขึ้นกับกรอบการ์ด -->
-          <h1 id="heroTitle">เว็บแจกคำสั่ง<br>Minecraft Bedrock</h1>
-          <p id="heroDesc">รวมคำสั่ง Bedrock แท้ 100% ที่ทดสอบแล้ว ก๊อปไปใช้ได้จริง — เหมาะสำหรับสายทำแมพและระบบ</p>
-        </div>
-      </div>
+<div class="container">
+  <div id="overlay" class="overlay" aria-hidden="true"></div>
+
+  <aside id="sidebar" class="sidebar" aria-hidden="true" role="navigation">
+    <div class="closeBtn" id="closeBtn" aria-label="ปิดเมนู">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.3 5.71L12 12l6.3 6.29-1.41 1.42L10.59 13.4 4.29 19.71 2.88 18.29 9.18 12 2.88 5.71 4.29 4.29 10.59 10.6 16.89 4.29z"/></svg>
     </div>
-  </section>
 
-  <section class="cards container">
-    <article class="card fade-smooth" id="all">
-      <h3>ใช้งานจริง</h3>
-      <p>ตัวอย่างคำสั่งใช้งานจริง พร้อมวิธีติดตั้งแบบสั้น</p>
-    </article>
+    <h3>เมนู</h3>
 
-    <article class="card fade-smooth" id="systems">
-      <h3>จัดระบบ</h3>
-      <p>แบ่งหมวดคำสั่งให้เป็นระบบ เช่น ระบบแมพ, ระบบ NPC, ระบบ economy</p>
-    </article>
+    <ul class="menu-list" id="menuList">
+      <li class="menu-item"><a href="commands.html" target="_self">คำสั่งทั้งหมด</a><span class="chev">›</span></li>
+      <li class="menu-item"><a href="commands-basic.html" target="_self">คำสั่งพื้นฐาน</a><span class="chev">›</span></li>
+      <li class="menu-item"><a href="commands-advanced.html" target="_self">คำสั่งขั้นสูง</a><span class="chev">›</span></li>
+      <li class="menu-item"><a href="map-system.html" target="_self">ระบบแมพ</a><span class="chev">›</span></li>
+    </ul>
 
-    <article class="card fade-smooth" id="advanced">
-      <h3>แนวทาง</h3>
-      <p>คำแนะนำการจัดระบบคำสั่งและแนวทางปฏิบัติที่ถูกต้อง</p>
-    </article>
-  </section>
-</main>
+    <div class="info-pill">จุดเด่น: Bedrock 100% ก็อปใช้ได้</div>
 
-<footer>
-  © MC Command Bedrock
-</footer>
+    <div class="block-box fade-in-up" aria-hidden="false">
+      <p>จุดเด่น — Bedrock แท้ 100% ที่ทดสอบแล้ว</p>
+      <p>คู่มือเล็ก — Tips & Tricks สำหรับมือใหม่</p>
+      <p>แนวทางจัดระบบ — ตัวอย่างแยกหมวดอย่างเป็นระบบ</p>
+      <p>ติดต่อเรา — ช่องทาง Discord: mew303</p>
+      <p>Tiktok: herobrine__f2</p>
+    </div>
+
+    <div style="margin-top:16px;border-top:1px solid var(--line);padding-top:10px;color:var(--muted);font-size:14px">
+      <div style="margin:8px 0"><a href="how-to-install.html">เกี่ยวกับเว็ป</a></div>
+      <div style="margin:8px 0"><a href="rules.html">กฎการใช้งาน</a></div>
+      <div style="margin:8px 0"><a href="contact.html">ติดต่อเรา</a></div>
+    </div>
+  </aside>
+
+  <main class="content" id="mainContent" role="main">
+    <!-- HERO: text aligned left (ปรับขนาดให้อ่านง่าย) -->
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="hero-inner">
+        <h1 id="heroTitle">เว็ปแจกคำสั่ง Minecraft Bedrock</h1>
+        <p>รวมคำสั่งซื้อขายและแลกของใน NPC Bedrock แท้ 100% ที่ทดสอบแล้ว ก็อปวางใช้ได้จริง — เหมาะสำหรับสายทำแมพและระบบ</p>
+      </div>
+    </section>
+
+    <section class="boxes" aria-label="ตัวเลือก">
+      <a class="box fade-in-up" href="page3.html" target="_self" role="button">
+       <h2>ซื้อของ</h2>
+        <p>ระบบ NPC</p>
+      </a>
+
+      <a class="box fade-in-up" href="page4.html" target="_self" role="button">
+        <h2>คำสั่งขายของ</h2>
+        <p>ระบบ NPC</p>
+      </a>
+
+      <a class="box fade-in-up" href="page5.html" target="_self" role="button">
+        <h2>แลกของ</h2>
+        <p>ระบบ NPC</p>
+      </a>
+    </section>
+
+    <footer>© MC Command Bedrock</footer>
+  </main>
+</div>
+
+<div id="navFlash" class="navFlash" aria-hidden="true"></div>
 
 <script>
-  // elements
-  const openBtn = document.getElementById('openMenu');
-  const sideMenu = document.getElementById('sideMenu');
-  const sideBackdrop = document.getElementById('sideBackdrop');
-  const closeBtn = document.getElementById('closeMenu');
-  const sideOverlay = document.getElementById('sideOverlay');
+(() => {
+  const hamb = document.getElementById('hambBtn');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const closeBtn = document.getElementById('closeBtn');
+  const links = document.querySelectorAll('a[target="_self"]');
+  const navFlash = document.getElementById('navFlash');
 
-  function openMenu(){
-    sideMenu.classList.add('open');
-    sideBackdrop.classList.add('show');
-    sideOverlay.setAttribute('aria-hidden','false');
-    document.body.style.overflow='hidden';
+  function openSidebar(){
+    sidebar.classList.add('open');
+    overlay.classList.add('show');
+    sidebar.setAttribute('aria-hidden','false');
+    overlay.setAttribute('aria-hidden','false');
+    document.documentElement.style.overflow = 'hidden';
   }
-  function closeMenu(){
-    sideMenu.classList.remove('open');
-    sideBackdrop.classList.remove('show');
-    sideOverlay.setAttribute('aria-hidden','true');
-    setTimeout(()=>document.body.style.overflow='auto',320);
+  function closeSidebar(){
+    sidebar.classList.remove('open');
+    overlay.classList.remove('show');
+    sidebar.setAttribute('aria-hidden','true');
+    overlay.setAttribute('aria-hidden','true');
+    document.documentElement.style.overflow = '';
   }
 
-  openBtn.addEventListener('click', openMenu);
-  closeBtn.addEventListener('click', closeMenu);
-  sideBackdrop.addEventListener('click', closeMenu);
-
-  // side nav items -> navigate to anchors (or change to real pages)
-  document.querySelectorAll('.side-item').forEach(item=>{
-    item.addEventListener('click', ()=>{
-      const target = item.dataset.link;
-      closeMenu();
-      setTimeout(()=>{
-        const el = document.querySelector(target);
-        if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
-        else window.location = target; // fallback (if replaced with real URL)
-      }, 260);
-    });
+  hamb.addEventListener('click', (e) => {
+    if(sidebar.classList.contains('open')) closeSidebar();
+    else openSidebar();
   });
 
-  // ensure hero left alignment on load/resize (fine-tuning)
-  function heroAdjust(){
-    const hero = document.getElementById('heroTitle');
-    const w = window.innerWidth;
-    // tweak font sizing a bit for readability
-    if(w < 400){ hero.style.fontSize='30px' }
-    else if(w < 700){ hero.style.fontSize='34px' }
-    else hero.style.fontSize='48px';
+  closeBtn.addEventListener('click', closeSidebar);
+  overlay.addEventListener('click', closeSidebar);
+
+  // Handle link clicks with subtle flash (not blocking)
+  function handleNavClick(e){
+    const a = e.currentTarget;
+    a.classList.add('pressed');
+    closeSidebar();
+
+    // quick subtle flash only visual (doesn't block input)
+    navFlash.classList.add('show');
+    setTimeout(() => {
+      window.location.href = a.getAttribute('href');
+    }, 140);
+    e.preventDefault();
   }
-  window.addEventListener('resize', heroAdjust);
-  window.addEventListener('load', heroAdjust);
 
-  // keyboard escape
-  document.addEventListener('keydown', e => { if(e.key==='Escape') closeMenu(); });
+  links.forEach(a => {
+    a.addEventListener('click', handleNavClick);
+    a.addEventListener('pointerup', ()=> setTimeout(()=> a.classList.remove('pressed'),150));
+  });
 
-  // remove default selection highlight on mobile (extra)
-  document.addEventListener('touchstart', function(){}, {passive:true});
+  document.addEventListener('keydown', (ev) => {
+    if(ev.key === 'Escape') closeSidebar();
+  });
+})();
 </script>
-
 </body>
-</html>
+  </html>
