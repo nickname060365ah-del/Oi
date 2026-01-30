@@ -83,7 +83,6 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 .download-btn:hover { background: rgb(37, 99, 235); }
 .download-btn:active { background: rgb(29, 78, 216); transform: scale(0.96); }
 .download-btn.pressed { transform: scale(0.96); background: rgb(29,78,216); }
-/* flash inside */
 .download-btn .flash { position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(1);width:90%;height:62%;border-radius:12px;background:rgba(255,255,255,0.12);pointer-events:none;opacity:0;transition:opacity .18s ease, transform .18s ease; }
 .download-btn .flash.show { opacity:1; transform:translate(-50%,-50%) scale(0.98); }
 
@@ -100,7 +99,7 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
   display:inline-flex;
   align-items:center;
   gap:8px;
-  min-width:96px;
+  min-width:110px;
   position:relative;
   overflow:hidden;
 }
@@ -108,8 +107,13 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 .copy-section-btn.pressed { transform: scale(0.97); }
 .copy-section-btn .flash.show { opacity:1; transform:translate(-50%,-50%) scale(0.98); }
 
+/* copy icon */
+.btn .ico { width:16px;height:16px;display:inline-block;vertical-align:middle;transition:transform .22s, opacity .18s; }
+.btn.success { box-shadow: 0 8px 20px rgba(77,163,255,0.12); transform:translateY(-2px); }
+.btn.success .ico { transform:rotate(20deg) scale(1.05); }
+
 /* ghost button */
-.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--white);padding:10px 14px;border-radius:12px}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--white);padding:10px 14px;border-radius:12px;display:inline-flex;align-items:center;gap:8px}
 
 /* boxes - category cards & code blocks */
 .boxes{display:flex;flex-direction:column;gap:16px;will-change:transform,opacity}
@@ -126,6 +130,15 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 .lead{color:var(--muted);margin:0 0 12px}
 .codewrap{background:#060606;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);overflow:auto}
 pre.cmd{margin:0;color:#e6eef8;background:transparent;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Roboto Mono, "Courier New",monospace;font-size:14px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+
+/* bottom extra actions */
+.bottom-actions{display:flex;gap:12px;justify-content:center;margin:18px 0 6px;align-items:center}
+.bottom-actions .extra-btn{
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border:1px solid var(--line);
+  padding:10px 14px;border-radius:12px;cursor:pointer;display:inline-flex;align-items:center;gap:10px;font-weight:700;
+}
+.extra-btn .ico{width:18px;height:18px}
 
 /* subtle animations */
 .fade-in-up { animation: fadeUp .45s ease both; }
@@ -190,18 +203,25 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
         <option value="npc">คำสั่ง NPC</option>
       </select>
 
-      <button id="downloadBtn" class="download-btn" aria-label="ดาวน์โหลด">ดาวน์โหลด
+      <button id="downloadBtn" class="download-btn" aria-label="ดาวน์โหลด">
+        <svg class="ico" viewBox="0 0 24 24" style="width:16px;height:16px;margin-right:8px;opacity:.95"><path fill="currentColor" d="M12 3v10.5l4-4V21H8V9.5l4 4V3z"/></svg>
+        ดาวน์โหลด
         <span class="flash" aria-hidden="true"></span>
       </button>
 
-      <button id="copyAllBtn" class="btn ghost">คัดลอกทั้งหมด</button>
+      <button id="copyAllBtn" class="btn ghost" aria-label="คัดลอกทั้งหมด">
+        <svg class="ico" viewBox="0 0 24 24" style="width:16px;height:16px;opacity:.95"><path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v12h2V3h12V1zM19 5H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+        คัดลอกทั้งหมด
+      </button>
     </div>
 
     <!-- content sections -->
     <section class="section" data-cat="chat" id="sec-chat">
       <div class="heading-row">
         <h3>คำสั่งในช่องแชท</h3>
-        <button class="copy-section-btn" data-target="chatCommands">คัดลอก
+        <button class="copy-section-btn" data-target="chatCommands" aria-label="คัดลอกหมวดแชท">
+          <svg class="ico" viewBox="0 0 24 24" style="width:16px;height:16px;opacity:.95"><path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v12h2V3h12V1zM19 5H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+          คัดลอก
           <span class="flash" aria-hidden="true"></span>
         </button>
       </div>
@@ -223,7 +243,9 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
     <section class="section" data-cat="cmdblock" id="sec-cmd">
       <div class="heading-row">
         <h3>คำสั่งในคอมมานบล็อก</h3>
-        <button class="copy-section-btn" data-target="cmdBlockCommands">คัดลอก
+        <button class="copy-section-btn" data-target="cmdBlockCommands" aria-label="คัดลอกหมวดคอมมานบล็อก">
+          <svg class="ico" viewBox="0 0 24 24" style="width:16px;height:16px;opacity:.95"><path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v12h2V3h12V1zM19 5H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+          คัดลอก
           <span class="flash" aria-hidden="true"></span>
         </button>
       </div>
@@ -242,7 +264,9 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
     <section class="section" data-cat="npc" id="sec-npc">
       <div class="heading-row">
         <h3>คำสั่งใน NPC (ตัวหลัก & ตัวซื้อ)</h3>
-        <button class="copy-section-btn" data-target="npcBuy">คัดลอก
+        <button class="copy-section-btn" data-target="npcBuy" aria-label="คัดลอกหมวด NPC">
+          <svg class="ico" viewBox="0 0 24 24" style="width:16px;height:16px;opacity:.95"><path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v12h2V3h12V1zM19 5H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+          คัดลอก
           <span class="flash" aria-hidden="true"></span>
         </button>
       </div>
@@ -269,6 +293,19 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
       </div>
     </section>
 
+    <!-- bottom extra buttons (ตามที่มึงบอก) -->
+    <div class="bottom-actions" aria-hidden="false">
+      <button id="extraCopyBtn" class="extra-btn" title="คัดลอกคำสั่งทั้งหมด (สะอาด)">
+        <svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v12h2V3h12V1zM19 5H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+        คัดลอกคำสั่งทั้งหมด
+      </button>
+
+      <button id="extraDownloadBtn" class="extra-btn" title="ดาวน์โหลดคำสั่งทั้งหมด (สะอาด)">
+        <svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3v10.5l4-4V21H8V9.5l4 4V3z"/></svg>
+        ดาวน์โหลดคำสั่งทั้งหมด
+      </button>
+    </div>
+
     <footer>© MC Command Bedrock — By Pain</footer>
   </main>
 </div>
@@ -283,6 +320,8 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   const filterSelect = document.getElementById('filterSelect');
   const downloadBtn = document.getElementById('downloadBtn');
   const copyAllBtn = document.getElementById('copyAllBtn');
+  const extraCopyBtn = document.getElementById('extraCopyBtn');
+  const extraDownloadBtn = document.getElementById('extraDownloadBtn');
 
   // hide header image placeholder if any
   const headerImg = document.getElementById('headerImg');
@@ -312,46 +351,83 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   filterSelect.addEventListener('change', applyFilter);
   applyFilter();
 
-  // extract commands from text
-  // rules:
-  // - find lines that contain a '/' (command start)
-  // - take substring from first '/' to line end
-  // - remove trailing commentary that starts with '(' or '—' or '//' or '  //'
+  /* ======= core: extract clean commands =======
+    Goals:
+     - accept lines that start with '/' or without '/' (e.g. "give @s ...")
+     - remove leading numbering or bullets (like "1. ", "2) ", "- ")
+     - remove trailing explanatory comments that start as: " (" (space + paren), " — ", " //"
+     - skip non-command lines (Thai headings, plain sentences, parenthetical notes)
+     - ensure output lines start with '/' so they are ready to paste in chat
+  ================================================== */
+
+  function cleanLineCandidate(line){
+    if(!line) return '';
+    let ln = line.trim();
+    if(!ln) return '';
+
+    // remove leading numbering / bullets: "1. " | "1) " | "1. " | "- ", "* "
+    ln = ln.replace(/^[\s]*\d+[\.\)]\s*/, ''); // leading numbers
+    ln = ln.replace(/^[\s]*[\-\*\•]\s*/, ''); // bullets
+    // remove trailing inline comment that is likely explanatory:
+    // only remove if the comment is separated by a space before '(' or em-dash or '//' 
+    ln = ln.replace(/\s+\(\s*.*$/,'');      // remove " ( ... " tail comments
+    ln = ln.replace(/\s+—\s+.*$/,'');       // remove " — ... "
+    ln = ln.replace(/\s+\/\/\s+.*$/,'');    // remove " // ... "
+    ln = ln.replace(/\s*\/\/.*$/,'');       // remove trailing //comments
+
+    ln = ln.trim();
+    if(!ln) return '';
+
+    // skip pure JSON or lines that are obviously not commands
+    const firstChar = ln.charAt(0);
+    if(firstChar === '{' || firstChar === '[' || firstChar === '"' ) return '';
+
+    // get first token (without leading slash)
+    let token = ln.split(/\s+/)[0];
+    let hadSlash = token.startsWith('/');
+    token = token.replace(/^\//, '');
+
+    // valid command name basic check: ascii letters/underscore then optional numbers
+    // this avoids picking Thai headings or descriptive sentences
+    const cmdNameMatch = /^[a-zA-Z_][a-zA-Z0-9_:\-]*$/.test(token);
+    if(!cmdNameMatch) {
+      // sometimes commands might be something like 'dialogue' (custom) - still ascii
+      // if token contains any Thai characters, skip
+      if(/[ก-๙]/.test(token)) return '';
+      // if token contains '=' or ':' only numeric? allow typical punctuation? if unsure, skip
+      if(!/^[\w:\-]+$/.test(token)) return '';
+    }
+
+    // finally ensure full returned command starts with '/'
+    if(!ln.startsWith('/')) ln = '/' + ln;
+    return ln;
+  }
+
   function extractCommandsFromText(text){
     const lines = text.split(/\r?\n/);
     const cmds = [];
     for(let ln of lines){
-      if(!ln) continue;
-      const idx = ln.indexOf('/');
-      if(idx === -1) continue;
-      // take from first '/' to end
-      let c = ln.slice(idx).trim();
-      // cut off trailing comments or notes: split on ' (' or ' — ' or ' //'
-      c = c.split(/\s*\(\s*|\s*—\s*|\/\/\s*/)[0].trim();
-      // final sanity: reject if there's no space after slash (unlikely) or empty
-      if(c && c.startsWith('/')) {
-        cmds.push(c);
-      }
+      const c = cleanLineCandidate(ln);
+      if(c) cmds.push(c);
     }
     return cmds;
   }
 
-  // collect visible commands (used for download & copy-all)
-  function collectVisibleCommands(){
-    const visible = Array.from(document.querySelectorAll('section.section'))
+  // collect visible commands (used for 
+ function collectVisibleCommands(){
+    const visiblePreTexts = Array.from(document.querySelectorAll('section.section'))
       .filter(s => s.style.display !== 'none')
       .map(s => {
         const pre = s.querySelector('pre.cmd');
-        const content = pre ? pre.innerText : '';
-        return content;
+        return pre ? pre.innerText : '';
       }).filter(Boolean);
 
-    const all = [];
-    visible.forEach(txt=>{
-      const arr = extractCommandsFromText(txt);
-      arr.forEach(x => all.push(x));
+    const allCmds = [];
+    visiblePreTexts.forEach(t => {
+      const arr = extractCommandsFromText(t);
+      arr.forEach(x => allCmds.push(x));
     });
-    return all.join("\n");
+    return allCmds.join("\n");
   }
 
   // collect commands from a single pre block by id
@@ -361,19 +437,29 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     return extractCommandsFromText(pre.innerText).join('\n');
   }
 
-  // DOWNLOAD button behavior (visual + file)
+  /* ====== UX helpers: icon animation + success state ====== */
+  function flashButton(btn){
+    if(!btn) return;
+    btn.classList.add('pressed');
+    const flash = btn.querySelector('.flash');
+    if(flash){ flash.classList.add('show'); setTimeout(()=> flash.classList.remove('show'), 320); }
+    setTimeout(()=> btn.classList.remove('pressed'), 260);
+  }
+  function withSuccessState(btn){
+    if(!btn) return;
+    btn.classList.add('success');
+    const orig = btn.innerHTML;
+    // show short-lived check icon + text
+    btn.innerHTML = '<svg class=\"ico\" viewBox=\"0 0 24 24\" style=\"width:16px;height:16px;opacity:.95\"><path fill=\"currentColor\" d=\"M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z\"/></svg>เรียบร้อย';
+    setTimeout(()=> { btn.classList.remove('success'); btn.innerHTML = orig; }, 1200);
+  }
+
+  // DOWNLOAD button behavior
   downloadBtn.addEventListener('click', (e)=>{
     const text = collectVisibleCommands();
     if(!text){ alert('ไม่มีคำสั่งที่มองเห็นเพื่อดาวน์โหลด'); return; }
 
-    // visual feedback: scale + flash INSIDE button
-    downloadBtn.classList.add('pressed');
-    const flash = downloadBtn.querySelector('.flash');
-    if(flash){
-      flash.classList.add('show');
-      setTimeout(()=> flash.classList.remove('show'), 260);
-    }
-    setTimeout(()=> downloadBtn.classList.remove('pressed'), 200);
+    flashButton(downloadBtn);
 
     const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
     const url = URL.createObjectURL(blob);
@@ -392,14 +478,36 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     if(!text){ alert('ไม่มีคำสั่งที่มองเห็นให้คัดลอก'); return; }
     try{
       await navigator.clipboard.writeText(text);
-      // feedback
-      const orig = copyAllBtn.innerText;
-      copyAllBtn.innerText = 'คัดลอกแล้ว';
-      copyAllBtn.classList.add('pressed');
-      setTimeout(()=> { copyAllBtn.innerText = orig; copyAllBtn.classList.remove('pressed'); }, 1200);
+      withSuccessState(copyAllBtn);
     }catch(e){
       alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
     }
+  });
+
+  // extra bottom buttons (same actions)
+  extraCopyBtn.addEventListener('click', async ()=>{
+    const text = collectVisibleCommands();
+    if(!text){ alert('ไม่มีคำสั่งที่มองเห็นให้คัดลอก'); return; }
+    try{
+      await navigator.clipboard.writeText(text);
+      withSuccessState(extraCopyBtn);
+    }catch(e){
+      alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
+    }
+  });
+  extraDownloadBtn.addEventListener('click', (e)=>{
+    const text = collectVisibleCommands();
+    if(!text){ alert('ไม่มีคำสั่งที่มองเห็นเพื่อดาวน์โหลด'); return; }
+    flashButton(extraDownloadBtn);
+    const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'mc-commands-by-pain.txt';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=> URL.revokeObjectURL(url), 1500);
   });
 
   // Per-section copy buttons
@@ -407,20 +515,12 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     btn.addEventListener('click', async (ev)=>{
       const targetId = btn.getAttribute('data-target');
       const text = collectCommandsFromPreId(targetId);
-      if(!text){ alert('หมวดนี้ไม่มีคำสั่งแบบที่คัดได้ (ต้องมี "/")'); return; }
+      if(!text){ alert('หมวดนี้ไม่มีคำสั่งแบบที่คัดได้ (ต้องมีคำสั่งรูปแบบทั่วไป)'); return; }
 
-      // visual: flash inside button
-      btn.classList.add('pressed');
-      const flash = btn.querySelector('.flash');
-      if(flash){ flash.classList.add('show'); setTimeout(()=> flash.classList.remove('show'), 220); }
-      setTimeout(()=> btn.classList.remove('pressed'), 180);
-
-      // copy
+      flashButton(btn);
       try{
         await navigator.clipboard.writeText(text);
-        const origText = btn.innerText;
-        btn.innerText = 'คัดลอกแล้ว';
-        setTimeout(()=> btn.innerText = origText, 1100);
+        withSuccessState(btn);
       }catch(e){
         alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
       }
@@ -439,4 +539,4 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
 })();
 </script>
 </body>
-  </html>
+</html>
