@@ -8,7 +8,7 @@
 :root{
   --bg:#0e0e0e; --panel:#0f0f0f; --card:#111213; --line:#222;
   --muted:#9aa0a6; --accent:#4da3ff; --white:#fff; --press:#232428;
-  --transition:.22s cubic-bezier(.2,.9,.2,1);
+  --transition:.26s cubic-bezier(.2,.9,.2,1); --hero-pad:20px;
 }
 
 /* base */
@@ -24,64 +24,71 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 .hamb svg{width:22px;height:22px;fill:var(--white)}
 .brand{font-weight:800;font-size:22px;color:var(--accent);margin-left:6px}
 .spacer{flex:1}
+.header-img{display:none}
 
 /* layout */
 .container{display:flex;min-height:calc(100vh - 64px);position:relative;padding-bottom:40px}
 
+/* overlay + sidebar */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);opacity:0;pointer-events:none;transition:opacity .22s;z-index:65}
+.overlay.show{opacity:1;pointer-events:auto}
+.sidebar{position:fixed;left:-120%;top:0;height:100%;width:86vw;max-width:420px;background:var(--panel);box-shadow:2px 0 40px rgba(0,0,0,.6);z-index:70;padding:20px;transition:left var(--transition);overflow:auto;border-right:1px solid var(--line);border-radius:0 12px 12px 0}
+.sidebar.open{left:0}
+.closeBtn{position:absolute;right:14px;top:14px;width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:rgba(255,255,255,0.02)}
+.closeBtn svg{width:20px;height:20px;fill:var(--white);opacity:.95}
+.sidebar h3{color:var(--accent);font-size:28px;margin:6px 0 14px}
+.menu-list{list-style:none;padding:0;margin:0}
+.menu-item{padding:16px 6px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.menu-item a{flex:1;font-size:20px;color:var(--white);padding-right:8px}
+.menu-item .chev{color:var(--muted);font-size:18px}
+.menu-item a:focus, .menu-item a.pressed { background:var(--press); border-radius:8px; outline:none; box-shadow:none; }
+
 /* content */
 .content{flex:1;padding:22px 16px;max-width:1100px;margin:0 auto}
-.hero{padding:20px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);margin-bottom:12px;display:block}
-.hero h1{font-size: clamp(26px, 6vw, 34px);line-height:1.02;margin:0 0 8px;color:var(--white);font-weight:700;text-align:left;}
+.hero{padding:calc(var(--hero-pad) + 2px);border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);margin-bottom:12px;display:block}
+.hero-inner{max-width:920px;padding-left:2px;}
+.hero h1{
+  font-size: clamp(26px, 6vw, 34px);
+  line-height:1.02;margin:0 0 8px;color:var(--white);font-weight:700;text-align:left;
+}
 .hero p{color:var(--muted);margin:0 0 12px;max-width:820px;text-align:left;font-size:15px;line-height:1.5;opacity:.95}
 
 /* toolbar (search + filter + download) */
 .tool-row{display:flex;gap:10px;align-items:center;margin:8px 0 18px;flex-wrap:wrap}
 .search{
   display:flex;align-items:center;background:var(--card);padding:8px 10px;border-radius:12px;border:1px solid var(--line);min-width:120px;flex:1;
-  gap:8px;
 }
-.search svg{width:16px;height:16px;opacity:.6;flex:0 0 16px}
-.search input{background:transparent;border:0;color:var(--white);width:100%;font-size:15px;padding:6px 0}
+.search svg{width:16px;height:16px;opacity:.6;margin-right:8px}
+.search input{background:transparent;border:0;color:var(--white);width:100%;font-size:15px}
 .select{background:var(--card);padding:8px 12px;border-radius:12px;border:1px solid var(--line);min-width:120px;color:var(--muted)}
 
-/* download button (icon + inner flash) */
+/* download button */
 .download-btn {
   background: rgb(59, 130, 246);
   color: white;
   border-radius: 14px;
   padding: 12px 18px;
   font-weight: 600;
-  transition: background .12s, transform .08s;
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.18s ease;
   position: relative;
   overflow: hidden;
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  min-width:140px;
-  gap:8px;
-  box-shadow: 0 8px 24px rgba(59,130,246,0.12);
-  border:1px solid rgba(255,255,255,0.03);
+  min-width:110px;
+  box-shadow: 0 8px 24px rgba(59,130,246,0.16);
 }
-.download-btn .ico { width:18px;height:18px;display:inline-block;vertical-align:middle; }
-.download-btn .flash { position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(1);width:92%;height:70%;border-radius:12px;background:rgba(255,255,255,0.12);pointer-events:none;opacity:0;transition:opacity .14s, transform .14s;}
-.download-btn .flash.show { opacity:1; transform:translate(-50%,-50%) scale(.98); }
-.download-btn.pressed { transform: scale(.985); }
+.download-btn:hover { background: rgb(37, 99, 235); }
+.download-btn:active { background: rgb(29, 78, 216); transform: scale(0.96); }
+.download-btn.pressed { transform: scale(0.96); background: rgb(29,78,216); }
+/* flash inside */
+.download-btn .flash { position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(1);width:90%;height:62%;border-radius:12px;background:rgba(255,255,255,0.12);pointer-events:none;opacity:0;transition:opacity .18s ease, transform .18s ease; }
+.download-btn .flash.show { opacity:1; transform:translate(-50%,-50%) scale(0.98); }
 
-/* full-button fill effect (subtle) */
-.btn-fill {
-  background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-  box-shadow: 0 12px 28px rgba(0,0,0,0.6);
-  transform: translateY(-2px);
-}
-
-/* ghost button */
-.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--white);padding:10px 14px;border-radius:12px;display:inline-flex;align-items:center;gap:8px}
-
-/* code area */
-.codewrap{background:#060606;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);overflow:auto}
-pre.cmd{margin:0;color:#e6eef8;background:transparent;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Roboto Mono, \"Courier New\",monospace;font-size:14px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
-
-/* copy small button */
+/* copy section button (small, near heading) */
 .copy-section-btn {
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
   color:var(--white);
@@ -94,20 +101,32 @@ pre.cmd{margin:0;color:#e6eef8;background:transparent;font-family:ui-monospace,S
   display:inline-flex;
   align-items:center;
   gap:8px;
-  min-width:110px;
+  min-width:96px;
   position:relative;
   overflow:hidden;
 }
-.copy-section-btn .flash { position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(1);width:82%;height:56%;border-radius:10px;background:rgba(255,255,255,0.08);pointer-events:none;opacity:0;transition:opacity .12s, transform .12s;}
-.copy-section-btn.pressed { transform: scale(0.98); }
+.copy-section-btn .flash { position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(1);width:82%;height:56%;border-radius:10px;background:rgba(255,255,255,0.08);pointer-events:none;opacity:0;transition:opacity .15s ease, transform .15s ease;}
+.copy-section-btn.pressed { transform: scale(0.97); }
+.copy-section-btn .flash.show { opacity:1; transform:translate(-50%,-50%) scale(0.98); }
 
-/* small press anim */
-.pre-press { transition: transform .12s; transform: translateY(0); }
+/* ghost button */
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--white);padding:10px 14px;border-radius:12px;display:inline-flex;align-items:center;gap:8px}
 
-/* bottom extra actions */
-.bottom-actions{display:flex;gap:12px;justify-content:center;margin:18px 0 6px;align-items:center}
-.extra-btn{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid var(--line);padding:10px 14px;border-radius:12px;cursor:pointer;display:inline-flex;align-items:center;gap:10px;font-weight:700}
-.extra-btn .ico{width:18px;height:18px}
+/* boxes - category cards & code blocks */
+.boxes{display:flex;flex-direction:column;gap:16px;will-change:transform,opacity}
+@media(min-width:760px){.boxes{flex-direction:row}}
+.box{background:var(--card);padding:18px;border-radius:12px;border:1px solid var(--line);flex:1;transition:transform .12s,box-shadow .12s,background .12s;cursor:pointer;min-height:92px;display:flex;flex-direction:column;justify-content:center}
+.box h2{color:var(--accent);margin:0 0 8px;font-size:20px}
+.box p{margin:0;color:var(--muted)}
+.box:focus, .box.pressed { background:var(--press); outline:none; }
+
+/* content sections and code */
+.section{margin-bottom:18px}
+.section .heading-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.section h3{font-size:18px;margin:0;color:var(--white);flex:1}
+.lead{color:var(--muted);margin:0 0 12px}
+.codewrap{background:#060606;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);overflow:auto}
+pre.cmd{margin:0;color:#e6eef8;background:transparent;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Roboto Mono, "Courier New",monospace;font-size:14px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
 
 /* subtle animations */
 .fade-in-up { animation: fadeUp .45s ease both; }
@@ -116,7 +135,7 @@ pre.cmd{margin:0;color:#e6eef8;background:transparent;font-family:ui-monospace,S
 /* footer */
 footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid var(--line);margin-top:18px}
 
-/* accessibility */
+/* remove outlines on focus */
 :focus{outline:none}
 </style>
 </head>
@@ -129,9 +148,27 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
   </button>
   <div class="brand">MC Command</div>
   <div class="spacer"></div>
+  <div class="header-img" id="headerImg" title="user-image"></div>
 </div>
 
 <div class="container">
+  <div id="overlay" class="overlay" aria-hidden="true"></div>
+
+  <aside id="sidebar" class="sidebar" aria-hidden="true" role="navigation">
+    <div class="closeBtn" id="closeBtn" aria-label="ปิดเมนู">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.3 5.71L12 12l6.3 6.29-1.41 1.42L10.59 13.4 4.29 19.71 2.88 18.29 9.18 12 2.88 5.71 4.29 4.29 10.59 10.6 16.89 4.29z"/></svg>
+    </div>
+
+    <h3>เมนู</h3>
+
+    <ul class="menu-list" id="menuList">
+      <li class="menu-item"><a href="index.html" target="_self">หน้าแรก</a><span class="chev">›</span></li>
+      <li class="menu-item"><a href="commands.html" target="_self">คำสั่งทั้งหมด</a><span class="chev">›</span></li>
+      <li class="menu-item"><a href="about.html" target="_self">เกี่ยวกับ</a><span class="chev">›</span></li>
+    </ul>
+
+  </aside>
+
   <main class="content" id="mainContent" role="main">
     <section class="hero" aria-labelledby="heroTitle">
       <div class="hero-inner">
@@ -142,10 +179,9 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
 
     <!-- tools -->
     <div class="tool-row">
-      <div class="search" role="search">
-        <!-- search icon ตามที่มึงขอ -->
+      <div class="search">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.5 3A6.5 6.5 0 1 1 3 9.5 6.507 6.507 0 0 1 9.5 3m0-2A8.5 8.5 0 1 0 18 9.5 8.509 8.509 0 0 0 9.5 1z"/><path fill="currentColor" d="M20.71 20.29l-4.4-4.39"/></svg>
-        <input id="searchInput" placeholder="ค้นหา... (เช่น give, tag, playsound)" aria-label="ค้นหา" />
+        <input id="searchInput" placeholder="ค้นหา... (เช่น give, tag, playsound)" />
       </div>
 
       <select id="filterSelect" class="select" aria-label="กรองหมวด">
@@ -155,26 +191,20 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
         <option value="npc">คำสั่ง NPC</option>
       </select>
 
-      <!-- download: มีไอคอนหน้า (แต่พฤติกรรมเดิมยังอยู่) -->
       <button id="downloadBtn" class="download-btn" aria-label="ดาวน์โหลด">
-        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3v10.5l4-4V21H8V9.5l4 4V3z"/></svg>
+        <svg class="ico" viewBox="0 0 24 24" style="width:16px;height:16px;margin-right:8px;opacity:.95"><path fill="currentColor" d="M12 3v10.5l4-4V21H8V9.5l4 4V3z"/></svg>
         ดาวน์โหลด
         <span class="flash" aria-hidden="true"></span>
       </button>
 
-      <button id="copyAllBtn" class="btn ghost" aria-label="คัดลอกทั้งหมด">
-        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v12h2V3h12V1zM19 5H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-        คัดลอกทั้งหมด
-      </button>
+      <button id="copyAllBtn" class="btn ghost">คัดลอกทั้งหมด</button>
     </div>
 
-    <!-- commands -->
+    <!-- content sections -->
     <section class="section" data-cat="chat" id="sec-chat">
       <div class="heading-row">
         <h3>คำสั่งในช่องแชท</h3>
-        <button class="copy-section-btn" data-target="chatCommands" aria-label="คัดลอกหมวดแชท">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v12h2V3h12V1zM19 5H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-          คัดลอก
+        <button class="copy-section-btn" data-target="chatCommands">คัดลอก
           <span class="flash" aria-hidden="true"></span>
         </button>
       </div>
@@ -196,8 +226,11 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
     <section class="section" data-cat="cmdblock" id="sec-cmd">
       <div class="heading-row">
         <h3>คำสั่งในคอมมานบล็อก</h3>
-        <button class="copy-section-btn" data-target="cmdBlockCommands" aria-label="คัดลอกหมวดคอมมานบล็อก">คัดลอก</button>
+        <button class="copy-section-btn" data-target="cmdBlockCommands">คัดลอก
+          <span class="flash" aria-hidden="true"></span>
+        </button>
       </div>
+      <p class="lead">คำสั่งที่จะใส่ในคอมมานบล็อกสีม่วง - ทำงานตลอด</p>
       <div class="codewrap fade-in-up">
 <pre id="cmdBlockCommands" class="cmd">
 1. dialogue open @e[type=npc,tag=b] @a[tag=b]
@@ -212,10 +245,14 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
     <section class="section" data-cat="npc" id="sec-npc">
       <div class="heading-row">
         <h3>คำสั่งใน NPC (ตัวหลัก & ตัวซื้อ)</h3>
-        <button class="copy-section-btn" data-target="npcBuy" aria-label="คัดลอกหมวด NPC">คัดลอก</button>
+        <button class="copy-section-btn" data-target="npcBuy">คัดลอก
+          <span class="flash" aria-hidden="true"></span>
+        </button>
       </div>
+      <p class="lead">แยกเป็น 2 กลุ่ม — ตัวหลักพูดคุยและตัวซื้อ</p>
       <div class="codewrap fade-in-up">
 <pre id="npcBuy" class="cmd">
+
 1. playsound mob.villager.no @initiator[scores={m=..19}]
 playsound note.harp @initiator[scores={m=..19}]
 tellraw @initiator[scores={m=..19}] {"rawtext":[{"text":" §eคนขายของ§r: §cซื้อไม่สำเร็จ§r"}]}
@@ -231,19 +268,6 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
       </div>
     </section>
 
-    <!-- bottom extra buttons -->
-    <div class="bottom-actions">
-      <button id="extraCopyBtn" class="extra-btn" title="คัดลอกคำสั่งทั้งหมด (สะอาด)">
-        <svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v12h2V3h12V1zM19 5H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-        คัดลอกคำสั่งทั้งหมด
-      </button>
-
-      <button id="extraDownloadBtn" class="extra-btn" title="ดาวน์โหลดคำสั่งทั้งหมด (สะอาด)">
-        <svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3v10.5l4-4V21H8V9.5l4 4V3z"/></svg>
-        ดาวน์โหลดคำสั่งทั้งหมด
-      </button>
-    </div>
-
     <footer>© MC Command Bedrock — By Pain</footer>
   </main>
 </div>
@@ -258,12 +282,17 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   const filterSelect = document.getElementById('filterSelect');
   const downloadBtn = document.getElementById('downloadBtn');
   const copyAllBtn = document.getElementById('copyAllBtn');
-  const extraCopyBtn = document.getElementById('extraCopyBtn');
-  const extraDownloadBtn = document.getElementById('extraDownloadBtn');
 
   // hide header image placeholder if any
   const headerImg = document.getElementById('headerImg');
   if(headerImg){ headerImg.style.display='none'; setTimeout(()=>headerImg.remove(),80); }
+
+  function openSidebar(){ if(!sidebar) return; sidebar.classList.add('open'); overlay.classList.add('show'); sidebar.setAttribute('aria-hidden','false'); overlay.setAttribute('aria-hidden','false'); document.documentElement.style.overflow='hidden'; }
+  function closeSidebar(){ if(!sidebar) return; sidebar.classList.remove('open'); overlay.classList.remove('show'); sidebar.setAttribute('aria-hidden','true'); overlay.setAttribute('aria-hidden','true'); document.documentElement.style.overflow=''; }
+  if(hamb) hamb.addEventListener('click', ()=> sidebar && sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
+  if(closeBtn) closeBtn.addEventListener('click', closeSidebar);
+  if(overlay) overlay.addEventListener('click', closeSidebar);
+  document.addEventListener('keydown', (ev)=>{ if(ev.key === 'Escape') closeSidebar(); });
 
   // search & filter
   const sections = Array.from(document.querySelectorAll('section.section'));
@@ -282,13 +311,13 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   if(filterSelect) filterSelect.addEventListener('change', applyFilter);
   applyFilter();
 
-  /* ===== core: clean command extraction (accept with/without /) ===== */
+  // extract and clean commands (accept with/without /)
   function cleanLineCandidate(line){
     if(!line) return '';
     let ln = line.trim();
     if(!ln) return '';
 
-    ln = ln.replace(/^[\s]*\d+[\.\)]\s*/, ''); // remove leading numbers like "1." or "2)"
+    ln = ln.replace(/^[\s]*\d+[\.\)]\s*/, ''); // remove leading numbers
     ln = ln.replace(/^[\s]*[\-\*\•]\s*/, ''); // bullets
     ln = ln.replace(/\s+\(\s*.*$/,'');      // trailing ( ... )
     ln = ln.replace(/\s+—\s+.*$/,'');       // trailing — ...
@@ -311,7 +340,6 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   }
 
   function extractCommandsFromText(text){
-    if(!text) return [];
     const lines = text.split(/\r?\n/);
     const cmds = [];
     for(let ln of lines){
@@ -322,30 +350,22 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   }
 
   function collectVisibleCommands(){
-    const visiblePreTexts = Array.from(document.querySelectorAll('section.section'))
+    const visible = Array.from(document.querySelectorAll('section.section'))
       .filter(s => s.style.display !== 'none')
       .map(s => {
         const pre = s.querySelector('pre.cmd');
-        return pre ? pre.innerText : '';
+        const content = pre ? pre.innerText.trim() : '';
+        return content;
       }).filter(Boolean);
-
-    const allCmds = [];
-    visiblePreTexts.forEach(t => {
-      const arr = extractCommandsFromText(t);
-      arr.forEach(x => allCmds.push(x));
+    const all = [];
+    visible.forEach(txt=>{
+      extractCommandsFromText(txt).forEach(x => all.push(x));
     });
-    return allCmds.join("\n");
+    return all.join("\n");
   }
 
-  function collectCommandsFromPreId(id){
-    const pre = document.getElementById(id);
-    if(!pre) return '';
-    return extractCommandsFromText(pre.innerText).join('\n');
-  }
-
-  /* ===== UX helpers: flash inside button (original) + full-button fill (only) ====== */
-
-  function flashInside(btn){
+  // flash inside + visual feedback (original behavior)
+  function flashBtnInside(btn){
     if(!btn) return;
     btn.classList.add('pressed');
     const flash = btn.querySelector('.flash');
@@ -356,23 +376,16 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     setTimeout(()=> btn.classList.remove('pressed'), 200);
   }
 
-  function fillButton(btn, duration=900){
-    if(!btn) return;
-    btn.classList.add('btn-fill');
-    setTimeout(()=> btn.classList.remove('btn-fill'), duration);
-  }
-
-  /* ===== Download button (original behavior + added icon + added fill) ===== */
+  // DOWNLOAD
   if(downloadBtn){
     downloadBtn.addEventListener('click', (e)=>{
       const text = collectVisibleCommands();
       if(!text){ alert('ไม่มีคำสั่งที่มองเห็นเพื่อดาวน์โหลด'); return; }
 
-      // original flash + short full-button fill
-      flashInside(downloadBtn);
-      fillButton(downloadBtn, 900);
+      // visual feedback (original + flash)
+      flashBtnInside(downloadBtn);
 
-      // create blob download (unchanged)
+      // create download blob
       const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -385,91 +398,57 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     });
   }
 
-  /* ===== Copy All visible (original behavior + fill) ===== */
-  if(copyAllBtn){
-    copyAllBtn.addEventListener('click', async ()=>{
+  // COPY ALL visible
+  const copyAll = document.getElementById('copyAllBtn');
+  if(copyAll){
+    copyAll.addEventListener('click', async ()=>{
       const text = collectVisibleCommands();
       if(!text){ alert('ไม่มีคำสั่งที่มองเห็นให้คัดลอก'); return; }
       try{
         await navigator.clipboard.writeText(text);
-        // original feedback: change text & pressed
-        const orig = copyAllBtn.innerText;
-        copyAllBtn.innerText = 'คัดลอกแล้ว';
-        copyAllBtn.classList.add('pressed');
-        fillButton(copyAllBtn, 1000);
-        setTimeout(()=> { copyAllBtn.innerText = orig; copyAllBtn.classList.remove('pressed'); }, 1200);
+        // old style feedback
+        const orig = copyAll.innerText;
+        copyAll.innerText = 'คัดลอกแล้ว';
+        copyAll.classList.add('pressed');
+        setTimeout(()=> { copyAll.innerText = orig; copyAll.classList.remove('pressed'); }, 1200);
       }catch(e){
         alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
       }
     });
   }
 
-  /* ===== extra bottom buttons (behave like originals but add fill) ===== */
-  if(extraCopyBtn){
-    extraCopyBtn.addEventListener('click', async ()=>{
-      const text = collectVisibleCommands();
-      if(!text){ alert('ไม่มีคำสั่งที่มองเห็นให้คัดลอก'); return; }
-      try{
-        await navigator.clipboard.writeText(text);
-        const orig = extraCopyBtn.innerText;
-        extraCopyBtn.innerText = 'คัดลอกแล้ว';
-        extraCopyBtn.classList.add('pressed');
-        fillButton(extraCopyBtn, 1000);
-        setTimeout(()=> { extraCopyBtn.innerText = orig; extraCopyBtn.classList.remove('pressed'); }, 1200);
-      }catch(e){
-        alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
-      }
-    });
-  }
-  if(extraDownloadBtn){
-    extraDownloadBtn.addEventListener('click', (e)=>{
-      const text = collectVisibleCommands();
-      if(!text){ alert('ไม่มีคำสั่งที่มองเห็นเพื่อดาวน์โหลด'); return; }
-      flashInside(extraDownloadBtn);
-      fillButton(extraDownloadBtn, 900);
-
-      const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'mc-commands-by-pain.txt';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(()=> URL.revokeObjectURL(url), 1500);
-    });
-  }
-
-  /* ===== per-section copy buttons (original behavior + fill) ===== */
+  // Per-section copy buttons
   document.querySelectorAll('.copy-section-btn').forEach(btn=>{
     btn.addEventListener('click', async (ev)=>{
       const targetId = btn.getAttribute('data-target');
-      const text = collectCommandsFromPreId(targetId);
-      if(!text){ alert('หมวดนี้ไม่มีคำสั่งแบบที่คัดได้'); return; }
+      const pre = document.getElementById(targetId);
+      if(!pre){ alert('ไม่พบข้อมูลที่จะคัดลอก'); return; }
+      const text = extractCommandsFromText(pre.innerText || '');
+      if(!text || text.length === 0){ alert('หมวดนี้ไม่มีคำสั่งแบบที่คัดได้'); return; }
 
-      // original button flash + fill
+      // visual feedback
       btn.classList.add('pressed');
       const flash = btn.querySelector('.flash');
       if(flash){ flash.classList.add('show'); setTimeout(()=> flash.classList.remove('show'), 260); }
-      fillButton(btn, 1000);
-      setTimeout(()=> btn.classList.remove('pressed'), 200);
+      setTimeout(()=> btn.classList.remove('pressed'), 180);
 
       try{
-        await navigator.clipboard.writeText(text);
-        const orig = btn.innerText;
+        await navigator.clipboard.writeText(text.join('\n'));
+        const origText = btn.innerText;
         btn.innerText = 'คัดลอกแล้ว';
-        setTimeout(()=> btn.innerText = orig, 1100);
+        setTimeout(()=> btn.innerText = origText, 1100);
       }catch(e){
         alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
       }
     });
   });
 
-  // click feedback for pre blocks (keep minimal)
+  // small click feedback for pre blocks (unchanged)
   document.querySelectorAll('pre.cmd').forEach(pre=>{
     pre.addEventListener('click', ()=> {
-      pre.classList.add('pre-press');
-      setTimeout(()=> pre.classList.remove('pre-press'), 200);
+      pre.style.background = 'rgba(255,255,255,0.01)';
+      pre.style.border = '1px solid rgba(255,255,255,0.03)';
+      setTimeout(()=>{ pre.style.background = ''; pre.style.border = ''; }, 200);
     });
   });
 
