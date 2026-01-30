@@ -19,23 +19,24 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 * { -webkit-tap-highlight-color: transparent; }
 
 /* topbar */
-.topbar{position:sticky;top:0;z-index:60;background:var(--panel);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:12px 14px}
-.hamb{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:70}
+/* z-index สูงพอให้ปุ่มบนท็อปบาร์กดได้เสมอ */
+.topbar{position:sticky;top:0;z-index:120;background:var(--panel);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:12px 14px}
+.hamb{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:130}
 .hamb svg{width:22px;height:22px;fill:var(--white)}
 .brand{font-weight:800;font-size:22px;color:var(--accent);margin-left:6px}
 .spacer{flex:1}
 .header-img{display:none}
 
 /* layout */
-.container{display:flex;min-height:calc(100vh - 64px);position:relative;padding-bottom:120px}
+.container{display:flex;min-height:calc(100vh - 64px);position:relative;padding-bottom:40px}
 
 /* overlay + sidebar */
-/* overlay z-index LOWER than content so it doesn't accidentally block buttons outside when not active */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);opacity:0;pointer-events:none;transition:opacity .22s;z-index:40}
+/* overlay z-index ต่ำกว่า topbar แต่สูงพอจะมืดพื้นหลังเมื่อเมนูเปิด */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);opacity:0;pointer-events:none;transition:opacity .22s;z-index:80}
 .overlay.show{opacity:1;pointer-events:auto}
-.sidebar{position:fixed;left:-120%;top:0;height:100%;width:86vw;max-width:420px;background:var(--panel);box-shadow:2px 0 40px rgba(0,0,0,.6);z-index:85;padding:20px;transition:left var(--transition);overflow:auto;border-right:1px solid var(--line);border-radius:0 12px 12px 0}
+.sidebar{position:fixed;left:-120%;top:0;height:100%;width:86vw;max-width:420px;background:var(--panel);box-shadow:2px 0 40px rgba(0,0,0,.6);z-index:110;padding:20px;transition:left var(--transition);overflow:auto;border-right:1px solid var(--line);border-radius:0 12px 12px 0}
 .sidebar.open{left:0}
-.closeBtn{position:absolute;right:14px;top:14px;width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:rgba(255,255,255,0.02);z-index:90}
+.closeBtn{position:absolute;right:14px;top:14px;width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:rgba(255,255,255,0.02);z-index:115}
 .closeBtn svg{width:20px;height:20px;fill:var(--white);opacity:.95}
 .sidebar h3{color:var(--accent);font-size:28px;margin:6px 0 14px}
 .menu-list{list-style:none;padding:0;margin:0}
@@ -57,10 +58,10 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 /* toolbar (search + filter + download) */
 .tool-row{display:flex;gap:10px;align-items:center;margin:8px 0 18px;flex-wrap:wrap}
 .search{
-  display:flex;align-items:center;background:var(--card);padding:8px 10px;border-radius:12px;border:1px solid var(--line);min-width:120px;flex:1;z-index:50;pointer-events:auto;
+  display:flex;align-items:center;background:var(--card);padding:8px 10px;border-radius:12px;border:1px solid var(--line);min-width:120px;flex:1;z-index:100;pointer-events:auto;
 }
 .search input{background:transparent;border:0;color:var(--white);width:100%;font-size:15px}
-.select{background:var(--card);padding:8px 12px;border-radius:12px;border:1px solid var(--line);min-width:120px;color:var(--muted);z-index:50;pointer-events:auto}
+.select{background:var(--card);padding:8px 12px;border-radius:12px;border:1px solid var(--line);min-width:120px;color:var(--muted);z-index:100}
 
 /* download button */
 .download-btn {
@@ -80,16 +81,15 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
   justify-content:center;
   min-width:110px;
   box-shadow: 0 8px 24px rgba(59,130,246,0.16);
-  z-index:95;
+  z-index:100;
   pointer-events:auto;
 }
 .download-btn:hover { background: rgb(37, 99, 235); }
 .download-btn:active { background: rgb(29, 78, 216); transform: scale(0.96); }
-.download-btn.pressed { transform: scale(0.96); background: rgb(29,78,216); }
 .download-btn .flash { position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(1);width:90%;height:62%;border-radius:12px;background:rgba(255,255,255,0.12);pointer-events:none;opacity:0;transition:opacity .18s ease, transform .18s ease; }
 .download-btn .flash.show { opacity:1; transform:translate(-50%,-50%) scale(0.98); }
 
-/* copy section button (position slightly lowered to overlap code) */
+/* copy section button */
 .copy-section-btn {
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
   color:var(--white);
@@ -98,23 +98,22 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
   font-weight:600;
   border:1px solid rgba(255,255,255,0.03);
   cursor:pointer;
+  margin-left:10px;
   display:inline-flex;
   align-items:center;
   gap:8px;
   min-width:96px;
   position:relative;
   overflow:hidden;
-  transform: translateY(8px); /* ลงมานิดๆ ให้ใกล้โค้ด */
-  box-shadow: 0 8px 18px rgba(0,0,0,0.45);
-  z-index:92;
+  z-index:100;
   pointer-events:auto;
 }
 .copy-section-btn .flash { position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(1);width:82%;height:56%;border-radius:10px;background:rgba(255,255,255,0.08);pointer-events:none;opacity:0;transition:opacity .15s ease, transform .15s ease;}
-.copy-section-btn.pressed { transform: translateY(8px) scale(0.97); }
+.copy-section-btn.pressed { transform: scale(0.97); }
 .copy-section-btn .flash.show { opacity:1; transform:translate(-50%,-50%) scale(0.98); }
 
 /* ghost button */
-.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--white);padding:10px 14px;border-radius:12px;z-index:95;pointer-events:auto}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--white);padding:10px 14px;border-radius:12px;z-index:100}
 
 /* boxes - category cards & code blocks */
 .boxes{display:flex;flex-direction:column;gap:16px;will-change:transform,opacity}
@@ -125,29 +124,12 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 .box:focus, .box.pressed { background:var(--press); outline:none; }
 
 /* content sections and code */
-.section{margin-bottom:28px}
-.section .heading-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.section{margin-bottom:18px}
+.section .heading-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .section h3{font-size:18px;margin:0;color:var(--white);flex:1}
 .lead{color:var(--muted);margin:0 0 12px}
-.codewrap{background:#060606;padding:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);overflow:auto;position:relative}
+.codewrap{background:#060606;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);overflow:auto;position:relative}
 pre.cmd{margin:0;color:#e6eef8;background:transparent;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Roboto Mono, "Courier New",monospace;font-size:14px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
-
-/* bottom centered extra button */
-.bottom-cta{
-  width:220px;
-  margin:26px auto 60px;
-  display:block;
-  text-align:center;
-  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  color:var(--white);
-  padding:12px 18px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,0.03);
-  font-weight:700;
-  box-shadow:0 18px 40px rgba(0,0,0,0.5);
-  z-index:95;
-  pointer-events:auto;
-}
 
 /* subtle animations */
 .fade-in-up { animation: fadeUp .45s ease both; }
@@ -234,7 +216,7 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
 2. /give @s spawn_egg 1 51
 3. /gamerule commandblockoutput false
 4. /gamerule sendcommandfeedback false
-5. /tickingarea add circle ~~~ 4 t   ไปยืนใกล้คอมมานแล้วพิมพ์คำสั่งนี้ในแชท
+5. /tickingarea add circle ~~~ 4 t
 6. /scoreboard objectives add m dummy
 
 /tag @n[type=npc] add b
@@ -290,9 +272,6 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
       </div>
     </section>
 
-    <!-- bottom centered CTA (เพิ่มเติมตามสั่ง) -->
-    <button id="moreBtn" class="bottom-cta" type="button">ปุ่มเพิ่มเติม</button>
-
     <footer>© MC Command Bedrock — By Pain</footer>
   </main>
 </div>
@@ -307,9 +286,8 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   const filterSelect = document.getElementById('filterSelect');
   const downloadBtn = document.getElementById('downloadBtn');
   const copyAllBtn = document.getElementById('copyAllBtn');
-  const moreBtn = document.getElementById('moreBtn');
 
-  // ensure overlay starts fully hidden and non-blocking
+  // ensure overlay starts hidden and non-blocking
   if(overlay){
     overlay.classList.remove('show');
     overlay.style.pointerEvents = 'none';
@@ -320,34 +298,35 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   const headerImg = document.getElementById('headerImg');
   if(headerImg){ headerImg.style.display='none'; setTimeout(()=>headerImg.remove(),80); }
 
-  function openSidebar(){
+  // open / close sidebar functions
+  const openSidebar = () => {
     sidebar.classList.add('open');
     overlay.classList.add('show');
     overlay.style.pointerEvents = 'auto';
     sidebar.setAttribute('aria-hidden','false');
     overlay.setAttribute('aria-hidden','false');
     document.documentElement.style.overflow = 'hidden';
-  }
-  function closeSidebar(){
+  };
+  const closeSidebar = () => {
     sidebar.classList.remove('open');
     overlay.classList.remove('show');
     overlay.style.pointerEvents = 'none';
     sidebar.setAttribute('aria-hidden','true');
     overlay.setAttribute('aria-hidden','true');
     document.documentElement.style.overflow = '';
-  }
+  };
 
-  // make sure overlay clicks close menu
-  overlay && overlay.addEventListener('click', closeSidebar);
-  hamb && hamb.addEventListener('click', ()=> sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
-  closeBtn && closeBtn.addEventListener('click', closeSidebar);
+  // bind events safely and check element presence
+  if(hamb) hamb.addEventListener('click', ()=> sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
+  if(closeBtn) closeBtn.addEventListener('click', closeSidebar);
+  if(overlay) overlay.addEventListener('click', closeSidebar);
   document.addEventListener('keydown', (ev)=>{ if(ev.key === 'Escape') closeSidebar(); });
 
-  // search & filter
+  // search & filter (works on visible sections)
   const sections = Array.from(document.querySelectorAll('section.section'));
   function applyFilter(){
-    const q = (searchInput ? searchInput.value : '').trim().toLowerCase();
-    const cat = filterSelect ? filterSelect.value : 'all';
+    const q = (searchInput && searchInput.value ? searchInput.value : '').trim().toLowerCase();
+    const cat = (filterSelect && filterSelect.value) ? filterSelect.value : 'all';
     sections.forEach(sec=>{
       const catMatch = (cat === 'all') || (sec.dataset.cat === cat);
       const text = (sec.innerText || '').toLowerCase();
@@ -356,30 +335,29 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
       sec.style.display = show ? '' : 'none';
     });
   }
-  searchInput && searchInput.addEventListener('input', applyFilter);
-  filterSelect && filterSelect.addEventListener('change', applyFilter);
+  if(searchInput) searchInput.addEventListener('input', applyFilter);
+  if(filterSelect) filterSelect.addEventListener('change', applyFilter);
   applyFilter();
 
-  // helper: extract only raw command tokens from a block of text
+  // helper: extract only raw command tokens from text (removes numbering and notes)
   function extractCommandsFromText(text){
     const out = [];
     const lines = text.split(/\r?\n/);
-    for(let line of lines){
-      const raw = line.trim();
+    for(let raw of lines){
+      raw = raw.trim();
       if(!raw) continue;
-      // match optional numbering followed by command starting with slash
-      const m = raw.match(/^(\d+\.\s*)*(\/.+?)(?:\s{2,}|$)/);
-      if(m && m[2]){
-        out.push(m[2].trim());
-        continue;
-      }
-      const m2 = raw.match(/^(\/\S.*?)(?:\s{2,}|$)/);
-      if(m2 && m2[1]) out.push(m2[1].trim());
+      // number + dot prefix
+      raw = raw.replace(/^\d+\.\s*/,'');
+      // if line starts with a slash, take until end (full command)
+      if(raw.startsWith('/')){ out.push(raw); continue; }
+      // sometimes command lines have no leading slash in the block — try to capture common patterns
+      const m = raw.match(/(\/\S.+)/);
+      if(m){ out.push(m[1].trim()); continue; }
     }
     return out;
   }
 
-  // collect visible commands (used for download & copy-all)
+  // collect visible commands for download/copy (only the command lines)
   function collectVisibleCommands(){
     const visible = Array.from(document.querySelectorAll('section.section'))
       .filter(s => s.style.display !== 'none')
@@ -393,17 +371,15 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     return visible.join("\n\n---\n\n");
   }
 
-  // DOWNLOAD
-  downloadBtn && downloadBtn.addEventListener('click', (e)=>{
+  // download button
+  if(downloadBtn) downloadBtn.addEventListener('click', (e)=>{
     const text = collectVisibleCommands();
     if(!text){ alert('ไม่มีคำสั่งที่มองเห็นเพื่อดาวน์โหลด'); return; }
 
+    // visual feedback
     downloadBtn.classList.add('pressed');
     const flash = downloadBtn.querySelector('.flash');
-    if(flash){
-      flash.classList.add('show');
-      setTimeout(()=> flash.classList.remove('show'), 260);
-    }
+    if(flash){ flash.classList.add('show'); setTimeout(()=> flash.classList.remove('show'), 260); }
     setTimeout(()=> downloadBtn.classList.remove('pressed'), 200);
 
     const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
@@ -417,8 +393,8 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     setTimeout(()=> URL.revokeObjectURL(url), 1500);
   });
 
-  // COPY ALL visible (copy only commands)
-  copyAllBtn && copyAllBtn.addEventListener('click', async ()=>{
+  // copy all visible commands
+  if(copyAllBtn) copyAllBtn.addEventListener('click', async ()=>{
     const text = collectVisibleCommands();
     if(!text){ alert('ไม่มีคำสั่งที่มองเห็นให้คัดลอก'); return; }
     try{
@@ -432,9 +408,9 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     }
   });
 
-  // Per-section copy buttons (copy only commands inside that block)
+  // per-section copy: copy only the command lines within that block
   document.querySelectorAll('.copy-section-btn').forEach(btn=>{
-    btn.addEventListener('click', async (ev)=>{
+    btn.addEventListener('click', async ()=>{
       const targetId = btn.getAttribute('data-target');
       const pre = document.getElementById(targetId);
       if(!pre){ alert('ไม่พบข้อมูลที่จะคัดลอก'); return; }
@@ -443,6 +419,7 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
       const copyText = cmds.length ? cmds.join("\n") : rawText.trim();
       if(!copyText){ alert('หมวดนี้ไม่มีคำสั่งให้คัดลอก'); return; }
 
+      // visual feedback
       btn.classList.add('pressed');
       const flash = btn.querySelector('.flash');
       if(flash){ flash.classList.add('show'); setTimeout(()=> flash.classList.remove('show'), 220); }
@@ -450,18 +427,25 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
 
       try{
         await navigator.clipboard.writeText(copyText);
-        const origText = btn.innerText;
+        const original = btn.innerText;
         btn.innerText = 'คัดลอกแล้ว';
-        setTimeout(()=> btn.innerText = origText, 1100);
+        setTimeout(()=> btn.innerText = original, 1100);
       }catch(e){
         alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
       }
     });
   });
 
-  moreBtn && moreBtn.addEventListener('click', ()=> {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  // pre click small feedback
+  document.querySelectorAll('pre.cmd').forEach(pre=>{
+    pre.addEventListener('click', ()=> {
+      pre.style.background = 'rgba(255,255,255,0.01)';
+      pre.style.border = '1px solid rgba(255,255,255,0.03)';
+      setTimeout(()=>{ pre.style.background = ''; pre.style.border = ''; }, 200);
+    });
   });
 
-  // small click feedback for pre blocks
-  document.querySelectorAll('pre.cmd').
+})();
+</script>
+</body>
+  </html>
