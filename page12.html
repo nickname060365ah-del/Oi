@@ -20,7 +20,7 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 
 /* topbar */
 .topbar{position:sticky;top:0;z-index:60;background:var(--panel);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:12px 14px}
-.hamb{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.hamb{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:70}
 .hamb svg{width:22px;height:22px;fill:var(--white)}
 .brand{font-weight:800;font-size:22px;color:var(--accent);margin-left:6px}
 .spacer{flex:1}
@@ -30,11 +30,12 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 .container{display:flex;min-height:calc(100vh - 64px);position:relative;padding-bottom:120px}
 
 /* overlay + sidebar */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);opacity:0;pointer-events:none;transition:opacity .22s;z-index:65}
+/* overlay z-index LOWER than content so it doesn't accidentally block buttons outside when not active */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);opacity:0;pointer-events:none;transition:opacity .22s;z-index:40}
 .overlay.show{opacity:1;pointer-events:auto}
-.sidebar{position:fixed;left:-120%;top:0;height:100%;width:86vw;max-width:420px;background:var(--panel);box-shadow:2px 0 40px rgba(0,0,0,.6);z-index:70;padding:20px;transition:left var(--transition);overflow:auto;border-right:1px solid var(--line);border-radius:0 12px 12px 0}
+.sidebar{position:fixed;left:-120%;top:0;height:100%;width:86vw;max-width:420px;background:var(--panel);box-shadow:2px 0 40px rgba(0,0,0,.6);z-index:85;padding:20px;transition:left var(--transition);overflow:auto;border-right:1px solid var(--line);border-radius:0 12px 12px 0}
 .sidebar.open{left:0}
-.closeBtn{position:absolute;right:14px;top:14px;width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:rgba(255,255,255,0.02)}
+.closeBtn{position:absolute;right:14px;top:14px;width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:rgba(255,255,255,0.02);z-index:90}
 .closeBtn svg{width:20px;height:20px;fill:var(--white);opacity:.95}
 .sidebar h3{color:var(--accent);font-size:28px;margin:6px 0 14px}
 .menu-list{list-style:none;padding:0;margin:0}
@@ -56,10 +57,10 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 /* toolbar (search + filter + download) */
 .tool-row{display:flex;gap:10px;align-items:center;margin:8px 0 18px;flex-wrap:wrap}
 .search{
-  display:flex;align-items:center;background:var(--card);padding:8px 10px;border-radius:12px;border:1px solid var(--line);min-width:120px;flex:1;
+  display:flex;align-items:center;background:var(--card);padding:8px 10px;border-radius:12px;border:1px solid var(--line);min-width:120px;flex:1;z-index:50;pointer-events:auto;
 }
 .search input{background:transparent;border:0;color:var(--white);width:100%;font-size:15px}
-.select{background:var(--card);padding:8px 12px;border-radius:12px;border:1px solid var(--line);min-width:120px;color:var(--muted)}
+.select{background:var(--card);padding:8px 12px;border-radius:12px;border:1px solid var(--line);min-width:120px;color:var(--muted);z-index:50;pointer-events:auto}
 
 /* download button */
 .download-btn {
@@ -79,6 +80,8 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
   justify-content:center;
   min-width:110px;
   box-shadow: 0 8px 24px rgba(59,130,246,0.16);
+  z-index:95;
+  pointer-events:auto;
 }
 .download-btn:hover { background: rgb(37, 99, 235); }
 .download-btn:active { background: rgb(29, 78, 216); transform: scale(0.96); }
@@ -103,13 +106,15 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
   overflow:hidden;
   transform: translateY(8px); /* ลงมานิดๆ ให้ใกล้โค้ด */
   box-shadow: 0 8px 18px rgba(0,0,0,0.45);
+  z-index:92;
+  pointer-events:auto;
 }
 .copy-section-btn .flash { position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(1);width:82%;height:56%;border-radius:10px;background:rgba(255,255,255,0.08);pointer-events:none;opacity:0;transition:opacity .15s ease, transform .15s ease;}
 .copy-section-btn.pressed { transform: translateY(8px) scale(0.97); }
 .copy-section-btn .flash.show { opacity:1; transform:translate(-50%,-50%) scale(0.98); }
 
 /* ghost button */
-.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--white);padding:10px 14px;border-radius:12px}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--white);padding:10px 14px;border-radius:12px;z-index:95;pointer-events:auto}
 
 /* boxes - category cards & code blocks */
 .boxes{display:flex;flex-direction:column;gap:16px;will-change:transform,opacity}
@@ -140,6 +145,8 @@ pre.cmd{margin:0;color:#e6eef8;background:transparent;font-family:ui-monospace,S
   border:1px solid rgba(255,255,255,0.03);
   font-weight:700;
   box-shadow:0 18px 40px rgba(0,0,0,0.5);
+  z-index:95;
+  pointer-events:auto;
 }
 
 /* subtle animations */
@@ -157,7 +164,7 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
 
 <!-- topbar -->
 <div class="topbar">
-  <button class="hamb" id="hambBtn" aria-label="เปิดเมนู">
+  <button type="button" class="hamb" id="hambBtn" aria-label="เปิดเมนู">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z"/></svg>
   </button>
   <div class="brand">MC Command</div>
@@ -205,18 +212,18 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
         <option value="npc">คำสั่ง NPC</option>
       </select>
 
-      <button id="downloadBtn" class="download-btn" aria-label="ดาวน์โหลด">ดาวน์โหลด
+      <button type="button" id="downloadBtn" class="download-btn" aria-label="ดาวน์โหลด">ดาวน์โหลด
         <span class="flash" aria-hidden="true"></span>
       </button>
 
-      <button id="copyAllBtn" class="btn ghost">คัดลอกทั้งหมด</button>
+      <button type="button" id="copyAllBtn" class="btn ghost">คัดลอกทั้งหมด</button>
     </div>
 
     <!-- content sections -->
     <section class="section" data-cat="chat" id="sec-chat">
       <div class="heading-row">
         <h3>คำสั่งในช่องแชท</h3>
-        <button class="copy-section-btn" data-target="chatCommands">คัดลอก
+        <button type="button" class="copy-section-btn" data-target="chatCommands">คัดลอก
           <span class="flash" aria-hidden="true"></span>
         </button>
       </div>
@@ -238,7 +245,7 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
     <section class="section" data-cat="cmdblock" id="sec-cmd">
       <div class="heading-row">
         <h3>คำสั่งในคอมมานบล็อก</h3>
-        <button class="copy-section-btn" data-target="cmdBlockCommands">คัดลอก
+        <button type="button" class="copy-section-btn" data-target="cmdBlockCommands">คัดลอก
           <span class="flash" aria-hidden="true"></span>
         </button>
       </div>
@@ -257,7 +264,7 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
     <section class="section" data-cat="npc" id="sec-npc">
       <div class="heading-row">
         <h3>คำสั่งใน NPC (ตัวหลัก & ตัวซื้อ)</h3>
-        <button class="copy-section-btn" data-target="npcBuy">คัดลอก
+        <button type="button" class="copy-section-btn" data-target="npcBuy">คัดลอก
           <span class="flash" aria-hidden="true"></span>
         </button>
       </div>
@@ -284,7 +291,7 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     </section>
 
     <!-- bottom centered CTA (เพิ่มเติมตามสั่ง) -->
-    <button id="moreBtn" class="bottom-cta">ปุ่มเพิ่มเติม</button>
+    <button id="moreBtn" class="bottom-cta" type="button">ปุ่มเพิ่มเติม</button>
 
     <footer>© MC Command Bedrock — By Pain</footer>
   </main>
@@ -302,22 +309,45 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   const copyAllBtn = document.getElementById('copyAllBtn');
   const moreBtn = document.getElementById('moreBtn');
 
+  // ensure overlay starts fully hidden and non-blocking
+  if(overlay){
+    overlay.classList.remove('show');
+    overlay.style.pointerEvents = 'none';
+    overlay.setAttribute('aria-hidden','true');
+  }
+
   // hide header image placeholder if any
   const headerImg = document.getElementById('headerImg');
   if(headerImg){ headerImg.style.display='none'; setTimeout(()=>headerImg.remove(),80); }
 
-  function openSidebar(){ sidebar.classList.add('open'); overlay.classList.add('show'); sidebar.setAttribute('aria-hidden','false'); overlay.setAttribute('aria-hidden','false'); document.documentElement.style.overflow='hidden'; }
-  function closeSidebar(){ sidebar.classList.remove('open'); overlay.classList.remove('show'); sidebar.setAttribute('aria-hidden','true'); overlay.setAttribute('aria-hidden','true'); document.documentElement.style.overflow=''; }
-  hamb.addEventListener('click', ()=> sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
-  closeBtn.addEventListener('click', closeSidebar);
-  overlay.addEventListener('click', closeSidebar);
+  function openSidebar(){
+    sidebar.classList.add('open');
+    overlay.classList.add('show');
+    overlay.style.pointerEvents = 'auto';
+    sidebar.setAttribute('aria-hidden','false');
+    overlay.setAttribute('aria-hidden','false');
+    document.documentElement.style.overflow = 'hidden';
+  }
+  function closeSidebar(){
+    sidebar.classList.remove('open');
+    overlay.classList.remove('show');
+    overlay.style.pointerEvents = 'none';
+    sidebar.setAttribute('aria-hidden','true');
+    overlay.setAttribute('aria-hidden','true');
+    document.documentElement.style.overflow = '';
+  }
+
+  // make sure overlay clicks close menu
+  overlay && overlay.addEventListener('click', closeSidebar);
+  hamb && hamb.addEventListener('click', ()=> sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
+  closeBtn && closeBtn.addEventListener('click', closeSidebar);
   document.addEventListener('keydown', (ev)=>{ if(ev.key === 'Escape') closeSidebar(); });
 
   // search & filter
   const sections = Array.from(document.querySelectorAll('section.section'));
   function applyFilter(){
-    const q = (searchInput.value||'').trim().toLowerCase();
-    const cat = filterSelect.value;
+    const q = (searchInput ? searchInput.value : '').trim().toLowerCase();
+    const cat = filterSelect ? filterSelect.value : 'all';
     sections.forEach(sec=>{
       const catMatch = (cat === 'all') || (sec.dataset.cat === cat);
       const text = (sec.innerText || '').toLowerCase();
@@ -331,10 +361,6 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   applyFilter();
 
   // helper: extract only raw command tokens from a block of text
-  // rules:
-  // - lines that start with "/" (optionally preceded by a number like "1. /give")
-  // - if a line has trailing explanatory text separated by two+ spaces, cut after the command
-  // - returns array of command strings (no numbering, no commentary)
   function extractCommandsFromText(text){
     const out = [];
     const lines = text.split(/\r?\n/);
@@ -342,21 +368,18 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
       const raw = line.trim();
       if(!raw) continue;
       // match optional numbering followed by command starting with slash
-      // capture the command up to two or more spaces or EOL
       const m = raw.match(/^(\d+\.\s*)*(\/.+?)(?:\s{2,}|$)/);
       if(m && m[2]){
-        // trim trailing spaces
         out.push(m[2].trim());
         continue;
       }
-      // also allow lines that start directly with '/' without numbering (no extra match)
       const m2 = raw.match(/^(\/\S.*?)(?:\s{2,}|$)/);
       if(m2 && m2[1]) out.push(m2[1].trim());
     }
     return out;
   }
 
-  // collect visible commands from whole page (used for download & copy-all)
+  // collect visible commands (used for download & copy-all)
   function collectVisibleCommands(){
     const visible = Array.from(document.querySelectorAll('section.section'))
       .filter(s => s.style.display !== 'none')
@@ -364,19 +387,17 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
         const h = s.querySelector('h3') ? s.querySelector('h3').innerText.trim() : '';
         const pre = s.querySelector('pre.cmd');
         const content = pre ? pre.innerText.trim() : '';
-        // extract only commands
         const cmds = extractCommandsFromText(content);
         return (h ? h + "\n" : "") + (cmds.length ? cmds.join("\n") : content);
       }).filter(Boolean);
     return visible.join("\n\n---\n\n");
   }
 
-  // DOWNLOAD button behavior
-  downloadBtn.addEventListener('click', (e)=>{
+  // DOWNLOAD
+  downloadBtn && downloadBtn.addEventListener('click', (e)=>{
     const text = collectVisibleCommands();
     if(!text){ alert('ไม่มีคำสั่งที่มองเห็นเพื่อดาวน์โหลด'); return; }
 
-    // visual feedback: scale + flash INSIDE button
     downloadBtn.classList.add('pressed');
     const flash = downloadBtn.querySelector('.flash');
     if(flash){
@@ -385,7 +406,6 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     }
     setTimeout(()=> downloadBtn.classList.remove('pressed'), 200);
 
-    // create download blob (txt)
     const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -423,13 +443,11 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
       const copyText = cmds.length ? cmds.join("\n") : rawText.trim();
       if(!copyText){ alert('หมวดนี้ไม่มีคำสั่งให้คัดลอก'); return; }
 
-      // visual: flash inside button
       btn.classList.add('pressed');
       const flash = btn.querySelector('.flash');
       if(flash){ flash.classList.add('show'); setTimeout(()=> flash.classList.remove('show'), 220); }
       setTimeout(()=> btn.classList.remove('pressed'), 180);
 
-      // copy
       try{
         await navigator.clipboard.writeText(copyText);
         const origText = btn.innerText;
@@ -441,14 +459,9 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     });
   });
 
-  // moreBtn placeholder action (มึงเปลี่ยนลิงก์หรือฟังก์ชันเอง)
   moreBtn && moreBtn.addEventListener('click', ()=> {
-    // ตัวอย่าง: เลื่อนขึ้นไปด้านบน (หรือเปลี่ยนเป็นโหลดหน้าอื่น)
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
   // small click feedback for pre blocks
-  document.querySelectorAll('pre.cmd').forEach(pre=>{
-    pre.addEventListener('click', ()=> {
-      pre.style.background = 'rgba(255,255,255,0.01)';
-      
+  document.querySelectorAll('pre.cmd').
