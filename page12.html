@@ -519,4 +519,46 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     const text = collectVisibleCommands();
     if(!text){ alert('ไม่มีคำสั่งที่มองเห็นให้คัดลอก'); return; }
     try{
-      await navigator.clipboard.writeText
+      await navigator.clipboard.writeText(text);
+      const orig = copyAllBtn.innerHTML;
+      copyAllBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>คัดลอกแล้ว';
+      setTimeout(()=> copyAllBtn.innerHTML = orig, 1400);
+    }catch(e){
+      alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
+    }
+  });
+
+  // Per-section copy buttons
+  document.querySelectorAll('.copy-section-btn').forEach(btn=>{
+    btn.addEventListener('click', async (ev)=>{
+      const targetId = btn.getAttribute('data-target');
+      const pre = document.getElementById(targetId);
+      if(!pre){ alert('ไม่พบข้อมูลที่จะคัดลอก'); return; }
+      
+      const text = extractCommands(pre.innerText);
+      if(!text){ alert('หมวดนี้ไม่มีคำสั่ง'); return; }
+
+      try{
+        await navigator.clipboard.writeText(text);
+        const origHTML = btn.innerHTML;
+        btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>คัดลอกแล้ว';
+        setTimeout(()=> btn.innerHTML = origHTML, 1300);
+      }catch(e){
+        alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
+      }
+    });
+  });
+
+  // pre click feedback
+  document.querySelectorAll('pre.cmd').forEach(pre=>{
+    pre.addEventListener('click', ()=> {
+      pre.style.background = 'rgba(255,255,255,0.01)';
+      pre.style.border = '1px solid rgba(255,255,255,0.03)';
+      setTimeout(()=>{ pre.style.background = ''; pre.style.border = ''; }, 200);
+    });
+  });
+
+})();
+</script>
+</body>
+</html>
