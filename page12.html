@@ -8,7 +8,7 @@
 :root{
   --bg:#0e0e0e; --panel:#0f0f0f; --card:#111213; --line:#222;
   --muted:#9aa0a6; --accent:#4da3ff; --white:#fff; --press:#232428;
-  --transition:.26s cubic-bezier(.2,.9,.2,1); --hero-pad:20px;
+  --transition:.26s cubic-bezier(.2,.9,.2,1);
 }
 
 /* base */
@@ -24,16 +24,15 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 .hamb svg{width:22px;height:22px;fill:var(--white)}
 .brand{font-weight:800;font-size:22px;color:var(--accent);margin-left:6px}
 .spacer{flex:1}
-.header-img{display:none}
 
 /* layout */
 .container{display:flex;min-height:calc(100vh - 64px);position:relative;padding-bottom:40px}
 
-/* overlay + sidebar */
+/* overlay + sidebar (use transform for performance) */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);opacity:0;pointer-events:none;transition:opacity .22s;z-index:65}
 .overlay.show{opacity:1;pointer-events:auto}
-.sidebar{position:fixed;left:-120%;top:0;height:100%;width:86vw;max-width:420px;background:var(--panel);box-shadow:2px 0 40px rgba(0,0,0,.6);z-index:70;padding:20px;transition:left var(--transition);overflow:auto;border-right:1px solid var(--line);border-radius:0 12px 12px 0}
-.sidebar.open{left:0}
+.sidebar{position:fixed;left:0;top:0;height:100%;width:86vw;max-width:420px;background:var(--panel);box-shadow:2px 0 40px rgba(0,0,0,.6);z-index:70;padding:20px;transition:transform var(--transition);overflow:auto;border-right:1px solid var(--line);border-radius:0 12px 12px 0;transform:translateX(-110%);will-change:transform}
+.sidebar.open{transform:translateX(0)}
 .closeBtn{position:absolute;right:14px;top:14px;width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:rgba(255,255,255,0.02)}
 .closeBtn svg{width:20px;height:20px;fill:var(--white);opacity:.95}
 .sidebar h3{color:var(--accent);font-size:28px;margin:6px 0 14px}
@@ -41,92 +40,58 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 .menu-item{padding:16px 6px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
 .menu-item a{flex:1;font-size:20px;color:var(--white);padding-right:8px}
 .menu-item .chev{color:var(--muted);font-size:18px}
-.menu-item a:focus, .menu-item a.pressed { background:var(--press); border-radius:8px; outline:none; box-shadow:none; }
 
 /* content */
 .content{flex:1;padding:22px 16px;max-width:1100px;margin:0 auto}
-.hero{padding:calc(var(--hero-pad) + 2px);border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);margin-bottom:12px;display:block}
-.hero-inner{max-width:920px;padding-left:2px;}
-.hero h1{
-  font-size: clamp(26px, 6vw, 34px);
-  line-height:1.02;margin:0 0 8px;color:var(--white);font-weight:700;text-align:left;
-}
+.hero{padding:calc(20px + 2px);border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);margin-bottom:12px;display:block}
+.hero h1{font-size: clamp(26px, 6vw, 34px);line-height:1.02;margin:0 0 8px;color:var(--white);font-weight:700;text-align:left;}
 .hero p{color:var(--muted);margin:0 0 12px;max-width:820px;text-align:left;font-size:15px;line-height:1.5;opacity:.95}
 
 /* toolbar (search + filter + download) */
 .tool-row{display:flex;gap:10px;align-items:center;margin:8px 0 18px;flex-wrap:wrap}
-.search{
-  display:flex;align-items:center;background:var(--card);padding:8px 10px;border-radius:12px;border:1px solid var(--line);min-width:120px;flex:1;
-}
-.search svg{width:16px;height:16px;opacity:.6;margin-right:8px}
+.search{display:flex;align-items:center;background:var(--card);padding:8px 10px;border-radius:12px;border:1px solid var(--line);min-width:120px;flex:1}
+.search svg{width:18px;height:18px;opacity:.6;margin-right:8px;flex:0 0 18px}
 .search input{background:transparent;border:0;color:var(--white);width:100%;font-size:15px}
 .select{background:var(--card);padding:8px 12px;border-radius:12px;border:1px solid var(--line);min-width:120px;color:var(--muted)}
 
-/* download button */
+/* download button - icon only (no leading text) */
 .download-btn {
   background: rgb(59, 130, 246);
   color: white;
   border-radius: 14px;
-  padding: 12px 18px;
+  padding: 12px;
   font-weight: 600;
-  transition:
-    background 0.2s ease,
-    transform 0.15s ease,
-    box-shadow 0.18s ease;
+  transition: background .12s, transform .08s;
   position: relative;
   overflow: hidden;
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  min-width:110px;
-  box-shadow: 0 8px 24px rgba(59,130,246,0.16);
-}
-.download-btn:hover { background: rgb(37, 99, 235); }
-.download-btn:active { background: rgb(29, 78, 216); transform: scale(0.96); }
-.download-btn.pressed { transform: scale(0.96); background: rgb(29,78,216); }
-/* flash inside */
-.download-btn .flash { position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(1);width:90%;height:62%;border-radius:12px;background:rgba(255,255,255,0.12);pointer-events:none;opacity:0;transition:opacity .18s ease, transform .18s ease; }
-.download-btn .flash.show { opacity:1; transform:translate(-50%,-50%) scale(0.98); }
-
-/* copy section button (small, near heading) */
-.copy-section-btn {
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  color:var(--white);
-  border-radius:10px;
-  padding:8px 10px;
-  font-weight:600;
+  width:56px;
+  height:44px;
+  box-shadow: 0 8px 24px rgba(59,130,246,0.12);
   border:1px solid rgba(255,255,255,0.03);
-  cursor:pointer;
-  margin-left:10px;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  min-width:96px;
-  position:relative;
-  overflow:hidden;
 }
-.copy-section-btn .flash { position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(1);width:82%;height:56%;border-radius:10px;background:rgba(255,255,255,0.08);pointer-events:none;opacity:0;transition:opacity .15s ease, transform .15s ease;}
-.copy-section-btn.pressed { transform: scale(0.97); }
-.copy-section-btn .flash.show { opacity:1; transform:translate(-50%,-50%) scale(0.98); }
+.download-btn .ico { width:20px;height:20px;display:inline-block;vertical-align:middle;opacity:.98}
+.download-btn .flash { position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(1);width:86%;height:66%;border-radius:10px;background:rgba(255,255,255,0.12);pointer-events:none;opacity:0;transition:opacity .14s, transform .14s;}
+.download-btn .flash.show { opacity:1; transform:translate(-50%,-50%) scale(.98); }
+.download-btn.pressed { transform: scale(.985); }
 
-/* ghost button */
+/* copy button */
 .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--white);padding:10px 14px;border-radius:12px;display:inline-flex;align-items:center;gap:8px}
 
-/* boxes - category cards & code blocks */
-.boxes{display:flex;flex-direction:column;gap:16px;will-change:transform,opacity}
-@media(min-width:760px){.boxes{flex-direction:row}}
-.box{background:var(--card);padding:18px;border-radius:12px;border:1px solid var(--line);flex:1;transition:transform .12s,box-shadow .12s,background .12s;cursor:pointer;min-height:92px;display:flex;flex-direction:column;justify-content:center}
-.box h2{color:var(--accent);margin:0 0 8px;font-size:20px}
-.box p{margin:0;color:var(--muted)}
-.box:focus, .box.pressed { background:var(--press); outline:none; }
-
-/* content sections and code */
+/* code block */
 .section{margin-bottom:18px}
 .section .heading-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .section h3{font-size:18px;margin:0;color:var(--white);flex:1}
-.lead{color:var(--muted);margin:0 0 12px}
+.copy-section-btn{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));color:var(--white);border-radius:10px;padding:8px 10px;border:1px solid rgba(255,255,255,0.03);cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.copy-section-btn .flash{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:76%;height:56%;border-radius:10px;background:rgba(255,255,255,0.08);pointer-events:none;opacity:0;transition:opacity .14s;}
+.copy-section-btn .flash.show{opacity:1}
 .codewrap{background:#060606;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);overflow:auto}
 pre.cmd{margin:0;color:#e6eef8;background:transparent;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Roboto Mono, "Courier New",monospace;font-size:14px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+
+/* small click feedback */
+pre.cmd.press{background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.03);}
 
 /* subtle animations */
 .fade-in-up { animation: fadeUp .45s ease both; }
@@ -135,7 +100,7 @@ pre.cmd{margin:0;color:#e6eef8;background:transparent;font-family:ui-monospace,S
 /* footer */
 footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid var(--line);margin-top:18px}
 
-/* remove outlines on focus */
+/* accessibility */
 :focus{outline:none}
 </style>
 </head>
@@ -148,7 +113,7 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
   </button>
   <div class="brand">MC Command</div>
   <div class="spacer"></div>
-  <div class="header-img" id="headerImg" title="user-image"></div>
+  <div class="header-img" id="headerImg" title="user-image" style="display:none"></div>
 </div>
 
 <div class="container">
@@ -160,13 +125,11 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
     </div>
 
     <h3>เมนู</h3>
-
     <ul class="menu-list" id="menuList">
       <li class="menu-item"><a href="index.html" target="_self">หน้าแรก</a><span class="chev">›</span></li>
       <li class="menu-item"><a href="commands.html" target="_self">คำสั่งทั้งหมด</a><span class="chev">›</span></li>
       <li class="menu-item"><a href="about.html" target="_self">เกี่ยวกับ</a><span class="chev">›</span></li>
     </ul>
-
   </aside>
 
   <main class="content" id="mainContent" role="main">
@@ -179,9 +142,9 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
 
     <!-- tools -->
     <div class="tool-row">
-      <div class="search">
+      <div class="search" role="search">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.5 3A6.5 6.5 0 1 1 3 9.5 6.507 6.507 0 0 1 9.5 3m0-2A8.5 8.5 0 1 0 18 9.5 8.509 8.509 0 0 0 9.5 1z"/><path fill="currentColor" d="M20.71 20.29l-4.4-4.39"/></svg>
-        <input id="searchInput" placeholder="ค้นหา... (เช่น give, tag, playsound)" />
+        <input id="searchInput" placeholder="ค้นหา... (เช่น give, tag, playsound)" aria-label="ค้นหา">
       </div>
 
       <select id="filterSelect" class="select" aria-label="กรองหมวด">
@@ -191,20 +154,21 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
         <option value="npc">คำสั่ง NPC</option>
       </select>
 
-      <button id="downloadBtn" class="download-btn" aria-label="ดาวน์โหลด">
-        <svg class="ico" viewBox="0 0 24 24" style="width:16px;height:16px;margin-right:8px;opacity:.95"><path fill="currentColor" d="M12 3v10.5l4-4V21H8V9.5l4 4V3z"/></svg>
-        ดาวน์โหลด
+      <!-- download button: ICON ONLY -->
+      <button id="downloadBtn" class="download-btn" aria-label="ดาวน์โหลดคำสั่ง">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3v10.5l4-4V21H8V9.5l4 4V3z"/></svg>
         <span class="flash" aria-hidden="true"></span>
       </button>
 
-      <button id="copyAllBtn" class="btn ghost">คัดลอกทั้งหมด</button>
+      <button id="copyAllBtn" class="btn ghost" aria-label="คัดลอกทั้งหมด">คัดลอกทั้งหมด</button>
     </div>
 
     <!-- content sections -->
     <section class="section" data-cat="chat" id="sec-chat">
       <div class="heading-row">
         <h3>คำสั่งในช่องแชท</h3>
-        <button class="copy-section-btn" data-target="chatCommands">คัดลอก
+        <button class="copy-section-btn" data-target="chatCommands" aria-label="คัดลอกหมวดแชท">
+          คัดลอก
           <span class="flash" aria-hidden="true"></span>
         </button>
       </div>
@@ -230,7 +194,6 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
           <span class="flash" aria-hidden="true"></span>
         </button>
       </div>
-      <p class="lead">คำสั่งที่จะใส่ในคอมมานบล็อกสีม่วง - ทำงานตลอด</p>
       <div class="codewrap fade-in-up">
 <pre id="cmdBlockCommands" class="cmd">
 1. dialogue open @e[type=npc,tag=b] @a[tag=b]
@@ -249,7 +212,6 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
           <span class="flash" aria-hidden="true"></span>
         </button>
       </div>
-      <p class="lead">แยกเป็น 2 กลุ่ม — ตัวหลักพูดคุยและตัวซื้อ</p>
       <div class="codewrap fade-in-up">
 <pre id="npcBuy" class="cmd">
 
@@ -274,6 +236,7 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
 
 <script>
 (() => {
+  // element refs
   const hamb = document.getElementById('hambBtn');
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('overlay');
@@ -285,16 +248,31 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
 
   // hide header image placeholder if any
   const headerImg = document.getElementById('headerImg');
-  if(headerImg){ headerImg.style.display='none'; setTimeout(()=>headerImg.remove(),80); }
+  if(headerImg) headerImg.style.display = 'none';
 
-  function openSidebar(){ if(!sidebar) return; sidebar.classList.add('open'); overlay.classList.add('show'); sidebar.setAttribute('aria-hidden','false'); overlay.setAttribute('aria-hidden','false'); document.documentElement.style.overflow='hidden'; }
-  function closeSidebar(){ if(!sidebar) return; sidebar.classList.remove('open'); overlay.classList.remove('show'); sidebar.setAttribute('aria-hidden','true'); overlay.setAttribute('aria-hidden','true'); document.documentElement.style.overflow=''; }
+  // Sidebar open/close (uses transform -> smooth, less jank)
+  function openSidebar(){
+    if(!sidebar) return;
+    sidebar.classList.add('open');
+    overlay.classList.add('show');
+    sidebar.setAttribute('aria-hidden','false');
+    overlay.setAttribute('aria-hidden','false');
+    document.documentElement.style.overflow = 'hidden';
+  }
+  function closeSidebar(){
+    if(!sidebar) return;
+    sidebar.classList.remove('open');
+    overlay.classList.remove('show');
+    sidebar.setAttribute('aria-hidden','true');
+    overlay.setAttribute('aria-hidden','true');
+    document.documentElement.style.overflow = '';
+  }
   if(hamb) hamb.addEventListener('click', ()=> sidebar && sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
   if(closeBtn) closeBtn.addEventListener('click', closeSidebar);
   if(overlay) overlay.addEventListener('click', closeSidebar);
   document.addEventListener('keydown', (ev)=>{ if(ev.key === 'Escape') closeSidebar(); });
 
-  // search & filter
+  // search & filter (unchanged)
   const sections = Array.from(document.querySelectorAll('section.section'));
   function applyFilter(){
     const q = (searchInput && searchInput.value || '').trim().toLowerCase();
@@ -303,43 +281,54 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
       const catMatch = (cat === 'all') || (sec.dataset.cat === cat);
       const text = (sec.innerText || '').toLowerCase();
       const qMatch = q === '' || text.indexOf(q) !== -1;
-      const show = catMatch && qMatch;
-      sec.style.display = show ? '' : 'none';
+      sec.style.display = (catMatch && qMatch) ? '' : 'none';
     });
   }
   if(searchInput) searchInput.addEventListener('input', applyFilter);
   if(filterSelect) filterSelect.addEventListener('change', applyFilter);
   applyFilter();
 
-  // extract and clean commands (accept with/without /)
+  /* ======= core: extract clean commands =======
+     - remove numbering/bullets/trailing notes
+     - accept lines with or without leading '/'
+     - return /command ... lines only (no headings/descriptions)
+  */
   function cleanLineCandidate(line){
     if(!line) return '';
     let ln = line.trim();
     if(!ln) return '';
 
-    ln = ln.replace(/^[\s]*\d+[\.\)]\s*/, ''); // remove leading numbers
-    ln = ln.replace(/^[\s]*[\-\*\•]\s*/, ''); // bullets
-    ln = ln.replace(/\s+\(\s*.*$/,'');      // trailing ( ... )
-    ln = ln.replace(/\s+—\s+.*$/,'');       // trailing — ...
-    ln = ln.replace(/\s+\/\/\s+.*$/,'');    // trailing // ...
-    ln = ln.replace(/\s*\/\/.*$/,'');       // trailing //comments
+    // remove bullets/numbers
+    ln = ln.replace(/^[\s]*\d+[\.\)]\s*/, ''); // 1. or 1)
+    ln = ln.replace(/^[\s]*[\-\*\•]\s*/, ''); // -, *, •
+
+    // remove trailing explanatory tails
+    ln = ln.replace(/\s+\(\s*.*$/,'');      // " ( ... "
+    ln = ln.replace(/\s+—\s+.*$/,'');       // " — ... "
+    ln = ln.replace(/\s+\/\/\s+.*$/,'');    // " // ... "
+    ln = ln.replace(/\s*\/\/.*$/,'');       // trailing //
 
     ln = ln.trim();
     if(!ln) return '';
 
-    const firstChar = ln.charAt(0);
-    if(firstChar === '{' || firstChar === '[' || firstChar === '"' ) return '';
+    // skip JSON/quote lines
+    const fc = ln.charAt(0);
+    if(fc === '{' || fc === '[' || fc === '"') return '';
 
-    let token = ln.split(/\s+/)[0];
-    token = token.replace(/^\//, '');
+    // token check (strip leading slash for name)
+    let token = ln.split(/\s+/)[0].replace(/^\//, '');
+    // if token contains Thai letters, skip (to avoid headings)
     if(/[ก-๙]/.test(token)) return '';
+    // allow typical ascii command names only
     if(!/^[A-Za-z_\-:][A-Za-z0-9_\-:]*$/.test(token)) return '';
 
+    // ensure starts with slash for paste-ready
     if(!ln.startsWith('/')) ln = '/' + ln;
     return ln;
   }
 
   function extractCommandsFromText(text){
+    if(!text) return [];
     const lines = text.split(/\r?\n/);
     const cmds = [];
     for(let ln of lines){
@@ -349,23 +338,31 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     return cmds;
   }
 
+  // collect only commands (no headings) from visible sections
   function collectVisibleCommands(){
-    const visible = Array.from(document.querySelectorAll('section.section'))
+    const visiblePreTexts = Array.from(document.querySelectorAll('section.section'))
       .filter(s => s.style.display !== 'none')
       .map(s => {
         const pre = s.querySelector('pre.cmd');
-        const content = pre ? pre.innerText.trim() : '';
-        return content;
+        return pre ? pre.innerText : '';
       }).filter(Boolean);
-    const all = [];
-    visible.forEach(txt=>{
-      extractCommandsFromText(txt).forEach(x => all.push(x));
+
+    const allCmds = [];
+    visiblePreTexts.forEach(t => {
+      extractCommandsFromText(t).forEach(x => allCmds.push(x));
     });
-    return all.join("\n");
+    return allCmds.join("\n");
   }
 
-  // flash inside + visual feedback (original behavior)
-  function flashBtnInside(btn){
+  // collect from a single pre
+  function collectCommandsFromPreId(id){
+    const pre = document.getElementById(id);
+    if(!pre) return '';
+    return extractCommandsFromText(pre.innerText || '').join('\n');
+  }
+
+  /* ======= UX: flash inside button (original) + copy fallback ====== */
+  function flashInside(btn){
     if(!btn) return;
     btn.classList.add('pressed');
     const flash = btn.querySelector('.flash');
@@ -376,16 +373,40 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     setTimeout(()=> btn.classList.remove('pressed'), 200);
   }
 
-  // DOWNLOAD
+  // clipboard helper with fallback
+  async function copyTextToClipboard(text){
+    if(!text) return false;
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        await navigator.clipboard.writeText(text);
+        return true;
+      }else{
+        // fallback (older browsers / in-app)
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        const ok = document.execCommand && document.execCommand('copy');
+        ta.remove();
+        return !!ok;
+      }
+    }catch(e){
+      return false;
+    }
+  }
+
+  /* ===== DOWNLOAD (icon-only button) ===== */
   if(downloadBtn){
-    downloadBtn.addEventListener('click', (e)=>{
+    downloadBtn.addEventListener('click', async (e)=>{
       const text = collectVisibleCommands();
       if(!text){ alert('ไม่มีคำสั่งที่มองเห็นเพื่อดาวน์โหลด'); return; }
 
-      // visual feedback (original + flash)
-      flashBtnInside(downloadBtn);
+      // visual: flash inside (same as original)
+      flashInside(downloadBtn);
 
-      // create download blob
+      // create download blob containing ONLY commands (no headings)
       const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -398,57 +419,55 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     });
   }
 
-  // COPY ALL visible
-  const copyAll = document.getElementById('copyAllBtn');
-  if(copyAll){
-    copyAll.addEventListener('click', async ()=>{
+  /* ===== COPY ALL visible (original behavior + fallback) ===== */
+  if(copyAllBtn){
+    copyAllBtn.addEventListener('click', async ()=>{
       const text = collectVisibleCommands();
       if(!text){ alert('ไม่มีคำสั่งที่มองเห็นให้คัดลอก'); return; }
-      try{
-        await navigator.clipboard.writeText(text);
-        // old style feedback
-        const orig = copyAll.innerText;
-        copyAll.innerText = 'คัดลอกแล้ว';
-        copyAll.classList.add('pressed');
-        setTimeout(()=> { copyAll.innerText = orig; copyAll.classList.remove('pressed'); }, 1200);
-      }catch(e){
-        alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
+
+      // try copy
+      const ok = await copyTextToClipboard(text);
+      if(ok){
+        // original feedback
+        const orig = copyAllBtn.innerText;
+        copyAllBtn.innerText = 'คัดลอกแล้ว';
+        copyAllBtn.classList.add('pressed');
+        setTimeout(()=> { copyAllBtn.innerText = orig; copyAllBtn.classList.remove('pressed'); }, 1200);
+      }else{
+        alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้อาจไม่รองรับการคัดลอกอัตโนมัติ');
       }
     });
   }
 
-  // Per-section copy buttons
+  /* ===== per-section copy buttons (original behavior + fallback) ===== */
   document.querySelectorAll('.copy-section-btn').forEach(btn=>{
     btn.addEventListener('click', async (ev)=>{
       const targetId = btn.getAttribute('data-target');
-      const pre = document.getElementById(targetId);
-      if(!pre){ alert('ไม่พบข้อมูลที่จะคัดลอก'); return; }
-      const text = extractCommandsFromText(pre.innerText || '');
-      if(!text || text.length === 0){ alert('หมวดนี้ไม่มีคำสั่งแบบที่คัดได้'); return; }
+      const text = collectCommandsFromPreId(targetId);
+      if(!text){ alert('หมวดนี้ไม่มีคำสั่งแบบที่คัดได้'); return; }
 
-      // visual feedback
+      // visual: original flash
       btn.classList.add('pressed');
       const flash = btn.querySelector('.flash');
       if(flash){ flash.classList.add('show'); setTimeout(()=> flash.classList.remove('show'), 260); }
       setTimeout(()=> btn.classList.remove('pressed'), 180);
 
-      try{
-        await navigator.clipboard.writeText(text.join('\n'));
+      const ok = await copyTextToClipboard(text);
+      if(ok){
         const origText = btn.innerText;
         btn.innerText = 'คัดลอกแล้ว';
         setTimeout(()=> btn.innerText = origText, 1100);
-      }catch(e){
-        alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
+      }else{
+        alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้อาจไม่รองรับการคัดลอกอัตโนมัติ');
       }
     });
   });
 
-  // small click feedback for pre blocks (unchanged)
+  // small click feedback for pre blocks (transient)
   document.querySelectorAll('pre.cmd').forEach(pre=>{
     pre.addEventListener('click', ()=> {
-      pre.style.background = 'rgba(255,255,255,0.01)';
-      pre.style.border = '1px solid rgba(255,255,255,0.03)';
-      setTimeout(()=>{ pre.style.background = ''; pre.style.border = ''; }, 200);
+      pre.classList.add('press');
+      setTimeout(()=> pre.classList.remove('press'), 200);
     });
   });
 
