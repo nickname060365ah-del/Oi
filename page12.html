@@ -7,8 +7,8 @@
 <style>
 :root{
   --bg:#0e0e0e; --panel:#0f0f0f; --card:#111213; --line:#222;
-  --muted:#9aa0a6; --accent:#4da3ff; --accent-2:#2b86ff; --white:#fff; --press:#232428;
-  --transition:.26s cubic-bezier(.2,.9,.2,1); --hero-pad:20px;
+  --muted:#9aa0a6; --accent:#4da3ff; --white:#fff; --press:#232428;
+  --transition:.22s cubic-bezier(.2,.9,.2,1);
 }
 
 /* base */
@@ -28,86 +28,86 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 /* layout */
 .container{display:flex;min-height:calc(100vh - 64px);position:relative;padding-bottom:40px}
 
-/* overlay + sidebar */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);opacity:0;pointer-events:none;transition:opacity .22s;z-index:65}
-.overlay.show{opacity:1;pointer-events:auto}
-.sidebar{position:fixed;left:-120%;top:0;height:100%;width:86vw;max-width:420px;background:var(--panel);box-shadow:2px 0 40px rgba(0,0,0,.6);z-index:70;padding:20px;transition:left var(--transition);overflow:auto;border-right:1px solid var(--line);border-radius:0 12px 12px 0}
-.sidebar.open{left:0}
-
 /* content */
 .content{flex:1;padding:22px 16px;max-width:1100px;margin:0 auto}
-.hero{padding:calc(var(--hero-pad) + 2px);border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);margin-bottom:12px;display:block}
+.hero{padding:20px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);margin-bottom:12px;display:block}
 .hero h1{font-size: clamp(26px, 6vw, 34px);line-height:1.02;margin:0 0 8px;color:var(--white);font-weight:700;text-align:left;}
 .hero p{color:var(--muted);margin:0 0 12px;max-width:820px;text-align:left;font-size:15px;line-height:1.5;opacity:.95}
 
-/* toolbar */
+/* toolbar (search + filter + download) */
 .tool-row{display:flex;gap:10px;align-items:center;margin:8px 0 18px;flex-wrap:wrap}
-.search{display:flex;align-items:center;background:var(--card);padding:8px 10px;border-radius:12px;border:1px solid var(--line);min-width:120px;flex:1}
-.search input{background:transparent;border:0;color:var(--white);width:100%;font-size:15px}
+.search{
+  display:flex;align-items:center;background:var(--card);padding:8px 10px;border-radius:12px;border:1px solid var(--line);min-width:120px;flex:1;
+  gap:8px;
+}
+.search svg{width:16px;height:16px;opacity:.6;flex:0 0 16px}
+.search input{background:transparent;border:0;color:var(--white);width:100%;font-size:15px;padding:6px 0}
 .select{background:var(--card);padding:8px 12px;border-radius:12px;border:1px solid var(--line);min-width:120px;color:var(--muted)}
 
-/* download button (icon + full-fill press) */
+/* download button (icon + inner flash) */
 .download-btn {
-  background: linear-gradient(180deg, var(--accent), var(--accent-2));
+  background: rgb(59, 130, 246);
   color: white;
   border-radius: 14px;
   padding: 12px 18px;
   font-weight: 600;
-  transition: transform .12s, box-shadow .18s, opacity .12s;
+  transition: background .12s, transform .08s;
   position: relative;
   overflow: hidden;
   display:inline-flex;
   align-items:center;
   justify-content:center;
   min-width:140px;
-  gap:10px;
-  box-shadow: 0 10px 28px rgba(43,134,255,0.14);
+  gap:8px;
+  box-shadow: 0 8px 24px rgba(59,130,246,0.12);
   border:1px solid rgba(255,255,255,0.03);
 }
-.download-btn .ico { width:18px; height:18px; display:inline-block; opacity:.98; }
-.download-btn:active { transform: translateY(1px) scale(.99); }
-.download-btn.fill {
-  box-shadow: 0 18px 40px rgba(43,134,255,0.22);
+.download-btn .ico { width:18px;height:18px;display:inline-block;vertical-align:middle; }
+.download-btn .flash { position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(1);width:92%;height:70%;border-radius:12px;background:rgba(255,255,255,0.12);pointer-events:none;opacity:0;transition:opacity .14s, transform .14s;}
+.download-btn .flash.show { opacity:1; transform:translate(-50%,-50%) scale(.98); }
+.download-btn.pressed { transform: scale(.985); }
+
+/* full-button fill effect (subtle) */
+.btn-fill {
+  background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  box-shadow: 0 12px 28px rgba(0,0,0,0.6);
   transform: translateY(-2px);
-  background: linear-gradient(90deg, var(--accent), #1990ff);
 }
 
-/* copy all button (full style) */
+/* ghost button */
 .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--white);padding:10px 14px;border-radius:12px;display:inline-flex;align-items:center;gap:8px}
-.btn.ghost.fill {
-  background: rgba(255,255,255,0.03);
-  border-color: rgba(255,255,255,0.06);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-  transform: translateY(-2px);
-}
 
-/* copy-section small button */
-.copy-section-btn { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); color:var(--white); border-radius:10px; padding:8px 10px; font-weight:600; border:1px solid rgba(255,255,255,0.03); cursor:pointer; margin-left:10px; display:inline-flex; align-items:center; gap:8px; min-width:110px; position:relative; overflow:hidden; }
-.copy-section-btn.fill { background: linear-gradient(90deg, rgba(77,163,255,0.12), rgba(43,134,255,0.12)); border-color: rgba(77,163,255,0.18); box-shadow: 0 8px 20px rgba(43,134,255,0.08); transform:translateY(-2px); }
+/* code area */
+.codewrap{background:#060606;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);overflow:auto}
+pre.cmd{margin:0;color:#e6eef8;background:transparent;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Roboto Mono, \"Courier New\",monospace;font-size:14px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
 
-/* codewrap highlight (full box) */
-.codewrap {
-  background:#060606;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);overflow:auto;transition:box-shadow .18s, background .16s, border .16s;
-}
-.codewrap.copy-highlight {
+/* copy small button */
+.copy-section-btn {
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border: 1px solid rgba(77,163,255,0.14);
-  box-shadow: 0 12px 40px rgba(12,20,30,0.6);
+  color:var(--white);
+  border-radius:10px;
+  padding:8px 10px;
+  font-weight:600;
+  border:1px solid rgba(255,255,255,0.03);
+  cursor:pointer;
+  margin-left:10px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  min-width:110px;
+  position:relative;
+  overflow:hidden;
 }
+.copy-section-btn .flash { position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(1);width:82%;height:56%;border-radius:10px;background:rgba(255,255,255,0.08);pointer-events:none;opacity:0;transition:opacity .12s, transform .12s;}
+.copy-section-btn.pressed { transform: scale(0.98); }
 
-/* pre styling */
-pre.cmd{margin:0;color:#e6eef8;background:transparent;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Roboto Mono, "Courier New",monospace;font-size:14px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
-
-/* small click press on pre -> subtle */
-pre.cmd.press-anim { transform: translateY(0); transition: transform .12s; }
+/* small press anim */
+.pre-press { transition: transform .12s; transform: translateY(0); }
 
 /* bottom extra actions */
 .bottom-actions{display:flex;gap:12px;justify-content:center;margin:18px 0 6px;align-items:center}
 .extra-btn{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid var(--line);padding:10px 14px;border-radius:12px;cursor:pointer;display:inline-flex;align-items:center;gap:10px;font-weight:700}
-.extra-btn.fill{background:linear-gradient(90deg, rgba(77,163,255,0.12), rgba(43,134,255,0.12));box-shadow:0 10px 30px rgba(43,134,255,0.08);border-color:rgba(77,163,255,0.14);transform:translateY(-2px)}
-
-/* icon */
-.ico { width:16px;height:16px;display:inline-block;vertical-align:middle; }
+.extra-btn .ico{width:18px;height:18px}
 
 /* subtle animations */
 .fade-in-up { animation: fadeUp .45s ease both; }
@@ -116,7 +116,7 @@ pre.cmd.press-anim { transform: translateY(0); transition: transform .12s; }
 /* footer */
 footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid var(--line);margin-top:18px}
 
-/* remove outlines on focus */
+/* accessibility */
 :focus{outline:none}
 </style>
 </head>
@@ -140,9 +140,12 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
       </div>
     </section>
 
+    <!-- tools -->
     <div class="tool-row">
-      <div class="search">
-        <input id="searchInput" placeholder="ค้นหา... (เช่น give, tag, playsound)" />
+      <div class="search" role="search">
+        <!-- search icon ตามที่มึงขอ -->
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.5 3A6.5 6.5 0 1 1 3 9.5 6.507 6.507 0 0 1 9.5 3m0-2A8.5 8.5 0 1 0 18 9.5 8.509 8.509 0 0 0 9.5 1z"/><path fill="currentColor" d="M20.71 20.29l-4.4-4.39"/></svg>
+        <input id="searchInput" placeholder="ค้นหา... (เช่น give, tag, playsound)" aria-label="ค้นหา" />
       </div>
 
       <select id="filterSelect" class="select" aria-label="กรองหมวด">
@@ -152,8 +155,8 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
         <option value="npc">คำสั่ง NPC</option>
       </select>
 
+      <!-- download: มีไอคอนหน้า (แต่พฤติกรรมเดิมยังอยู่) -->
       <button id="downloadBtn" class="download-btn" aria-label="ดาวน์โหลด">
-        <!-- เปลี่ยนเป็นไอคอน + คำสั่งสั้น (ดูดี) -->
         <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3v10.5l4-4V21H8V9.5l4 4V3z"/></svg>
         ดาวน์โหลด
         <span class="flash" aria-hidden="true"></span>
@@ -165,13 +168,14 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
       </button>
     </div>
 
-    <!-- content -->
+    <!-- commands -->
     <section class="section" data-cat="chat" id="sec-chat">
       <div class="heading-row">
         <h3>คำสั่งในช่องแชท</h3>
         <button class="copy-section-btn" data-target="chatCommands" aria-label="คัดลอกหมวดแชท">
           <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v12h2V3h12V1zM19 5H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
           คัดลอก
+          <span class="flash" aria-hidden="true"></span>
         </button>
       </div>
       <p class="lead">แนะนำก๊อปทีละคำสั่งแล้ววาง</p>
@@ -246,7 +250,6 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
 
 <script>
 (() => {
-  // elements
   const hamb = document.getElementById('hambBtn');
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('overlay');
@@ -258,14 +261,11 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   const extraCopyBtn = document.getElementById('extraCopyBtn');
   const extraDownloadBtn = document.getElementById('extraDownloadBtn');
 
-  // helper: safe get
-  function $(id){ return document.getElementById(id); }
-
   // hide header image placeholder if any
-  const headerImg = $('headerImg');
+  const headerImg = document.getElementById('headerImg');
   if(headerImg){ headerImg.style.display='none'; setTimeout(()=>headerImg.remove(),80); }
 
-  // search & filter (same as before)
+  // search & filter
   const sections = Array.from(document.querySelectorAll('section.section'));
   function applyFilter(){
     const q = (searchInput && searchInput.value || '').trim().toLowerCase();
@@ -282,13 +282,13 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   if(filterSelect) filterSelect.addEventListener('change', applyFilter);
   applyFilter();
 
-  /* ======= core: extract clean commands (same reliable version) ======= */
+  /* ===== core: clean command extraction (accept with/without /) ===== */
   function cleanLineCandidate(line){
     if(!line) return '';
     let ln = line.trim();
     if(!ln) return '';
 
-    ln = ln.replace(/^[\s]*\d+[\.\)]\s*/, ''); // remove leading numbers
+    ln = ln.replace(/^[\s]*\d+[\.\)]\s*/, ''); // remove leading numbers like "1." or "2)"
     ln = ln.replace(/^[\s]*[\-\*\•]\s*/, ''); // bullets
     ln = ln.replace(/\s+\(\s*.*$/,'');      // trailing ( ... )
     ln = ln.replace(/\s+—\s+.*$/,'');       // trailing — ...
@@ -297,6 +297,7 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
 
     ln = ln.trim();
     if(!ln) return '';
+
     const firstChar = ln.charAt(0);
     if(firstChar === '{' || firstChar === '[' || firstChar === '"' ) return '';
 
@@ -342,56 +343,36 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     return extractCommandsFromText(pre.innerText).join('\n');
   }
 
-  /* ====== UX helpers: box highlight + button fill ====== */
-  function highlightCodewrap(preEl, duration=1200){
-    if(!preEl) return;
-    const wrap = preEl.closest('.codewrap') || preEl.parentElement;
-    if(!wrap) return;
-    wrap.classList.add('copy-highlight');
-    setTimeout(()=> wrap.classList.remove('copy-highlight'), duration);
-  }
+  /* ===== UX helpers: flash inside button (original) + full-button fill (only) ====== */
 
-  function highlightAllVisible(duration=1200){
-    const visibleWraps = Array.from(document.querySelectorAll('section.section'))
-      .filter(s => s.style.display !== 'none')
-      .map(s => s.querySelector('.codewrap'))
-      .filter(Boolean);
-    visibleWraps.forEach(w => {
-      w.classList.add('copy-highlight');
-    });
-    setTimeout(()=> visibleWraps.forEach(w => w.classList.remove('copy-highlight')), duration);
-  }
-
-  function btnFill(btn, duration=1200){
+  function flashInside(btn){
     if(!btn) return;
-    btn.classList.add('fill');
-    setTimeout(()=> btn.classList.remove('fill'), duration);
-  }
-
-  function withSuccessState(btn){
-    if(!btn) return;
-    btn.classList.add('success');
-    const orig = btn.innerHTML;
-    try{
-      btn.innerHTML = '<svg class="ico" viewBox="0 0 24 24" style="width:16px;height:16px;opacity:.95"><path fill="currentColor" d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>เรียบร้อย';
-    }catch(e){
-      btn.textContent = 'เรียบร้อย';
+    btn.classList.add('pressed');
+    const flash = btn.querySelector('.flash');
+    if(flash){
+      flash.classList.add('show');
+      setTimeout(()=> flash.classList.remove('show'), 260);
     }
-    setTimeout(()=> { btn.classList.remove('success'); btn.innerHTML = orig; }, 1100);
+    setTimeout(()=> btn.classList.remove('pressed'), 200);
   }
 
-  /* ====== Button behaviors ====== */
+  function fillButton(btn, duration=900){
+    if(!btn) return;
+    btn.classList.add('btn-fill');
+    setTimeout(()=> btn.classList.remove('btn-fill'), duration);
+  }
 
-  // download button (fill effect + download)
+  /* ===== Download button (original behavior + added icon + added fill) ===== */
   if(downloadBtn){
     downloadBtn.addEventListener('click', (e)=>{
       const text = collectVisibleCommands();
       if(!text){ alert('ไม่มีคำสั่งที่มองเห็นเพื่อดาวน์โหลด'); return; }
 
-      // full button fill + highlight all code blocks
-      btnFill(downloadBtn, 1000);
-      highlightAllVisible(1000);
+      // original flash + short full-button fill
+      flashInside(downloadBtn);
+      fillButton(downloadBtn, 900);
 
+      // create blob download (unchanged)
       const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -404,33 +385,37 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     });
   }
 
-  // copy all visible
+  /* ===== Copy All visible (original behavior + fill) ===== */
   if(copyAllBtn){
     copyAllBtn.addEventListener('click', async ()=>{
       const text = collectVisibleCommands();
       if(!text){ alert('ไม่มีคำสั่งที่มองเห็นให้คัดลอก'); return; }
       try{
         await navigator.clipboard.writeText(text);
-        // full button fill + highlight all codeblocks
-        btnFill(copyAllBtn, 1100);
-        highlightAllVisible(1100);
-        withSuccessState(copyAllBtn);
+        // original feedback: change text & pressed
+        const orig = copyAllBtn.innerText;
+        copyAllBtn.innerText = 'คัดลอกแล้ว';
+        copyAllBtn.classList.add('pressed');
+        fillButton(copyAllBtn, 1000);
+        setTimeout(()=> { copyAllBtn.innerText = orig; copyAllBtn.classList.remove('pressed'); }, 1200);
       }catch(e){
         alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
       }
     });
   }
 
-  // extra bottom buttons
+  /* ===== extra bottom buttons (behave like originals but add fill) ===== */
   if(extraCopyBtn){
     extraCopyBtn.addEventListener('click', async ()=>{
       const text = collectVisibleCommands();
       if(!text){ alert('ไม่มีคำสั่งที่มองเห็นให้คัดลอก'); return; }
       try{
         await navigator.clipboard.writeText(text);
-        btnFill(extraCopyBtn,1100);
-        highlightAllVisible(1100);
-        withSuccessState(extraCopyBtn);
+        const orig = extraCopyBtn.innerText;
+        extraCopyBtn.innerText = 'คัดลอกแล้ว';
+        extraCopyBtn.classList.add('pressed');
+        fillButton(extraCopyBtn, 1000);
+        setTimeout(()=> { extraCopyBtn.innerText = orig; extraCopyBtn.classList.remove('pressed'); }, 1200);
       }catch(e){
         alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
       }
@@ -440,8 +425,9 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     extraDownloadBtn.addEventListener('click', (e)=>{
       const text = collectVisibleCommands();
       if(!text){ alert('ไม่มีคำสั่งที่มองเห็นเพื่อดาวน์โหลด'); return; }
-      btnFill(extraDownloadBtn,1000);
-      highlightAllVisible(1000);
+      flashInside(extraDownloadBtn);
+      fillButton(extraDownloadBtn, 900);
+
       const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -454,32 +440,36 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     });
   }
 
-  // per-section copy buttons
+  /* ===== per-section copy buttons (original behavior + fill) ===== */
   document.querySelectorAll('.copy-section-btn').forEach(btn=>{
     btn.addEventListener('click', async (ev)=>{
       const targetId = btn.getAttribute('data-target');
       const text = collectCommandsFromPreId(targetId);
       if(!text){ alert('หมวดนี้ไม่มีคำสั่งแบบที่คัดได้'); return; }
 
-      // highlight that specific block and show button fill
-      const pre = document.getElementById(targetId);
-      highlightCodewrap(pre, 1100);
-      btnFill(btn, 1100);
+      // original button flash + fill
+      btn.classList.add('pressed');
+      const flash = btn.querySelector('.flash');
+      if(flash){ flash.classList.add('show'); setTimeout(()=> flash.classList.remove('show'), 260); }
+      fillButton(btn, 1000);
+      setTimeout(()=> btn.classList.remove('pressed'), 200);
 
       try{
         await navigator.clipboard.writeText(text);
-        withSuccessState(btn);
+        const orig = btn.innerText;
+        btn.innerText = 'คัดลอกแล้ว';
+        setTimeout(()=> btn.innerText = orig, 1100);
       }catch(e){
         alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
       }
     });
   });
 
-  // small click feedback for pre blocks (transient)
+  // click feedback for pre blocks (keep minimal)
   document.querySelectorAll('pre.cmd').forEach(pre=>{
     pre.addEventListener('click', ()=> {
-      pre.classList.add('press-anim');
-      setTimeout(()=> pre.classList.remove('press-anim'), 220);
+      pre.classList.add('pre-press');
+      setTimeout(()=> pre.classList.remove('pre-press'), 200);
     });
   });
 
