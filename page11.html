@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>แจกคอมมาน — By Pain</title>
+<title>แจกคอมมานซื้อของ — By Pain</title>
 <style>
 :root{
   --bg:#0e0e0e; --panel:#0f0f0f; --card:#111213; --line:#222;
@@ -16,7 +16,7 @@
 html,body{height:100%;margin:0;background:var(--bg);color:var(--white);font-family:Inter,system-ui,"Segoe UI",Tahoma,Arial,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer}
-* { -webkit-tap-highlight-color: transparent; } /* remove mobile blue highlight */
+* { -webkit-tap-highlight-color: transparent; }
 
 /* topbar */
 .topbar{position:sticky;top:0;z-index:60;background:var(--panel);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:12px 14px}
@@ -59,65 +59,139 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
   display:flex;align-items:center;background:var(--card);padding:8px 10px;border-radius:12px;border:1px solid var(--line);min-width:120px;flex:1;
 }
 .search input{background:transparent;border:0;color:var(--white);width:100%;font-size:15px}
-.select{background:var(--card);padding:8px 12px;border-radius:12px;border:1px solid var(--line);min-width:120px;color:var(--muted)}
+.select{background:var(--card);padding:8px 12px;border-radius:12px;border:1px solid var(--line);min-width:120px;color:var(--white);font-size:15px;cursor:pointer}
 
 /* download button */
 .download-btn {
   background: rgb(59, 130, 246);
   color: white;
   border-radius: 14px;
-  padding: 12px 18px;
+  padding: 11px 18px;
   font-weight: 600;
-  transition:
-    background 0.2s ease,
-    transform 0.15s ease,
-    box-shadow 0.18s ease;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  min-width:110px;
-  box-shadow: 0 8px 24px rgba(59,130,246,0.16);
+  gap:8px;
+  min-width:140px;
+  box-shadow: 0 4px 14px rgba(59,130,246,0.25);
 }
-.download-btn:hover { background: rgb(37, 99, 235); }
-.download-btn:active { background: rgb(29, 78, 216); transform: scale(0.96); }
-.download-btn.pressed { transform: scale(0.96); background: rgb(29,78,216); }
-/* flash inside */
-.download-btn .flash { position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(1);width:90%;height:62%;border-radius:12px;background:rgba(255,255,255,0.12);pointer-events:none;opacity:0;transition:opacity .18s ease, transform .18s ease; }
-.download-btn .flash.show { opacity:1; transform:translate(-50%,-50%) scale(0.98); }
+.download-btn svg { width:18px; height:18px; fill:currentColor; transition:transform 0.25s ease; }
+.download-btn:hover { 
+  background: rgb(37, 99, 235); 
+  box-shadow: 0 6px 20px rgba(59,130,246,0.35);
+  transform: translateY(-1px);
+}
+.download-btn:active { 
+  background: rgb(29, 78, 216); 
+  transform: translateY(0) scale(0.97); 
+  box-shadow: 0 2px 8px rgba(59,130,246,0.3);
+}
+.download-btn:hover svg { transform: translateY(1px); }
 
-/* copy section button (small, near heading) */
+/* copy all button */
+.btn.ghost{
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--line);
+  color:var(--white);
+  padding:11px 16px;
+  border-radius:12px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight:600;
+}
+.btn.ghost svg { width:16px; height:16px; fill:currentColor; transition:transform 0.25s ease; }
+.btn.ghost:hover { 
+  background:rgba(255,255,255,0.06); 
+  border-color:rgba(255,255,255,0.12);
+  transform: translateY(-1px);
+}
+.btn.ghost:active { 
+  transform: translateY(0) scale(0.97); 
+  background:rgba(255,255,255,0.08);
+}
+.btn.ghost:hover svg { transform: scale(1.1); }
+
+/* copy section button */
 .copy-section-btn {
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
   color:var(--white);
   border-radius:10px;
-  padding:8px 10px;
+  padding:8px 12px;
   font-weight:600;
-  border:1px solid rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.06);
   cursor:pointer;
   margin-left:10px;
   display:inline-flex;
   align-items:center;
-  gap:8px;
-  min-width:96px;
+  gap:7px;
+  min-width:105px;
   position:relative;
   overflow:hidden;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.copy-section-btn .flash { position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(1);width:82%;height:56%;border-radius:10px;background:rgba(255,255,255,0.08);pointer-events:none;opacity:0;transition:opacity .15s ease, transform .15s ease;}
-.copy-section-btn.pressed { transform: scale(0.97); }
-.copy-section-btn .flash.show { opacity:1; transform:translate(-50%,-50%) scale(0.98); }
+.copy-section-btn svg { width:15px; height:15px; fill:currentColor; transition:transform 0.25s ease; }
+.copy-section-btn:hover {
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+  border-color:rgba(255,255,255,0.12);
+  transform: translateY(-1px);
+}
+.copy-section-btn:active {
+  transform: translateY(0) scale(0.97);
+  background: linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.06));
+}
+.copy-section-btn:hover svg { transform: scale(1.08); }
 
-/* ghost button */
-.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--white);padding:10px 14px;border-radius:12px}
-
-/* boxes - category cards & code blocks */
-.boxes{display:flex;flex-direction:column;gap:16px;will-change:transform,opacity}
-@media(min-width:760px){.boxes{flex-direction:row}}
-.box{background:var(--card);padding:18px;border-radius:12px;border:1px solid var(--line);flex:1;transition:transform .12s,box-shadow .12s,background .12s;cursor:pointer;min-height:92px;display:flex;flex-direction:column;justify-content:center}
-.box h2{color:var(--accent);margin:0 0 8px;font-size:20px}
-.box p{margin:0;color:var(--muted)}
-.box:focus, .box.pressed { background:var(--press); outline:none; }
+/* more button */
+.more-btn {
+  background: linear-gradient(135deg, rgb(99, 102, 241), rgb(139, 92, 246));
+  color: white;
+  border-radius: 14px;
+  padding: 14px 28px;
+  font-weight: 700;
+  font-size: 16px;
+  border: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 32px auto 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+.more-btn svg { width:20px; height:20px; fill:currentColor; transition:transform 0.3s ease; }
+.more-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.5s ease, height 0.5s ease;
+}
+.more-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(99, 102, 241, 0.45);
+}
+.more-btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+.more-btn:active {
+  transform: translateY(0) scale(0.96);
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+}
+.more-btn:hover svg { transform: translateX(3px); }
+.more-btn-container { text-align:center; margin-top:40px; }
 
 /* content sections and code */
 .section{margin-bottom:18px}
@@ -127,14 +201,13 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 .codewrap{background:#060606;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);overflow:auto}
 pre.cmd{margin:0;color:#e6eef8;background:transparent;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Roboto Mono, "Courier New",monospace;font-size:14px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
 
-/* subtle animations */
+/* animations */
 .fade-in-up { animation: fadeUp .45s ease both; }
 @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
 /* footer */
 footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid var(--line);margin-top:18px}
 
-/* remove outlines on focus */
 :focus{outline:none}
 </style>
 </head>
@@ -190,19 +263,24 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
         <option value="npc">คำสั่ง NPC</option>
       </select>
 
-      <button id="downloadBtn" class="download-btn" aria-label="ดาวน์โหลด">ดาวน์โหลด
-        <span class="flash" aria-hidden="true"></span>
+      <button id="downloadBtn" class="download-btn" aria-label="ดาวน์โหลด">
+        <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+        ดาวน์โหลด
       </button>
 
-      <button id="copyAllBtn" class="btn ghost">คัดลอกทั้งหมด</button>
+      <button id="copyAllBtn" class="btn ghost">
+        <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+        คัดลอกทั้งหมด
+      </button>
     </div>
 
     <!-- content sections -->
     <section class="section" data-cat="chat" id="sec-chat">
       <div class="heading-row">
         <h3>คำสั่งในช่องแชท</h3>
-        <button class="copy-section-btn" data-target="chatCommands">คัดลอก
-          <span class="flash" aria-hidden="true"></span>
+        <button class="copy-section-btn" data-target="chatCommands">
+          <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+          คัดลอก
         </button>
       </div>
       <p class="lead">แนะนำก๊อปทีละคำสั่งแล้ววาง</p>
@@ -223,8 +301,9 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
     <section class="section" data-cat="cmdblock" id="sec-cmd">
       <div class="heading-row">
         <h3>คำสั่งในคอมมานบล็อก</h3>
-        <button class="copy-section-btn" data-target="cmdBlockCommands">คัดลอก
-          <span class="flash" aria-hidden="true"></span>
+        <button class="copy-section-btn" data-target="cmdBlockCommands">
+          <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+          คัดลอก
         </button>
       </div>
       <p class="lead">คำสั่งที่จะใส่ในคอมมานบล็อกสีม่วง - ทำงานตลอด</p>
@@ -234,26 +313,38 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
 
 2. scoreboard players add @a m 0
 
-3. execute as @a at @s run titleraw @s actionbar {"rawtext":[{"text":"§6Money  §r : "},{"score":{"name":"@s","objective":"m"}}]}
+3. execute as @a at @s run titleraw @s actionbar {"rawtext":[{"text":"§6Money  §r : "},{"score":{"name":"@s","objective":"m"}}]}
 </pre>
       </div>
     </section>
 
-    <section class="section" data-cat="npc" id="sec-npc">
+    <section class="section" data-cat="npc" id="sec-npc-main">
       <div class="heading-row">
-        <h3>คำสั่งใน NPC (ตัวหลัก & ตัวซื้อ)</h3>
-        <button class="copy-section-btn" data-target="npcBuy">คัดลอก
-          <span class="flash" aria-hidden="true"></span>
+        <h3>คำสั่งใน NPC (ตัวหลักพูดคุย)</h3>
+        <button class="copy-section-btn" data-target="npcMain">
+          <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+          คัดลอก
         </button>
       </div>
-      <p class="lead">แยกเป็น 2 กลุ่ม — ตัวหลักพูดคุยและตัวซื้อ</p>
+      <p class="lead">คำสั่งสำหรับ NPC ตัวหลัก</p>
       <div class="codewrap fade-in-up">
 <pre id="npcMain" class="cmd">
-1. /tag @initiator add b  (ตัวหลักพูดคุย)
+1. /tag @initiator add b
 </pre>
-        <div style="height:10px"></div>
-<pre id="npcBuy" class="cmd">
+      </div>
+    </section>
 
+    <section class="section" data-cat="npc" id="sec-npc-buy">
+      <div class="heading-row">
+        <h3>คำสั่งใน NPC (ตัวซื้อของ)</h3>
+        <button class="copy-section-btn" data-target="npcBuy">
+          <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+          คัดลอก
+        </button>
+      </div>
+      <p class="lead">คำสั่งสำหรับ NPC ซื้อของ</p>
+      <div class="codewrap fade-in-up">
+<pre id="npcBuy" class="cmd">
 1. playsound mob.villager.no @initiator[scores={m=..19}]
 playsound note.harp @initiator[scores={m=..19}]
 tellraw @initiator[scores={m=..19}] {"rawtext":[{"text":" §eคนขายของ§r: §cซื้อไม่สำเร็จ§r"}]}
@@ -264,10 +355,17 @@ give @initiator[scores={m=20..}] wooden_sword 1
 scoreboard players remove @initiator[scores={m=20..}] m 20
 
 2. /tag @initiator remove b
-(ตัวซื้อของ)
 </pre>
       </div>
     </section>
+
+    <!-- More Button -->
+    <div class="more-btn-container">
+      <button class="more-btn" id="moreBtn" onclick="window.location.href='more.html'">
+        เพิ่มเติม
+        <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+      </button>
+    </div>
 
     <footer>© MC Command Bedrock — By Pain</footer>
   </main>
@@ -312,34 +410,51 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   filterSelect.addEventListener('change', applyFilter);
   applyFilter();
 
-  // collect visible commands (used for download & copy-all)
+  // ฟังก์ชันแยกคำสั่งออกจากข้อความ
+  function extractCommands(text) {
+    const lines = text.split('\n');
+    const commands = [];
+    
+    lines.forEach(line => {
+      line = line.trim();
+      if (!line) return;
+      
+      let cleanLine = line;
+      cleanLine = cleanLine.replace(/^\d+\.\s*/, '');
+      cleanLine = cleanLine.replace(/\s*\([^)]*\)\s*$/, '');
+      
+      const commandMatch = cleanLine.match(/\/(give|tag|gamerule|tickingarea|scoreboard|dialogue|execute|playsound|tellraw)\s+.*/);
+      if (commandMatch) {
+        commands.push('/' + commandMatch[0].substring(1));
+        return;
+      }
+      
+      if (cleanLine.match(/^(give|tag|gamerule|tickingarea|scoreboard|dialogue|execute|playsound|tellraw)\s+/)) {
+        commands.push(cleanLine);
+      }
+    });
+    
+    return commands.join('\n');
+  }
+
+  // collect visible commands
   function collectVisibleCommands(){
     const visible = Array.from(document.querySelectorAll('section.section'))
       .filter(s => s.style.display !== 'none')
       .map(s => {
         const h = s.querySelector('h3') ? s.querySelector('h3').innerText.trim() : '';
         const pre = s.querySelector('pre.cmd');
-        const content = pre ? pre.innerText.trim() : '';
-        return (h ? h + "\n" : "") + content;
+        const content = pre ? extractCommands(pre.innerText) : '';
+        return (h && content ? "# " + h + "\n" : "") + content;
       }).filter(Boolean);
-    return visible.join("\n\n---\n\n");
+    return visible.join("\n\n");
   }
 
-  // DOWNLOAD button behavior (same as before but no centered overlay)
+  // DOWNLOAD button
   downloadBtn.addEventListener('click', (e)=>{
     const text = collectVisibleCommands();
     if(!text){ alert('ไม่มีคำสั่งที่มองเห็นเพื่อดาวน์โหลด'); return; }
 
-    // visual feedback: scale + flash INSIDE button
-    downloadBtn.classList.add('pressed');
-    const flash = downloadBtn.querySelector('.flash');
-    if(flash){
-      flash.classList.add('show');
-      setTimeout(()=> flash.classList.remove('show'), 260);
-    }
-    setTimeout(()=> downloadBtn.classList.remove('pressed'), 200);
-
-    // create download blob (txt). Later มึงใส่ไฟล์จริงแทนที่นี่ได้
     const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -351,17 +466,15 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     setTimeout(()=> URL.revokeObjectURL(url), 1500);
   });
 
-  // COPY ALL visible
+  // COPY ALL
   copyAllBtn.addEventListener('click', async ()=>{
     const text = collectVisibleCommands();
     if(!text){ alert('ไม่มีคำสั่งที่มองเห็นให้คัดลอก'); return; }
     try{
       await navigator.clipboard.writeText(text);
-      // feedback
-      const orig = copyAllBtn.innerText;
-      copyAllBtn.innerText = 'คัดลอกแล้ว';
-      copyAllBtn.classList.add('pressed');
-      setTimeout(()=> { copyAllBtn.innerText = orig; copyAllBtn.classList.remove('pressed'); }, 1200);
+      const orig = copyAllBtn.innerHTML;
+      copyAllBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>คัดลอกแล้ว';
+      setTimeout(()=> copyAllBtn.innerHTML = orig, 1400);
     }catch(e){
       alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
     }
@@ -373,37 +486,10 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
       const targetId = btn.getAttribute('data-target');
       const pre = document.getElementById(targetId);
       if(!pre){ alert('ไม่พบข้อมูลที่จะคัดลอก'); return; }
-      const text = pre.innerText.trim();
-      if(!text){ alert('หมวดนี้ไม่มีข้อความ'); return; }
+      
+      const text = extractCommands(pre.innerText);
+      if(!text){ alert('หมวดนี้ไม่มีคำสั่ง'); return; }
 
-      // visual: flash inside button
-      btn.classList.add('pressed');
-      const flash = btn.querySelector('.flash');
-      if(flash){ flash.classList.add('show'); setTimeout(()=> flash.classList.remove('show'), 220); }
-      setTimeout(()=> btn.classList.remove('pressed'), 180);
-
-      // copy
       try{
         await navigator.clipboard.writeText(text);
-        const origText = btn.innerText;
-        btn.innerText = 'คัดลอกแล้ว';
-        setTimeout(()=> btn.innerText = origText, 1100);
-      }catch(e){
-        alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
-      }
-    });
-  });
-
-  // small click feedback for pre blocks
-  document.querySelectorAll('pre.cmd').forEach(pre=>{
-    pre.addEventListener('click', ()=> {
-      pre.style.background = 'rgba(255,255,255,0.01)';
-      pre.style.border = '1px solid rgba(255,255,255,0.03)';
-      setTimeout(()=>{ pre.style.background = ''; pre.style.border = ''; }, 200);
-    });
-  });
-
-})();
-</script>
-</body>
-  </html>
+        const origHTML = btn.innerHTML;
