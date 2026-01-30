@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>แจกคอมมาน — By Pain</title>
+<title>แจกคอมมานซื้อของ — By Pain</title>
 <style>
 :root{
   --bg:#0e0e0e; --panel:#0f0f0f; --card:#111213; --line:#222;
@@ -58,9 +58,8 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 .search{
   display:flex;align-items:center;background:var(--card);padding:8px 10px;border-radius:12px;border:1px solid var(--line);min-width:120px;flex:1;
 }
-.search svg{width:16px;height:16px;opacity:.6;margin-right:8px}
-.search input{background:transparent;border:0;color:var(--white);width:100%;font-size:15px;padding:6px 0}
-.select{background:var(--card);padding:8px 12px;border-radius:12px;border:1px solid var(--line);min-width:120px;color:var(--muted)}
+.search input{background:transparent;border:0;color:var(--white);width:100%;font-size:15px}
+.select{background:var(--card);padding:8px 12px;border-radius:12px;border:1px solid var(--muted)}
 
 /* download button */
 .download-btn {
@@ -235,7 +234,7 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
 
 2. scoreboard players add @a m 0
 
-3. execute as @a at @s run titleraw @s actionbar {"rawtext":[{"text":"§6Money  §r : "},{"score":{"name":"@s","objective":"m"}}]}
+3. execute as @a at @s run titleraw @s actionbar {"rawtext":[{"text":"§6Money  §r : "},{"score":{"name":"@s","objective":"m"}}]}
 </pre>
       </div>
     </section>
@@ -313,178 +312,55 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   filterSelect.addEventListener('change', applyFilter);
   applyFilter();
 
-  /* ====== core: clean commands parsing ====== */
-
-  function cleanLineCandidateRaw(line){
-    // trim and remove common numbering/bullets and trailing explanatory tails
-    if(!line) return '';
-    let ln = line.replace(/\u00A0/g,' ').trim(); // normalize NBSP
-    if(!ln) return '';
-
-    // remove leading numbering/bullets like "1.", "1)", "1. ", "2) ", "- ", "* ", "• "
-    ln = ln.replace(/^[\s]*\d+[\.\)]\s*/, '');
-    ln = ln.replace(/^[\s]*[\-\*\•]\s*/, '');
-
-    // remove trailing explanatory tails:
-    // " (note...)", " — ...", " // ..." or trailing "//..."
-    ln = ln.replace(/\s+\(\s*[^)]*\)\s*$/,''); // remove trailing parenthetical note
-    ln = ln.replace(/\s+—\s+.*$/,'');
-    ln = ln.replace(/\s+\/\/\s+.*$/,'');
-    ln = ln.replace(/\s*\/\/.*$/,'');
-
-    return ln.trim();
-  }
-
-  function isLikelyCommandToken(tok){
-    // token must be ascii-like command name: start with letter/_/-, allow letters, numbers, -, :, _
-    return /^[A-Za-z_\-:][A-Za-z0-9_\-:]*$/.test(tok);
-  }
-
-  function containsThai(str){
-    return /[ก-๙]/.test(str);
-  }
-
-  function extractCommandsFromText(text){
-    if(!text) return [];
-    const rawLines = text.split(/\r?\n/);
-    const cleanedLines = rawLines.map(l => cleanLineCandidateRaw(l));
-
-    const cmds = [];
-    let pending = null; // pending command string (not starting slash yet)
-    let pendingTokenCount = 0;
-
-    for(let i=0;i<cleanedLines.length;i++){
-      const ln = cleanedLines[i];
-      if(!ln) continue;
-
-      // skip JSON-like or quoted whole-line
-      const firstChar = ln.charAt(0);
-      if(firstChar === '{' || firstChar === '[' || firstChar === '"') {
-        // treat as non-command; if pending exists, we don't append JSON here (dangerous)
-        continue;
+  // ฟังก์ชันแยกคำสั่งออกจากข้อความ (ตัดเลขข้อและคำอธิบาย)
+  function extractCommands(text) {
+    const lines = text.split('\n');
+    const commands = [];
+    
+    lines.forEach(line => {
+      line = line.trim();
+      if (!line) return; // ข้ามบรรทัดว่าง
+      
+      // ตัดเลขข้อหน้า (เช่น "1. ", "2. ")
+      line = line.replace(/^\d+\.\s*/, '');
+      
+      // ตัดคำอธิบายในวงเล็บท้ายบรรทัด (เช่น "(ตัวหลักพูดคุย)", "(ตัวซื้อของ)")
+      line = line.replace(/\s*\([^)]*\)\s*$/, '');
+      
+      // เก็บเฉพาะบรรทัดที่ขึ้นต้นด้วย / หรือคำสั่งที่รู้จัก
+      if (line.startsWith('/') || 
+          line.startsWith('give ') || 
+          line.startsWith('playsound ') || 
+          line.startsWith('tellraw ') ||
+          line.startsWith('dialogue ') ||
+          line.startsWith('scoreboard ') ||
+          line.startsWith('execute ')) {
+        commands.push(line);
       }
-
-      // get first token (without leading slash)
-      const firstTok = ln.split(/\s+/)[0].replace(/^\//,'');
-
-      // if first token contains Thai -> skip line (it's likely a heading or thai sentence)
-      if(containsThai(firstTok)) continue;
-
-      // if token doesn't match ascii command pattern, skip
-      if(!isLikelyCommandToken(firstTok)) continue;
-
-      // check tokens in line
-      const tokens = ln.split(/\s+/).filter(Boolean);
-
-      // Determine if this line is a "start of command" or a continuation for previous one:
-      // It's a start if it begins with a command token (always true here).
-      // We'll treat as continuation if previous pending exists and previous had only command-name (1 token)
-      if(pending !== null){
-        if(pendingTokenCount === 1){
-          // append this line to pending as arguments
-          pending = pending + ' ' + ln.replace(/^\//,''); // avoid double slash if continuation starts with /
-          // update token count
-          pendingTokenCount += tokens.length;
-          // finalize pending as full command
-          let final = pending.trim();
-          if(!final.startsWith('/')) final = '/' + final;
-          cmds.push(final);
-          pending = null;
-          pendingTokenCount = 0;
-          continue;
-        }else{
-          // previous already had args, finalize it and start new
-          let finalPrev = pending.trim();
-          if(!finalPrev.startsWith('/')) finalPrev = '/' + finalPrev;
-          cmds.push(finalPrev);
-          pending = null;
-          pendingTokenCount = 0;
-          // now treat current ln as new pending
-        }
-      }
-
-      // If current line has only one token (e.g., "gamerule" or "/gamerule"), start pending
-      if(tokens.length === 1){
-        pending = ln.replace(/^\//,''); // store without leading slash
-        pendingTokenCount = 1;
-        // wait for possible continuation
-        // but if next line doesn't exist or next line is non-command continuation we'll handle next iteration
-        continue;
-      }else{
-        // full command on single line
-        let full = ln.trim();
-        if(!full.startsWith('/')) full = '/' + full;
-        cmds.push(full);
-        pending = null;
-        pendingTokenCount = 0;
-        continue;
-      }
-    }
-
-    // after loop, if pending exists, finalize it (single-token command alone)
-    if(pending){
-      let final = pending.trim();
-      if(!final.startsWith('/')) final = '/' + final;
-      cmds.push(final);
-    }
-
-    return cmds;
+    });
+    
+    return commands.join('\n');
   }
 
-  /* ====== collect visible commands (only clean ones) ====== */
+  // collect visible commands (ใช้สำหรับ download & copy-all)
   function collectVisibleCommands(){
-    const visiblePreTexts = Array.from(document.querySelectorAll('section.section'))
+    const visible = Array.from(document.querySelectorAll('section.section'))
       .filter(s => s.style.display !== 'none')
       .map(s => {
+        const h = s.querySelector('h3') ? s.querySelector('h3').innerText.trim() : '';
         const pre = s.querySelector('pre.cmd');
-        return pre ? pre.innerText : '';
+        const content = pre ? extractCommands(pre.innerText) : '';
+        return (h && content ? "# " + h + "\n" : "") + content;
       }).filter(Boolean);
-
-    const allCmds = [];
-    visiblePreTexts.forEach(t=>{
-      extractCommandsFromText(t).forEach(c=> allCmds.push(c));
-    });
-    return allCmds.join('\n');
+    return visible.join("\n\n");
   }
 
-  /* ====== collect commands from specific pre id (cleaned) ====== */
-  function collectCommandsFromPreId(id){
-    const pre = document.getElementById(id);
-    if(!pre) return '';
-    return extractCommandsFromText(pre.innerText || '').join('\n');
-  }
-
-  /* ===== UX helpers (keep original behavior) ===== */
-  flashBtn(btn){
-    if(!btn) return;
-    btn.classList.add('pressed');
-    const flash = btn.querySelector('.flash');
-    if(flash){
-      flash.classList.add('show');
-      setTimeout(()=> flash.classList.remove('show'), 260);
-    }
-    setTimeout(()=> btn.classList.remove('pressed'), 200);
-  }
-
-  async function tryCopy(text){
-    if(!text) return false;
-    try{
-      if(navigator.clipboard && 
-     document.execCommand('copy');
-        ta.remove();
-        return !!ok;
-      }
-    }catch(e){
-      return false;
-    }
-  }
-
-  /* ====== DOWNLOAD button (now uses clean collect) ====== */
+  // DOWNLOAD button behavior
   downloadBtn.addEventListener('click', (e)=>{
     const text = collectVisibleCommands();
     if(!text){ alert('ไม่มีคำสั่งที่มองเห็นเพื่อดาวน์โหลด'); return; }
 
-    // visual feedback: like original
+    // visual feedback
     downloadBtn.classList.add('pressed');
     const flash = downloadBtn.querySelector('.flash');
     if(flash){
@@ -493,7 +369,7 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     }
     setTimeout(()=> downloadBtn.classList.remove('pressed'), 200);
 
-    // download cleaned commands only
+    // create download blob
     const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -505,46 +381,51 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     setTimeout(()=> URL.revokeObjectURL(url), 1500);
   });
 
-  /* ====== COPY ALL visible (cleaned) ====== */
+  // COPY ALL visible
   copyAllBtn.addEventListener('click', async ()=>{
     const text = collectVisibleCommands();
     if(!text){ alert('ไม่มีคำสั่งที่มองเห็นให้คัดลอก'); return; }
-    const ok = await tryCopy(text);
-    if(ok){
+    try{
+      await navigator.clipboard.writeText(text);
       const orig = copyAllBtn.innerText;
       copyAllBtn.innerText = 'คัดลอกแล้ว';
       copyAllBtn.classList.add('pressed');
       setTimeout(()=> { copyAllBtn.innerText = orig; copyAllBtn.classList.remove('pressed'); }, 1200);
-    }else{
+    }catch(e){
       alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
     }
   });
 
-  /* ====== per-section copy buttons (cleaned) ====== */
+  // Per-section copy buttons
   document.querySelectorAll('.copy-section-btn').forEach(btn=>{
     btn.addEventListener('click', async (ev)=>{
       const targetId = btn.getAttribute('data-target');
-      const text = collectCommandsFromPreId(targetId);
-      if(!text){ alert('หมวดนี้ไม่มีคำสั่งแบบที่คัดได้'); return; }
+      const pre = document.getElementById(targetId);
+      if(!pre){ alert('ไม่พบข้อมูลที่จะคัดลอก'); return; }
+      
+      // แยกเฉพาะคำสั่ง
+      const text = extractCommands(pre.innerText);
+      if(!text){ alert('หมวดนี้ไม่มีคำสั่ง'); return; }
 
-      // visual flash
+      // visual: flash inside button
       btn.classList.add('pressed');
       const flash = btn.querySelector('.flash');
       if(flash){ flash.classList.add('show'); setTimeout(()=> flash.classList.remove('show'), 220); }
       setTimeout(()=> btn.classList.remove('pressed'), 180);
 
-      const ok = await tryCopy(text);
-      if(ok){
+      // copy
+      try{
+        await navigator.clipboard.writeText(text);
         const origText = btn.innerText;
         btn.innerText = 'คัดลอกแล้ว';
         setTimeout(()=> btn.innerText = origText, 1100);
-      }else{
+      }catch(e){
         alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
       }
     });
   });
 
-  // small click feedback for pre blocks (unchanged)
+  // small click feedback for pre blocks
   document.querySelectorAll('pre.cmd').forEach(pre=>{
     pre.addEventListener('click', ()=> {
       pre.style.background = 'rgba(255,255,255,0.01)';
@@ -553,31 +434,7 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     });
   });
 
-  // existing sidebar handlers (unchanged)
-  function openSidebar(){ sidebar.classList.add('open'); overlay.classList.add('show'); sidebar.setAttribute('aria-hidden','false'); overlay.setAttribute('aria-hidden','false'); document.documentElement.style.overflow='hidden'; }
-  function closeSidebar(){ sidebar.classList.remove('open'); overlay.classList.remove('show'); sidebar.setAttribute('aria-hidden','true'); overlay.setAttribute('aria-hidden','true'); document.documentElement.style.overflow=''; }
-  if(hamb) hamb.addEventListener('click', ()=> sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
-  if(closeBtn) closeBtn.addEventListener('click', closeSidebar);
-  if(overlay) overlay.addEventListener('click', closeSidebar);
-  document.addEventListener('keydown', (ev)=>{ if(ev.key === 'Escape') closeSidebar(); });
-
-  // search filter (unchanged)
-  function applyFilter(){
-    const q = (searchInput.value||'').trim().toLowerCase();
-    const cat = filterSelect.value;
-    sections.forEach(sec=>{
-      const catMatch = (cat === 'all') || (sec.dataset.cat === cat);
-      const text = (sec.innerText || '').toLowerCase();
-      const qMatch = q === '' || text.indexOf(q) !== -1;
-      const show = catMatch && qMatch;
-      sec.style.display = show ? '' : 'none';
-    });
-  }
-  if(searchInput) searchInput.addEventListener('input', applyFilter);
-  if(filterSelect) filterSelect.addEventListener('change', applyFilter);
-  applyFilter();
-
 })();
 </script>
 </body>
-  </html>   
+  </html>
