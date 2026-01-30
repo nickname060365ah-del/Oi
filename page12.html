@@ -16,7 +16,7 @@
 html,body{height:100%;margin:0;background:var(--bg);color:var(--white);font-family:Inter,system-ui,"Segoe UI",Tahoma,Arial,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer}
-* { -webkit-tap-highlight-color: transparent; } /* remove mobile blue highlight */
+* { -webkit-tap-highlight-color: transparent; }
 
 /* topbar */
 .topbar{position:sticky;top:0;z-index:60;background:var(--panel);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:12px 14px}
@@ -27,7 +27,7 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 .header-img{display:none}
 
 /* layout */
-.container{display:flex;min-height:calc(100vh - 64px);position:relative;padding-bottom:40px}
+.container{display:flex;min-height:calc(100vh - 64px);position:relative;padding-bottom:120px}
 
 /* overlay + sidebar */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);opacity:0;pointer-events:none;transition:opacity .22s;z-index:65}
@@ -61,7 +61,7 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 .search input{background:transparent;border:0;color:var(--white);width:100%;font-size:15px}
 .select{background:var(--card);padding:8px 12px;border-radius:12px;border:1px solid var(--line);min-width:120px;color:var(--muted)}
 
-/* new download button style (ตามที่มึงให้มา) */
+/* download button */
 .download-btn {
   background: rgb(59, 130, 246);
   color: white;
@@ -80,34 +80,33 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
   min-width:110px;
   box-shadow: 0 8px 24px rgba(59,130,246,0.16);
 }
-.download-btn:hover {
-  background: rgb(37, 99, 235);
-}
-.download-btn:active {
-  background: rgb(29, 78, 216);
-  transform: scale(0.96);
-}
-/* pressed class for JS fallback */
+.download-btn:hover { background: rgb(37, 99, 235); }
+.download-btn:active { background: rgb(29, 78, 216); transform: scale(0.96); }
 .download-btn.pressed { transform: scale(0.96); background: rgb(29,78,216); }
+.download-btn .flash { position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(1);width:90%;height:62%;border-radius:12px;background:rgba(255,255,255,0.12);pointer-events:none;opacity:0;transition:opacity .18s ease, transform .18s ease; }
+.download-btn .flash.show { opacity:1; transform:translate(-50%,-50%) scale(0.98); }
 
-/* the flash element that appears INSIDE button (we size/position it exactly) */
-.download-btn .flash {
-  position: absolute;
-  left: 50%; top: 50%;
-  transform: translate(-50%, -50%) scale(1);
-  width: 90%; height: 62%;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.12);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity .18s ease, transform .18s ease;
+/* copy section button (position slightly lowered to overlap code) */
+.copy-section-btn {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  color:var(--white);
+  border-radius:10px;
+  padding:8px 10px;
+  font-weight:600;
+  border:1px solid rgba(255,255,255,0.03);
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  min-width:96px;
+  position:relative;
+  overflow:hidden;
+  transform: translateY(8px); /* ลงมานิดๆ ให้ใกล้โค้ด */
+  box-shadow: 0 8px 18px rgba(0,0,0,0.45);
 }
-
-/* when active, flash quickly fades in then out */
-.download-btn .flash.show {
-  opacity: 1;
-  transform: translate(-50%,-50%) scale(0.98);
-}
+.copy-section-btn .flash { position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(1);width:82%;height:56%;border-radius:10px;background:rgba(255,255,255,0.08);pointer-events:none;opacity:0;transition:opacity .15s ease, transform .15s ease;}
+.copy-section-btn.pressed { transform: translateY(8px) scale(0.97); }
+.copy-section-btn .flash.show { opacity:1; transform:translate(-50%,-50%) scale(0.98); }
 
 /* ghost button */
 .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--white);padding:10px 14px;border-radius:12px}
@@ -121,11 +120,27 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 .box:focus, .box.pressed { background:var(--press); outline:none; }
 
 /* content sections and code */
-.section{margin-bottom:18px}
-.section h3{font-size:18px;margin:0 0 8px;color:var(--white)}
+.section{margin-bottom:28px}
+.section .heading-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.section h3{font-size:18px;margin:0;color:var(--white);flex:1}
 .lead{color:var(--muted);margin:0 0 12px}
-.codewrap{background:#060606;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);overflow:auto}
+.codewrap{background:#060606;padding:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);overflow:auto;position:relative}
 pre.cmd{margin:0;color:#e6eef8;background:transparent;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Roboto Mono, "Courier New",monospace;font-size:14px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+
+/* bottom centered extra button */
+.bottom-cta{
+  width:220px;
+  margin:26px auto 60px;
+  display:block;
+  text-align:center;
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  color:var(--white);
+  padding:12px 18px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,0.03);
+  font-weight:700;
+  box-shadow:0 18px 40px rgba(0,0,0,0.5);
+}
 
 /* subtle animations */
 .fade-in-up { animation: fadeUp .45s ease both; }
@@ -145,7 +160,7 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
   <button class="hamb" id="hambBtn" aria-label="เปิดเมนู">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z"/></svg>
   </button>
-  <div class="brand">Buy NPC</div>
+  <div class="brand">MC Command</div>
   <div class="spacer"></div>
   <div class="header-img" id="headerImg" title="user-image"></div>
 </div>
@@ -194,43 +209,58 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
         <span class="flash" aria-hidden="true"></span>
       </button>
 
-      <button id="copyBtn" class="btn ghost">คัดลอกทั้งหมด</button>
+      <button id="copyAllBtn" class="btn ghost">คัดลอกทั้งหมด</button>
     </div>
 
     <!-- content sections -->
-    <section class="section" data-cat="chat">
-      <h3>คำสั่งในช่องแชท</h3>
+    <section class="section" data-cat="chat" id="sec-chat">
+      <div class="heading-row">
+        <h3>คำสั่งในช่องแชท</h3>
+        <button class="copy-section-btn" data-target="chatCommands">คัดลอก
+          <span class="flash" aria-hidden="true"></span>
+        </button>
+      </div>
       <p class="lead">แนะนำก๊อปทีละคำสั่งแล้ววาง</p>
       <div class="codewrap fade-in-up">
 <pre id="chatCommands" class="cmd">
-/give @s command_block
-/give @s spawn_egg 1 51
-/gamerule commandblockoutput false
-/gamerule sendcommandfeedback false
-/tickingarea add circle ~~~ 4 t   ไปยืนใกล้คอมมานแล้วพิมพ์คำสั่งนี้ในแชท
-/scoreboard objectives add m dummy
+1. /give @s command_block
+2. /give @s spawn_egg 1 51
+3. /gamerule commandblockoutput false
+4. /gamerule sendcommandfeedback false
+5. /tickingarea add circle ~~~ 4 t   ไปยืนใกล้คอมมานแล้วพิมพ์คำสั่งนี้ในแชท
+6. /scoreboard objectives add m dummy
 
-/tag @n[type=npc] add b   ไปยืนในตัว NPC แล้วพิมพ์คำสั่งนี้ในแชท
+/tag @n[type=npc] add b
 </pre>
       </div>
     </section>
 
-    <section class="section" data-cat="cmdblock">
-      <h3>คำสั่งในคอมมานบล็อก</h3>
+    <section class="section" data-cat="cmdblock" id="sec-cmd">
+      <div class="heading-row">
+        <h3>คำสั่งในคอมมานบล็อก</h3>
+        <button class="copy-section-btn" data-target="cmdBlockCommands">คัดลอก
+          <span class="flash" aria-hidden="true"></span>
+        </button>
+      </div>
       <p class="lead">คำสั่งที่จะใส่ในคอมมานบล็อกสีม่วง - ทำงานตลอด</p>
       <div class="codewrap fade-in-up">
 <pre id="cmdBlockCommands" class="cmd">
-dialogue open @e[type=npc,tag=b] @a[tag=b]
+1. dialogue open @e[type=npc,tag=b] @a[tag=b]
 
-scoreboard players add @a m 0
+2. scoreboard players add @a m 0
 
-execute as @a at @s run titleraw @s actionbar {"rawtext":[{"text":"§6Money  §r : "},{"score":{"name":"@s","objective":"m"}}]}
+3. execute as @a at @s run titleraw @s actionbar {"rawtext":[{"text":"§6Money  §r : "},{"score":{"name":"@s","objective":"m"}}]}
 </pre>
       </div>
     </section>
 
-    <section class="section" data-cat="npc">
-      <h3>คำสั่งใน NPC (ตัวหลัก & ตัวซื้อ)</h3>
+    <section class="section" data-cat="npc" id="sec-npc">
+      <div class="heading-row">
+        <h3>คำสั่งใน NPC (ตัวหลัก & ตัวซื้อ)</h3>
+        <button class="copy-section-btn" data-target="npcBuy">คัดลอก
+          <span class="flash" aria-hidden="true"></span>
+        </button>
+      </div>
       <p class="lead">แยกเป็น 2 กลุ่ม — ตัวหลักพูดคุยและตัวซื้อ</p>
       <div class="codewrap fade-in-up">
 <pre id="npcMain" class="cmd">
@@ -238,7 +268,6 @@ execute as @a at @s run titleraw @s actionbar {"rawtext":[{"text":"§6Money  
 </pre>
         <div style="height:10px"></div>
 <pre id="npcBuy" class="cmd">
-
 1. playsound mob.villager.no @initiator[scores={m=..19}]
 playsound note.harp @initiator[scores={m=..19}]
 tellraw @initiator[scores={m=..19}] {"rawtext":[{"text":" §eคนขายของ§r: §cซื้อไม่สำเร็จ§r"}]}
@@ -254,6 +283,9 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
       </div>
     </section>
 
+    <!-- bottom centered CTA (เพิ่มเติมตามสั่ง) -->
+    <button id="moreBtn" class="bottom-cta">ปุ่มเพิ่มเติม</button>
+
     <footer>© MC Command Bedrock — By Pain</footer>
   </main>
 </div>
@@ -267,7 +299,8 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   const searchInput = document.getElementById('searchInput');
   const filterSelect = document.getElementById('filterSelect');
   const downloadBtn = document.getElementById('downloadBtn');
-  const copyBtn = document.getElementById('copyBtn');
+  const copyAllBtn = document.getElementById('copyAllBtn');
+  const moreBtn = document.getElementById('moreBtn');
 
   // hide header image placeholder if any
   const headerImg = document.getElementById('headerImg');
@@ -293,11 +326,37 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
       sec.style.display = show ? '' : 'none';
     });
   }
-  searchInput.addEventListener('input', applyFilter);
-  filterSelect.addEventListener('change', applyFilter);
+  searchInput && searchInput.addEventListener('input', applyFilter);
+  filterSelect && filterSelect.addEventListener('change', applyFilter);
   applyFilter();
 
-  // collect & download visible commands
+  // helper: extract only raw command tokens from a block of text
+  // rules:
+  // - lines that start with "/" (optionally preceded by a number like "1. /give")
+  // - if a line has trailing explanatory text separated by two+ spaces, cut after the command
+  // - returns array of command strings (no numbering, no commentary)
+  function extractCommandsFromText(text){
+    const out = [];
+    const lines = text.split(/\r?\n/);
+    for(let line of lines){
+      const raw = line.trim();
+      if(!raw) continue;
+      // match optional numbering followed by command starting with slash
+      // capture the command up to two or more spaces or EOL
+      const m = raw.match(/^(\d+\.\s*)*(\/.+?)(?:\s{2,}|$)/);
+      if(m && m[2]){
+        // trim trailing spaces
+        out.push(m[2].trim());
+        continue;
+      }
+      // also allow lines that start directly with '/' without numbering (no extra match)
+      const m2 = raw.match(/^(\/\S.*?)(?:\s{2,}|$)/);
+      if(m2 && m2[1]) out.push(m2[1].trim());
+    }
+    return out;
+  }
+
+  // collect visible commands from whole page (used for download & copy-all)
   function collectVisibleCommands(){
     const visible = Array.from(document.querySelectorAll('section.section'))
       .filter(s => s.style.display !== 'none')
@@ -305,28 +364,28 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
         const h = s.querySelector('h3') ? s.querySelector('h3').innerText.trim() : '';
         const pre = s.querySelector('pre.cmd');
         const content = pre ? pre.innerText.trim() : '';
-        return (h ? h + "\n" : "") + content;
+        // extract only commands
+        const cmds = extractCommandsFromText(content);
+        return (h ? h + "\n" : "") + (cmds.length ? cmds.join("\n") : content);
       }).filter(Boolean);
     return visible.join("\n\n---\n\n");
   }
 
-  // download: make flash INSIDE button (no centered overlay)
+  // DOWNLOAD button behavior
   downloadBtn.addEventListener('click', (e)=>{
     const text = collectVisibleCommands();
     if(!text){ alert('ไม่มีคำสั่งที่มองเห็นเพื่อดาวน์โหลด'); return; }
 
-    // visual feedback: scale + flash inside button
+    // visual feedback: scale + flash INSIDE button
     downloadBtn.classList.add('pressed');
     const flash = downloadBtn.querySelector('.flash');
     if(flash){
-      // ensure flash sizes correctly - already CSS uses % of button so it fits
       flash.classList.add('show');
-      // remove after short time
-      setTimeout(()=> flash.classList.remove('show'), 220);
+      setTimeout(()=> flash.classList.remove('show'), 260);
     }
-    setTimeout(()=> downloadBtn.classList.remove('pressed'), 180);
+    setTimeout(()=> downloadBtn.classList.remove('pressed'), 200);
 
-    // do download
+    // create download blob (txt)
     const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -338,30 +397,58 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     setTimeout(()=> URL.revokeObjectURL(url), 1500);
   });
 
-  // copy to clipboard
-  copyBtn.addEventListener('click', async ()=>{
+  // COPY ALL visible (copy only commands)
+  copyAllBtn && copyAllBtn.addEventListener('click', async ()=>{
     const text = collectVisibleCommands();
-    if(!text){ alert('ไม่มีคำสั่งให้คัดลอก'); return; }
+    if(!text){ alert('ไม่มีคำสั่งที่มองเห็นให้คัดลอก'); return; }
     try{
       await navigator.clipboard.writeText(text);
-      copyBtn.innerText = 'คัดลอกแล้ว';
-      setTimeout(()=> copyBtn.innerText = 'คัดลอกทั้งหมด', 1200);
+      const orig = copyAllBtn.innerText;
+      copyAllBtn.innerText = 'คัดลอกแล้ว';
+      copyAllBtn.classList.add('pressed');
+      setTimeout(()=> { copyAllBtn.innerText = orig; copyAllBtn.classList.remove('pressed'); }, 1200);
     }catch(e){
       alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
     }
   });
 
-  // pre blocks small click feedback
-  document.querySelectorAll('pre.cmd').forEach(pre=>{
-    pre.addEventListener('click', ()=> {
-      pre.style.background = 'rgba(255,255,255,0.01)';
-      pre.style.border = '1px solid rgba(255,255,255,0.03)';
-      setTimeout(()=>{ pre.style.background = ''; pre.style.border = ''; }, 200);
+  // Per-section copy buttons (copy only commands inside that block)
+  document.querySelectorAll('.copy-section-btn').forEach(btn=>{
+    btn.addEventListener('click', async (ev)=>{
+      const targetId = btn.getAttribute('data-target');
+      const pre = document.getElementById(targetId);
+      if(!pre){ alert('ไม่พบข้อมูลที่จะคัดลอก'); return; }
+      const rawText = pre.innerText || '';
+      const cmds = extractCommandsFromText(rawText);
+      const copyText = cmds.length ? cmds.join("\n") : rawText.trim();
+      if(!copyText){ alert('หมวดนี้ไม่มีคำสั่งให้คัดลอก'); return; }
+
+      // visual: flash inside button
+      btn.classList.add('pressed');
+      const flash = btn.querySelector('.flash');
+      if(flash){ flash.classList.add('show'); setTimeout(()=> flash.classList.remove('show'), 220); }
+      setTimeout(()=> btn.classList.remove('pressed'), 180);
+
+      // copy
+      try{
+        await navigator.clipboard.writeText(copyText);
+        const origText = btn.innerText;
+        btn.innerText = 'คัดลอกแล้ว';
+        setTimeout(()=> btn.innerText = origText, 1100);
+      }catch(e){
+        alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
+      }
     });
   });
 
-})();
-</script>
-</body>
-          </html>
-          
+  // moreBtn placeholder action (มึงเปลี่ยนลิงก์หรือฟังก์ชันเอง)
+  moreBtn && moreBtn.addEventListener('click', ()=> {
+    // ตัวอย่าง: เลื่อนขึ้นไปด้านบน (หรือเปลี่ยนเป็นโหลดหน้าอื่น)
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // small click feedback for pre blocks
+  document.querySelectorAll('pre.cmd').forEach(pre=>{
+    pre.addEventListener('click', ()=> {
+      pre.style.background = 'rgba(255,255,255,0.01)';
+      
