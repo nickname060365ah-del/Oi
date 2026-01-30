@@ -208,14 +208,14 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
       <p class="lead">แนะนำก๊อปทีละคำสั่งแล้ววาง</p>
       <div class="codewrap fade-in-up">
 <pre id="chatCommands" class="cmd">
-/give @s command_block
-/give @s spawn_egg 1 51
-/gamerule commandblockoutput false
-/gamerule sendcommandfeedback false
-/tickingarea add circle ~~~ 4 t   ไปยืนใกล้คอมมานแล้วพิมพ์คำสั่งนี้ในแชท
-/scoreboard objectives add m dummy
+1. /give @s command_block
+2. /give @s spawn_egg 1 51
+3. /gamerule commandblockoutput false
+4. /gamerule sendcommandfeedback false
+5. /tickingarea add circle ~~~ 4 t
+6. /scoreboard objectives add m dummy
 
-/tag @n[type=npc] add b   ไปยืนในตัว NPC แล้วพิมพ์คำสั่งนี้ในแชท
+/tag @n[type=npc] add b
 </pre>
       </div>
     </section>
@@ -230,11 +230,11 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
       <p class="lead">คำสั่งที่จะใส่ในคอมมานบล็อกสีม่วง - ทำงานตลอด</p>
       <div class="codewrap fade-in-up">
 <pre id="cmdBlockCommands" class="cmd">
-dialogue open @e[type=npc,tag=b] @a[tag=b]
+1. dialogue open @e[type=npc,tag=b] @a[tag=b]
 
-scoreboard players add @a m 0
+2. scoreboard players add @a m 0
 
-execute as @a at @s run titleraw @s actionbar {"rawtext":[{"text":"§6Money  §r : "},{"score":{"name":"@s","objective":"m"}}]}
+3. execute as @a at @s run titleraw @s actionbar {"rawtext":[{"text":"§6Money  §r : "},{"score":{"name":"@s","objective":"m"}}]}
 </pre>
       </div>
     </section>
