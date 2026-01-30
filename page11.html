@@ -493,3 +493,24 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
       try{
         await navigator.clipboard.writeText(text);
         const origHTML = btn.innerHTML;
+        btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>คัดลอกแล้ว';
+        setTimeout(()=> btn.innerHTML = origHTML, 1300);
+      }catch(e){
+        alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
+      }
+    });
+  });
+
+  // pre click feedback
+  document.querySelectorAll('pre.cmd').forEach(pre=>{
+    pre.addEventListener('click', ()=> {
+      pre.style.background = 'rgba(255,255,255,0.01)';
+      pre.style.border = '1px solid rgba(255,255,255,0.03)';
+      setTimeout(()=>{ pre.style.background = ''; pre.style.border = ''; }, 200);
+    });
+  });
+
+})();
+</script>
+</body>
+</html
