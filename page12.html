@@ -7,7 +7,7 @@
 <style>
 :root{
   --bg:#0e0e0e; --panel:#0f0f0f; --card:#111213; --line:#222;
-  --muted:#9aa0a6; --accent:#4da3ff; --white:#fff; --press:#232428;
+  --muted:#9aa0a6; --accent:#4da3ff; --accent-2:#2b86ff; --white:#fff; --press:#232428;
   --transition:.26s cubic-bezier(.2,.9,.2,1); --hero-pad:20px;
 }
 
@@ -16,7 +16,7 @@
 html,body{height:100%;margin:0;background:var(--bg);color:var(--white);font-family:Inter,system-ui,"Segoe UI",Tahoma,Arial,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer}
-* { -webkit-tap-highlight-color: transparent; } /* remove mobile blue highlight */
+* { -webkit-tap-highlight-color: transparent; }
 
 /* topbar */
 .topbar{position:sticky;top:0;z-index:60;background:var(--panel);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:12px 14px}
@@ -24,7 +24,6 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 .hamb svg{width:22px;height:22px;fill:var(--white)}
 .brand{font-weight:800;font-size:22px;color:var(--accent);margin-left:6px}
 .spacer{flex:1}
-.header-img{display:none}
 
 /* layout */
 .container{display:flex;min-height:calc(100vh - 64px);position:relative;padding-bottom:40px}
@@ -34,111 +33,81 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 .overlay.show{opacity:1;pointer-events:auto}
 .sidebar{position:fixed;left:-120%;top:0;height:100%;width:86vw;max-width:420px;background:var(--panel);box-shadow:2px 0 40px rgba(0,0,0,.6);z-index:70;padding:20px;transition:left var(--transition);overflow:auto;border-right:1px solid var(--line);border-radius:0 12px 12px 0}
 .sidebar.open{left:0}
-.closeBtn{position:absolute;right:14px;top:14px;width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:rgba(255,255,255,0.02)}
-.closeBtn svg{width:20px;height:20px;fill:var(--white);opacity:.95}
-.sidebar h3{color:var(--accent);font-size:28px;margin:6px 0 14px}
-.menu-list{list-style:none;padding:0;margin:0}
-.menu-item{padding:16px 6px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
-.menu-item a{flex:1;font-size:20px;color:var(--white);padding-right:8px}
-.menu-item .chev{color:var(--muted);font-size:18px}
-.menu-item a:focus, .menu-item a.pressed { background:var(--press); border-radius:8px; outline:none; box-shadow:none; }
 
 /* content */
 .content{flex:1;padding:22px 16px;max-width:1100px;margin:0 auto}
 .hero{padding:calc(var(--hero-pad) + 2px);border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);margin-bottom:12px;display:block}
-.hero-inner{max-width:920px;padding-left:2px;}
-.hero h1{
-  font-size: clamp(26px, 6vw, 34px);
-  line-height:1.02;margin:0 0 8px;color:var(--white);font-weight:700;text-align:left;
-}
+.hero h1{font-size: clamp(26px, 6vw, 34px);line-height:1.02;margin:0 0 8px;color:var(--white);font-weight:700;text-align:left;}
 .hero p{color:var(--muted);margin:0 0 12px;max-width:820px;text-align:left;font-size:15px;line-height:1.5;opacity:.95}
 
-/* toolbar (search + filter + download) */
+/* toolbar */
 .tool-row{display:flex;gap:10px;align-items:center;margin:8px 0 18px;flex-wrap:wrap}
-.search{
-  display:flex;align-items:center;background:var(--card);padding:8px 10px;border-radius:12px;border:1px solid var(--line);min-width:120px;flex:1;
-}
+.search{display:flex;align-items:center;background:var(--card);padding:8px 10px;border-radius:12px;border:1px solid var(--line);min-width:120px;flex:1}
 .search input{background:transparent;border:0;color:var(--white);width:100%;font-size:15px}
 .select{background:var(--card);padding:8px 12px;border-radius:12px;border:1px solid var(--line);min-width:120px;color:var(--muted)}
 
-/* download button */
+/* download button (icon + full-fill press) */
 .download-btn {
-  background: rgb(59, 130, 246);
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
   color: white;
   border-radius: 14px;
   padding: 12px 18px;
   font-weight: 600;
-  transition:
-    background 0.2s ease,
-    transform 0.15s ease,
-    box-shadow 0.18s ease;
+  transition: transform .12s, box-shadow .18s, opacity .12s;
   position: relative;
   overflow: hidden;
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  min-width:110px;
-  box-shadow: 0 8px 24px rgba(59,130,246,0.16);
-}
-.download-btn:hover { background: rgb(37, 99, 235); }
-.download-btn:active { background: rgb(29, 78, 216); transform: scale(0.96); }
-.download-btn.pressed { transform: scale(0.96); background: rgb(29,78,216); }
-.download-btn .flash { position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(1);width:90%;height:62%;border-radius:12px;background:rgba(255,255,255,0.12);pointer-events:none;opacity:0;transition:opacity .18s ease, transform .18s ease; }
-.download-btn .flash.show { opacity:1; transform:translate(-50%,-50%) scale(0.98); }
-
-/* copy section button (small, near heading) */
-.copy-section-btn {
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  color:var(--white);
-  border-radius:10px;
-  padding:8px 10px;
-  font-weight:600;
+  min-width:140px;
+  gap:10px;
+  box-shadow: 0 10px 28px rgba(43,134,255,0.14);
   border:1px solid rgba(255,255,255,0.03);
-  cursor:pointer;
-  margin-left:10px;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  min-width:110px;
-  position:relative;
-  overflow:hidden;
 }
-.copy-section-btn .flash { position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(1);width:82%;height:56%;border-radius:10px;background:rgba(255,255,255,0.08);pointer-events:none;opacity:0;transition:opacity .15s ease, transform .15s ease;}
-.copy-section-btn.pressed { transform: scale(0.97); }
-.copy-section-btn .flash.show { opacity:1; transform:translate(-50%,-50%) scale(0.98); }
+.download-btn .ico { width:18px; height:18px; display:inline-block; opacity:.98; }
+.download-btn:active { transform: translateY(1px) scale(.99); }
+.download-btn.fill {
+  box-shadow: 0 18px 40px rgba(43,134,255,0.22);
+  transform: translateY(-2px);
+  background: linear-gradient(90deg, var(--accent), #1990ff);
+}
 
-/* copy icon */
-.btn .ico { width:16px;height:16px;display:inline-block;vertical-align:middle;transition:transform .22s, opacity .18s; }
-.btn.success { box-shadow: 0 8px 20px rgba(77,163,255,0.12); transform:translateY(-2px); }
-.btn.success .ico { transform:rotate(20deg) scale(1.05); }
-
-/* ghost button */
+/* copy all button (full style) */
 .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--white);padding:10px 14px;border-radius:12px;display:inline-flex;align-items:center;gap:8px}
+.btn.ghost.fill {
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.06);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  transform: translateY(-2px);
+}
 
-/* boxes - category cards & code blocks */
-.boxes{display:flex;flex-direction:column;gap:16px;will-change:transform,opacity}
-@media(min-width:760px){.boxes{flex-direction:row}}
-.box{background:var(--card);padding:18px;border-radius:12px;border:1px solid var(--line);flex:1;transition:transform .12s,box-shadow .12s,background .12s;cursor:pointer;min-height:92px;display:flex;flex-direction:column;justify-content:center}
-.box h2{color:var(--accent);margin:0 0 8px;font-size:20px}
-.box p{margin:0;color:var(--muted)}
-.box:focus, .box.pressed { background:var(--press); outline:none; }
+/* copy-section small button */
+.copy-section-btn { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); color:var(--white); border-radius:10px; padding:8px 10px; font-weight:600; border:1px solid rgba(255,255,255,0.03); cursor:pointer; margin-left:10px; display:inline-flex; align-items:center; gap:8px; min-width:110px; position:relative; overflow:hidden; }
+.copy-section-btn.fill { background: linear-gradient(90deg, rgba(77,163,255,0.12), rgba(43,134,255,0.12)); border-color: rgba(77,163,255,0.18); box-shadow: 0 8px 20px rgba(43,134,255,0.08); transform:translateY(-2px); }
 
-/* content sections and code */
-.section{margin-bottom:18px}
-.section .heading-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.section h3{font-size:18px;margin:0;color:var(--white);flex:1}
-.lead{color:var(--muted);margin:0 0 12px}
-.codewrap{background:#060606;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);overflow:auto}
+/* codewrap highlight (full box) */
+.codewrap {
+  background:#060606;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);overflow:auto;transition:box-shadow .18s, background .16s, border .16s;
+}
+.codewrap.copy-highlight {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(77,163,255,0.14);
+  box-shadow: 0 12px 40px rgba(12,20,30,0.6);
+}
+
+/* pre styling */
 pre.cmd{margin:0;color:#e6eef8;background:transparent;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Roboto Mono, "Courier New",monospace;font-size:14px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+
+/* small click press on pre -> subtle */
+pre.cmd.press-anim { transform: translateY(0); transition: transform .12s; }
 
 /* bottom extra actions */
 .bottom-actions{display:flex;gap:12px;justify-content:center;margin:18px 0 6px;align-items:center}
-.bottom-actions .extra-btn{
-  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border:1px solid var(--line);
-  padding:10px 14px;border-radius:12px;cursor:pointer;display:inline-flex;align-items:center;gap:10px;font-weight:700;
-}
-.extra-btn .ico{width:18px;height:18px}
+.extra-btn{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid var(--line);padding:10px 14px;border-radius:12px;cursor:pointer;display:inline-flex;align-items:center;gap:10px;font-weight:700}
+.extra-btn.fill{background:linear-gradient(90deg, rgba(77,163,255,0.12), rgba(43,134,255,0.12));box-shadow:0 10px 30px rgba(43,134,255,0.08);border-color:rgba(77,163,255,0.14);transform:translateY(-2px)}
+
+/* icon */
+.ico { width:16px;height:16px;display:inline-block;vertical-align:middle; }
 
 /* subtle animations */
 .fade-in-up { animation: fadeUp .45s ease both; }
@@ -160,27 +129,9 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
   </button>
   <div class="brand">MC Command</div>
   <div class="spacer"></div>
-  <div class="header-img" id="headerImg" title="user-image"></div>
 </div>
 
 <div class="container">
-  <div id="overlay" class="overlay" aria-hidden="true"></div>
-
-  <aside id="sidebar" class="sidebar" aria-hidden="true" role="navigation">
-    <div class="closeBtn" id="closeBtn" aria-label="ปิดเมนู">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.3 5.71L12 12l6.3 6.29-1.41 1.42L10.59 13.4 4.29 19.71 2.88 18.29 9.18 12 2.88 5.71 4.29 4.29 10.59 10.6 16.89 4.29z"/></svg>
-    </div>
-
-    <h3>เมนู</h3>
-
-    <ul class="menu-list" id="menuList">
-      <li class="menu-item"><a href="index.html" target="_self">หน้าแรก</a><span class="chev">›</span></li>
-      <li class="menu-item"><a href="commands.html" target="_self">คำสั่งทั้งหมด</a><span class="chev">›</span></li>
-      <li class="menu-item"><a href="about.html" target="_self">เกี่ยวกับ</a><span class="chev">›</span></li>
-    </ul>
-
-  </aside>
-
   <main class="content" id="mainContent" role="main">
     <section class="hero" aria-labelledby="heroTitle">
       <div class="hero-inner">
@@ -189,10 +140,8 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
       </div>
     </section>
 
-    <!-- tools -->
     <div class="tool-row">
       <div class="search">
-        <svg style="width:16px;height:16px;opacity:.6;margin-right:8px" viewBox="0 0 24 24"><path fill="currentColor" d="M9.5 3A6.5 6.5 0 1 1 3 9.5 6.507 6.507 0 0 1 9.5 3m0-2A8.5 8.5 0 1 0 18 9.5 8.509 8.509 0 0 0 9.5 1z"/><path fill="currentColor" d="M20.71 20.29l-4.4-4.39"/></svg>
         <input id="searchInput" placeholder="ค้นหา... (เช่น give, tag, playsound)" />
       </div>
 
@@ -204,25 +153,25 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
       </select>
 
       <button id="downloadBtn" class="download-btn" aria-label="ดาวน์โหลด">
-        <svg class="ico" viewBox="0 0 24 24" style="width:16px;height:16px;margin-right:8px;opacity:.95"><path fill="currentColor" d="M12 3v10.5l4-4V21H8V9.5l4 4V3z"/></svg>
+        <!-- เปลี่ยนเป็นไอคอน + คำสั่งสั้น (ดูดี) -->
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3v10.5l4-4V21H8V9.5l4 4V3z"/></svg>
         ดาวน์โหลด
         <span class="flash" aria-hidden="true"></span>
       </button>
 
       <button id="copyAllBtn" class="btn ghost" aria-label="คัดลอกทั้งหมด">
-        <svg class="ico" viewBox="0 0 24 24" style="width:16px;height:16px;opacity:.95"><path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v12h2V3h12V1zM19 5H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v12h2V3h12V1zM19 5H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
         คัดลอกทั้งหมด
       </button>
     </div>
 
-    <!-- content sections -->
+    <!-- content -->
     <section class="section" data-cat="chat" id="sec-chat">
       <div class="heading-row">
         <h3>คำสั่งในช่องแชท</h3>
         <button class="copy-section-btn" data-target="chatCommands" aria-label="คัดลอกหมวดแชท">
-          <svg class="ico" viewBox="0 0 24 24" style="width:16px;height:16px;opacity:.95"><path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v12h2V3h12V1zM19 5H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v12h2V3h12V1zM19 5H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
           คัดลอก
-          <span class="flash" aria-hidden="true"></span>
         </button>
       </div>
       <p class="lead">แนะนำก๊อปทีละคำสั่งแล้ววาง</p>
@@ -243,13 +192,8 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
     <section class="section" data-cat="cmdblock" id="sec-cmd">
       <div class="heading-row">
         <h3>คำสั่งในคอมมานบล็อก</h3>
-        <button class="copy-section-btn" data-target="cmdBlockCommands" aria-label="คัดลอกหมวดคอมมานบล็อก">
-          <svg class="ico" viewBox="0 0 24 24" style="width:16px;height:16px;opacity:.95"><path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v12h2V3h12V1zM19 5H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-          คัดลอก
-          <span class="flash" aria-hidden="true"></span>
-        </button>
+        <button class="copy-section-btn" data-target="cmdBlockCommands" aria-label="คัดลอกหมวดคอมมานบล็อก">คัดลอก</button>
       </div>
-      <p class="lead">คำสั่งที่จะใส่ในคอมมานบล็อกสีม่วง - ทำงานตลอด</p>
       <div class="codewrap fade-in-up">
 <pre id="cmdBlockCommands" class="cmd">
 1. dialogue open @e[type=npc,tag=b] @a[tag=b]
@@ -264,20 +208,10 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
     <section class="section" data-cat="npc" id="sec-npc">
       <div class="heading-row">
         <h3>คำสั่งใน NPC (ตัวหลัก & ตัวซื้อ)</h3>
-        <button class="copy-section-btn" data-target="npcBuy" aria-label="คัดลอกหมวด NPC">
-          <svg class="ico" viewBox="0 0 24 24" style="width:16px;height:16px;opacity:.95"><path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v12h2V3h12V1zM19 5H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-          คัดลอก
-          <span class="flash" aria-hidden="true"></span>
-        </button>
+        <button class="copy-section-btn" data-target="npcBuy" aria-label="คัดลอกหมวด NPC">คัดลอก</button>
       </div>
-      <p class="lead">แยกเป็น 2 กลุ่ม — ตัวหลักพูดคุยและตัวซื้อ</p>
       <div class="codewrap fade-in-up">
-<pre id="npcMain" class="cmd">
-1. /tag @initiator add b  (ตัวหลักพูดคุย)
-</pre>
-        <div style="height:10px"></div>
 <pre id="npcBuy" class="cmd">
-
 1. playsound mob.villager.no @initiator[scores={m=..19}]
 playsound note.harp @initiator[scores={m=..19}]
 tellraw @initiator[scores={m=..19}] {"rawtext":[{"text":" §eคนขายของ§r: §cซื้อไม่สำเร็จ§r"}]}
@@ -293,8 +227,8 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
       </div>
     </section>
 
-    <!-- bottom extra buttons (ตามที่มึงบอก) -->
-    <div class="bottom-actions" aria-hidden="false">
+    <!-- bottom extra buttons -->
+    <div class="bottom-actions">
       <button id="extraCopyBtn" class="extra-btn" title="คัดลอกคำสั่งทั้งหมด (สะอาด)">
         <svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v12h2V3h12V1zM19 5H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
         คัดลอกคำสั่งทั้งหมด
@@ -312,6 +246,7 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
 
 <script>
 (() => {
+  // elements
   const hamb = document.getElementById('hambBtn');
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('overlay');
@@ -323,22 +258,18 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   const extraCopyBtn = document.getElementById('extraCopyBtn');
   const extraDownloadBtn = document.getElementById('extraDownloadBtn');
 
+  // helper: safe get
+  function $(id){ return document.getElementById(id); }
+
   // hide header image placeholder if any
-  const headerImg = document.getElementById('headerImg');
+  const headerImg = $('headerImg');
   if(headerImg){ headerImg.style.display='none'; setTimeout(()=>headerImg.remove(),80); }
 
-  function openSidebar(){ sidebar.classList.add('open'); overlay.classList.add('show'); sidebar.setAttribute('aria-hidden','false'); overlay.setAttribute('aria-hidden','false'); document.documentElement.style.overflow='hidden'; }
-  function closeSidebar(){ sidebar.classList.remove('open'); overlay.classList.remove('show'); sidebar.setAttribute('aria-hidden','true'); overlay.setAttribute('aria-hidden','true'); document.documentElement.style.overflow=''; }
-  hamb.addEventListener('click', ()=> sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
-  closeBtn.addEventListener('click', closeSidebar);
-  overlay.addEventListener('click', closeSidebar);
-  document.addEventListener('keydown', (ev)=>{ if(ev.key === 'Escape') closeSidebar(); });
-
-  // search & filter
+  // search & filter (same as before)
   const sections = Array.from(document.querySelectorAll('section.section'));
   function applyFilter(){
-    const q = (searchInput.value||'').trim().toLowerCase();
-    const cat = filterSelect.value;
+    const q = (searchInput && searchInput.value || '').trim().toLowerCase();
+    const cat = (filterSelect && filterSelect.value) || 'all';
     sections.forEach(sec=>{
       const catMatch = (cat === 'all') || (sec.dataset.cat === cat);
       const text = (sec.innerText || '').toLowerCase();
@@ -347,63 +278,39 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
       sec.style.display = show ? '' : 'none';
     });
   }
-  searchInput.addEventListener('input', applyFilter);
-  filterSelect.addEventListener('change', applyFilter);
+  if(searchInput) searchInput.addEventListener('input', applyFilter);
+  if(filterSelect) filterSelect.addEventListener('change', applyFilter);
   applyFilter();
 
-  /* ======= core: extract clean commands =======
-    Goals:
-     - accept lines that start with '/' or without '/' (e.g. "give @s ...")
-     - remove leading numbering or bullets (like "1. ", "2) ", "- ")
-     - remove trailing explanatory comments that start as: " (" (space + paren), " — ", " //"
-     - skip non-command lines (Thai headings, plain sentences, parenthetical notes)
-     - ensure output lines start with '/' so they are ready to paste in chat
-  ================================================== */
-
+  /* ======= core: extract clean commands (same reliable version) ======= */
   function cleanLineCandidate(line){
     if(!line) return '';
     let ln = line.trim();
     if(!ln) return '';
 
-    // remove leading numbering / bullets: "1. " | "1) " | "1. " | "- ", "* "
-    ln = ln.replace(/^[\s]*\d+[\.\)]\s*/, ''); // leading numbers
+    ln = ln.replace(/^[\s]*\d+[\.\)]\s*/, ''); // remove leading numbers
     ln = ln.replace(/^[\s]*[\-\*\•]\s*/, ''); // bullets
-    // remove trailing inline comment that is likely explanatory:
-    // only remove if the comment is separated by a space before '(' or em-dash or '//' 
-    ln = ln.replace(/\s+\(\s*.*$/,'');      // remove " ( ... " tail comments
-    ln = ln.replace(/\s+—\s+.*$/,'');       // remove " — ... "
-    ln = ln.replace(/\s+\/\/\s+.*$/,'');    // remove " // ... "
-    ln = ln.replace(/\s*\/\/.*$/,'');       // remove trailing //comments
+    ln = ln.replace(/\s+\(\s*.*$/,'');      // trailing ( ... )
+    ln = ln.replace(/\s+—\s+.*$/,'');       // trailing — ...
+    ln = ln.replace(/\s+\/\/\s+.*$/,'');    // trailing // ...
+    ln = ln.replace(/\s*\/\/.*$/,'');       // trailing //comments
 
     ln = ln.trim();
     if(!ln) return '';
-
-    // skip pure JSON or lines that are obviously not commands
     const firstChar = ln.charAt(0);
     if(firstChar === '{' || firstChar === '[' || firstChar === '"' ) return '';
 
-    // get first token (without leading slash)
     let token = ln.split(/\s+/)[0];
-    let hadSlash = token.startsWith('/');
     token = token.replace(/^\//, '');
+    if(/[ก-๙]/.test(token)) return '';
+    if(!/^[A-Za-z_\-:][A-Za-z0-9_\-:]*$/.test(token)) return '';
 
-    // valid command name basic check: ascii letters/underscore then optional numbers
-    // this avoids picking Thai headings or descriptive sentences
-    const cmdNameMatch = /^[a-zA-Z_][a-zA-Z0-9_:\-]*$/.test(token);
-    if(!cmdNameMatch) {
-      // sometimes commands might be something like 'dialogue' (custom) - still ascii
-      // if token contains any Thai characters, skip
-      if(/[ก-๙]/.test(token)) return '';
-      // if token contains '=' or ':' only numeric? allow typical punctuation? if unsure, skip
-      if(!/^[\w:\-]+$/.test(token)) return '';
-    }
-
-    // finally ensure full returned command starts with '/'
     if(!ln.startsWith('/')) ln = '/' + ln;
     return ln;
   }
 
   function extractCommandsFromText(text){
+    if(!text) return [];
     const lines = text.split(/\r?\n/);
     const cmds = [];
     for(let ln of lines){
@@ -413,8 +320,7 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     return cmds;
   }
 
-  // collect visible commands (used for 
- function collectVisibleCommands(){
+  function collectVisibleCommands(){
     const visiblePreTexts = Array.from(document.querySelectorAll('section.section'))
       .filter(s => s.style.display !== 'none')
       .map(s => {
@@ -430,94 +336,136 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     return allCmds.join("\n");
   }
 
-  // collect commands from a single pre block by id
   function collectCommandsFromPreId(id){
     const pre = document.getElementById(id);
     if(!pre) return '';
     return extractCommandsFromText(pre.innerText).join('\n');
   }
 
-  /* ====== UX helpers: icon animation + success state ====== */
-  function flashButton(btn){
-    if(!btn) return;
-    btn.classList.add('pressed');
-    const flash = btn.querySelector('.flash');
-    if(flash){ flash.classList.add('show'); setTimeout(()=> flash.classList.remove('show'), 320); }
-    setTimeout(()=> btn.classList.remove('pressed'), 260);
+  /* ====== UX helpers: box highlight + button fill ====== */
+  function highlightCodewrap(preEl, duration=1200){
+    if(!preEl) return;
+    const wrap = preEl.closest('.codewrap') || preEl.parentElement;
+    if(!wrap) return;
+    wrap.classList.add('copy-highlight');
+    setTimeout(()=> wrap.classList.remove('copy-highlight'), duration);
   }
+
+  function highlightAllVisible(duration=1200){
+    const visibleWraps = Array.from(document.querySelectorAll('section.section'))
+      .filter(s => s.style.display !== 'none')
+      .map(s => s.querySelector('.codewrap'))
+      .filter(Boolean);
+    visibleWraps.forEach(w => {
+      w.classList.add('copy-highlight');
+    });
+    setTimeout(()=> visibleWraps.forEach(w => w.classList.remove('copy-highlight')), duration);
+  }
+
+  function btnFill(btn, duration=1200){
+    if(!btn) return;
+    btn.classList.add('fill');
+    setTimeout(()=> btn.classList.remove('fill'), duration);
+  }
+
   function withSuccessState(btn){
     if(!btn) return;
     btn.classList.add('success');
     const orig = btn.innerHTML;
-    // show short-lived check icon + text
-    btn.innerHTML = '<svg class=\"ico\" viewBox=\"0 0 24 24\" style=\"width:16px;height:16px;opacity:.95\"><path fill=\"currentColor\" d=\"M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z\"/></svg>เรียบร้อย';
-    setTimeout(()=> { btn.classList.remove('success'); btn.innerHTML = orig; }, 1200);
+    try{
+      btn.innerHTML = '<svg class="ico" viewBox="0 0 24 24" style="width:16px;height:16px;opacity:.95"><path fill="currentColor" d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>เรียบร้อย';
+    }catch(e){
+      btn.textContent = 'เรียบร้อย';
+    }
+    setTimeout(()=> { btn.classList.remove('success'); btn.innerHTML = orig; }, 1100);
   }
 
-  // DOWNLOAD button behavior
-  downloadBtn.addEventListener('click', (e)=>{
-    const text = collectVisibleCommands();
-    if(!text){ alert('ไม่มีคำสั่งที่มองเห็นเพื่อดาวน์โหลด'); return; }
+  /* ====== Button behaviors ====== */
 
-    flashButton(downloadBtn);
+  // download button (fill effect + download)
+  if(downloadBtn){
+    downloadBtn.addEventListener('click', (e)=>{
+      const text = collectVisibleCommands();
+      if(!text){ alert('ไม่มีคำสั่งที่มองเห็นเพื่อดาวน์โหลด'); return; }
 
-    const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'mc-commands-by-pain.txt';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(()=> URL.revokeObjectURL(url), 1500);
-  });
+      // full button fill + highlight all code blocks
+      btnFill(downloadBtn, 1000);
+      highlightAllVisible(1000);
 
-  // COPY ALL visible
-  copyAllBtn.addEventListener('click', async ()=>{
-    const text = collectVisibleCommands();
-    if(!text){ alert('ไม่มีคำสั่งที่มองเห็นให้คัดลอก'); return; }
-    try{
-      await navigator.clipboard.writeText(text);
-      withSuccessState(copyAllBtn);
-    }catch(e){
-      alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
-    }
-  });
+      const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'mc-commands-by-pain.txt';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(()=> URL.revokeObjectURL(url), 1500);
+    });
+  }
 
-  // extra bottom buttons (same actions)
-  extraCopyBtn.addEventListener('click', async ()=>{
-    const text = collectVisibleCommands();
-    if(!text){ alert('ไม่มีคำสั่งที่มองเห็นให้คัดลอก'); return; }
-    try{
-      await navigator.clipboard.writeText(text);
-      withSuccessState(extraCopyBtn);
-    }catch(e){
-      alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
-    }
-  });
-  extraDownloadBtn.addEventListener('click', (e)=>{
-    const text = collectVisibleCommands();
-    if(!text){ alert('ไม่มีคำสั่งที่มองเห็นเพื่อดาวน์โหลด'); return; }
-    flashButton(extraDownloadBtn);
-    const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'mc-commands-by-pain.txt';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(()=> URL.revokeObjectURL(url), 1500);
-  });
+  // copy all visible
+  if(copyAllBtn){
+    copyAllBtn.addEventListener('click', async ()=>{
+      const text = collectVisibleCommands();
+      if(!text){ alert('ไม่มีคำสั่งที่มองเห็นให้คัดลอก'); return; }
+      try{
+        await navigator.clipboard.writeText(text);
+        // full button fill + highlight all codeblocks
+        btnFill(copyAllBtn, 1100);
+        highlightAllVisible(1100);
+        withSuccessState(copyAllBtn);
+      }catch(e){
+        alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
+      }
+    });
+  }
 
-  // Per-section copy buttons
+  // extra bottom buttons
+  if(extraCopyBtn){
+    extraCopyBtn.addEventListener('click', async ()=>{
+      const text = collectVisibleCommands();
+      if(!text){ alert('ไม่มีคำสั่งที่มองเห็นให้คัดลอก'); return; }
+      try{
+        await navigator.clipboard.writeText(text);
+        btnFill(extraCopyBtn,1100);
+        highlightAllVisible(1100);
+        withSuccessState(extraCopyBtn);
+      }catch(e){
+        alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
+      }
+    });
+  }
+  if(extraDownloadBtn){
+    extraDownloadBtn.addEventListener('click', (e)=>{
+      const text = collectVisibleCommands();
+      if(!text){ alert('ไม่มีคำสั่งที่มองเห็นเพื่อดาวน์โหลด'); return; }
+      btnFill(extraDownloadBtn,1000);
+      highlightAllVisible(1000);
+      const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'mc-commands-by-pain.txt';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(()=> URL.revokeObjectURL(url), 1500);
+    });
+  }
+
+  // per-section copy buttons
   document.querySelectorAll('.copy-section-btn').forEach(btn=>{
     btn.addEventListener('click', async (ev)=>{
       const targetId = btn.getAttribute('data-target');
       const text = collectCommandsFromPreId(targetId);
-      if(!text){ alert('หมวดนี้ไม่มีคำสั่งแบบที่คัดได้ (ต้องมีคำสั่งรูปแบบทั่วไป)'); return; }
+      if(!text){ alert('หมวดนี้ไม่มีคำสั่งแบบที่คัดได้'); return; }
 
-      flashButton(btn);
+      // highlight that specific block and show button fill
+      const pre = document.getElementById(targetId);
+      highlightCodewrap(pre, 1100);
+      btnFill(btn, 1100);
+
       try{
         await navigator.clipboard.writeText(text);
         withSuccessState(btn);
@@ -527,16 +475,15 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     });
   });
 
-  // small click feedback for pre blocks
+  // small click feedback for pre blocks (transient)
   document.querySelectorAll('pre.cmd').forEach(pre=>{
     pre.addEventListener('click', ()=> {
-      pre.style.background = 'rgba(255,255,255,0.01)';
-      pre.style.border = '1px solid rgba(255,255,255,0.03)';
-      setTimeout(()=>{ pre.style.background = ''; pre.style.border = ''; }, 200);
+      pre.classList.add('press-anim');
+      setTimeout(()=> pre.classList.remove('press-anim'), 220);
     });
   });
 
 })();
 </script>
 </body>
-</html>
+  </html>
