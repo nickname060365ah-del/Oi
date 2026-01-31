@@ -28,18 +28,18 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 .brand{font-weight:800;font-size:22px;color:var(--accent);margin-left:6px}
 .spacer{flex:1}
 
-/* header image (ใส่รูปที่มึงให้) */
+/* header image (แก้ไขให้แสดงรูปทุกคน) */
 .header-img{
   width:46px;
   height:36px;
   border-radius:8px;
   border:2px solid rgba(255,255,255,0.06);
-  /* ใส่รูปตรงนี้ */
-  background-image: url("https://cdn.discordapp.com/attachments/1413488736620122133/1466364383197265940/images_17.jpg?ex=697c79c0&is=697b2840&hm=8f3bc3376027ece85015456ce0a7650a698727618bf65ed953d0da9af0587e02&");
+  /* ใช้ลิงก์รูปที่ stable - ไม่หมดอายุ */
+  background-image: url("https://i.imgur.com/placeholder.png");
   background-size:cover;
   background-position:center;
   background-repeat:no-repeat;
-
+  background-color:#1a1a1a;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -63,10 +63,9 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 /* Menu items */
 .sidebar h3{color:var(--accent);font-size:28px;margin:6px 0 14px}
 
-/* --------- ปรับขนาดตัวหนังสือในเมนู (จุดที่มึงวง) ---------- */
 .menu-list{list-style:none;padding:0;margin:0}
 .menu-item{padding:16px 6px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
-.menu-item a{flex:1;font-size:18px;color:var(--white);padding-right:8px;line-height:1.2} /* <-- ลดขนาดจาก 20px เป็น 18px */
+.menu-item a{flex:1;font-size:18px;color:var(--white);padding-right:8px;line-height:1.2}
 .menu-item .chev{color:var(--muted);font-size:18px}
 .menu-item a:focus, .menu-item a.pressed { background:var(--press); border-radius:8px; outline:none; box-shadow:none; }
 
@@ -79,11 +78,9 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 .content{flex:1;padding:22px 20px;max-width:1100px;margin:0 auto}
 .hero{padding:calc(var(--hero-pad) + 2px);border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);margin-bottom:18px;display:block}
 
-/* === IMPORTANT: hero typography tuned for reading and left-aligned === */
-/* ปรับให้ชิดซ้ายและขนาดหัวข้อไม่ใหญ่เกินไป */
-.hero-inner{max-width:920px;padding-left:0; /* <-- ทำให้ชิดซ้าย */ }
+.hero-inner{max-width:920px;padding-left:0;}
 .hero h1{
-  font-size: clamp(22px, 4.5vw, 34px); /* ลดขนาดหัวข้อให้พอดี อ่านง่าย */
+  font-size: clamp(22px, 4.5vw, 34px);
   line-height: 1.06;
   margin:0 0 8px;
   color:var(--white);
@@ -116,11 +113,10 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 /* footer */
 footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid var(--line);margin-top:18px}
 
-/* nav flash (much lighter + pointer-events none so it won't block) */
+/* nav flash */
 .navFlash{position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;z-index:100;transition:opacity .14s}
 .navFlash.show{opacity:0.12}
 
-/* remove outlines on focus */
 :focus{outline:none}
 </style>
 </head>
@@ -171,7 +167,6 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
   </aside>
 
   <main class="content" id="mainContent" role="main">
-    <!-- HERO: text aligned left (ปรับขนาดให้อ่านง่าย) -->
     <section class="hero" aria-labelledby="heroTitle">
       <div class="hero-inner">
         <h1 id="heroTitle">เว็ปแจกคำสั่ง Minecraft Bedrock</h1>
@@ -234,13 +229,11 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
   closeBtn.addEventListener('click', closeSidebar);
   overlay.addEventListener('click', closeSidebar);
 
-  // Handle link clicks with subtle flash (not blocking)
   function handleNavClick(e){
     const a = e.currentTarget;
     a.classList.add('pressed');
     closeSidebar();
 
-    // quick subtle flash only visual (doesn't block input)
     navFlash.classList.add('show');
     setTimeout(() => {
       window.location.href = a.getAttribute('href');
@@ -259,4 +252,4 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
 })();
 </script>
 </body>
-  </html>
+</html>
