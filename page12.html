@@ -116,7 +116,7 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 }
 .btn.ghost:hover svg { transform: scale(1.1); }
 
-/* copy section button - positioned outside codewrap */
+/* copy section button */
 .copy-section-btn {
   background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
   color:var(--white);
@@ -129,10 +129,12 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
   align-items:center;
   gap:7px;
   min-width:105px;
-  position:relative;
+  position:absolute;
   overflow:hidden;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  margin:0;
+  top: 8px;
+  right: 12px;
+  z-index: 10;
 }
 .copy-section-btn svg { width:15px; height:15px; fill:currentColor; transition:transform 0.25s ease; }
 .copy-section-btn:hover {
@@ -146,10 +148,7 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 }
 .copy-section-btn:hover svg { transform: scale(1.08); }
 
-/* wrapper to place the copy button under the lead and aligned right */
-.section-controls{ display:flex; justify-content:flex-end; align-items:center; gap:8px; margin:6px 0 8px; }
-
-/* more button */
+/* more button (REPLACED WITH ORIGINAL VERSION YOU WANTED) */
 .more-btn {
   background: linear-gradient(135deg, rgb(99, 102, 241), rgb(139, 92, 246));
   color: white;
@@ -169,6 +168,8 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
   overflow: hidden;
 }
 .more-btn svg { width:20px; height:20px; fill:currentColor; transition:transform 0.3s ease; }
+
+/* subtle circular pulse background used earlier */
 .more-btn::before {
   content: '';
   position: absolute;
@@ -177,7 +178,7 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
   width: 0;
   height: 0;
   border-radius: 50%;
-  background: rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.2);
   transform: translate(-50%, -50%);
   transition: width 0.5s ease, height 0.5s ease, opacity 0.5s ease;
   opacity: 0;
@@ -198,38 +199,25 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 .more-btn:hover svg { transform: translateX(3px); }
 .more-btn-container { text-align:center; margin-top:40px; }
 
-/* === เพิ่มคืนอนิเมชันแสงเงาสีขาว ให้ปุ่ม "เพิ่มเติม" (แก้แค่ตรงนี้) === */
-/* white shine sweep across button */
+/* original shine sweep (exact likeเก่า) */
 .more-btn::after {
   content: '';
   position: absolute;
-  top: -80%;
-  left: -120%;
-  width: 40%;
-  height: 260%;
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.12) 30%, rgba(255,255,255,0.28) 50%, rgba(255,255,255,0.12) 70%, transparent 100%);
+  top: -50%;
+  left: -100%;
+  width: 30%;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
   transform: skewX(-25deg);
-  filter: blur(6px);
-  opacity: 0.0;
-  pointer-events: none;
-  animation: shine 3s linear infinite;
-  mix-blend-mode: screen;
+  animation: shine 3s infinite;
 }
-
-/* subtle pulsing to make the shine visible only on hover intensity */
-.more-btn:hover::after {
-  opacity: 1;
-}
-
-/* keyframes for sweep */
 @keyframes shine {
-  0% { left: -120%; }
-  50% { left: 120%; }
-  100% { left: 120%; }
+  0% { left: -100%; }
+  50% { left: 150%; }
+  100% { left: 150%; }
 }
-/* === จบการแก้ปุ่มเพิ่มเติม === */
 
-/* Ripple effect kept but doesn't rely on absolute positioning */
+/* Ripple effect for all buttons */
 .copy-section-btn::after,
 .download-btn::after,
 .btn.ghost::after {
@@ -247,12 +235,21 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
   pointer-events: none;
 }
 
+.copy-section-btn:active::after,
+.download-btn:active::after,
+.btn.ghost:active::after {
+  width: 200px;
+  height: 200px;
+  opacity: 0;
+  transition: 0s;
+}
+
 /* content sections and code */
 .section{margin-bottom:18px}
 .section .heading-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .section h3{font-size:18px;margin:0;color:var(--white);flex:1}
-.lead{color:var(--muted);margin:0 0 4px}
-.codewrap{background:#060606;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);overflow:auto;position:relative}
+.lead{color:var(--muted);margin:0 0 12px}
+.codewrap{background:#060606;padding:12px;padding-top:50px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);overflow:auto;position:relative}
 pre.cmd{margin:0;color:#e6eef8;background:transparent;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Roboto Mono, "Courier New",monospace;font-size:14px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
 
 /* animations */
@@ -334,15 +331,11 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
         <h3>คำสั่งในช่องแชท</h3>
       </div>
       <p class="lead">แนะนำก๊อปทีละคำสั่งแล้ววาง</p>
-
-      <div class="section-controls">
+      <div class="codewrap fade-in-up">
         <button class="copy-section-btn" data-target="chatCommands">
           <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
           คัดลอก
         </button>
-      </div>
-
-      <div class="codewrap fade-in-up">
 <pre id="chatCommands" class="cmd">
 1. /give @s command_block
 2. /give @s spawn_egg 1 51
@@ -361,15 +354,11 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
         <h3>คำสั่งในคอมมานบล็อก</h3>
       </div>
       <p class="lead">คำสั่งที่จะใส่ในคอมมานบล็อกสีม่วง - ทำงานตลอด</p>
-
-      <div class="section-controls">
+      <div class="codewrap fade-in-up">
         <button class="copy-section-btn" data-target="cmdBlockCommands">
           <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
           คัดลอก
         </button>
-      </div>
-
-      <div class="codewrap fade-in-up">
 <pre id="cmdBlockCommands" class="cmd">
 1. dialogue open @e[type=npc,tag=b] @a[tag=b]
 
@@ -385,15 +374,11 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
         <h3>คำสั่งใน NPC (ตัวหลักพูดคุย)</h3>
       </div>
       <p class="lead">คำสั่งสำหรับ NPC ตัวหลัก</p>
-
-      <div class="section-controls">
+      <div class="codewrap fade-in-up">
         <button class="copy-section-btn" data-target="npcMain">
           <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
           คัดลอก
         </button>
-      </div>
-
-      <div class="codewrap fade-in-up">
 <pre id="npcMain" class="cmd">
 1. /tag @initiator add b
 </pre>
@@ -405,15 +390,11 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
         <h3>คำสั่งใน NPC (ตัวซื้อของ)</h3>
       </div>
       <p class="lead">คำสั่งสำหรับ NPC ซื้อของ</p>
-
-      <div class="section-controls">
+      <div class="codewrap fade-in-up">
         <button class="copy-section-btn" data-target="npcBuy">
           <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
           คัดลอก
         </button>
-      </div>
-
-      <div class="codewrap fade-in-up">
 <pre id="npcBuy" class="cmd">
 1. playsound mob.villager.no @initiator[scores={m=..19}]
 playsound note.harp @initiator[scores={m=..19}]
@@ -478,7 +459,6 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   filterSelect.addEventListener('change', applyFilter);
   applyFilter();
 
-  // ฟังก์ชันแยกคำสั่งออกจากข้อความ (เดิมไว้ ไม่แตะ)
   function extractCommands(text) {
     const lines = text.split('\n');
     const commands = [];
@@ -536,7 +516,7 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     const text = collectVisibleCommands();
     if(!text){ alert('ไม่มีคำสั่งที่มองเห็นให้คัดลอก'); return; }
     try{
-      await navigator.clipboard.writeText(text);
+       await navigator.clipboard.writeText(text);
       const orig = copyAllBtn.innerHTML;
       copyAllBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>คัดลอกแล้ว';
       setTimeout(()=> copyAllBtn.innerHTML = orig, 1400);
@@ -545,7 +525,6 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     }
   });
 
-  // per-section copy buttons (unchanged functionality, only moved in DOM)
   document.querySelectorAll('.copy-section-btn').forEach(btn=>{
     btn.addEventListener('click', async (ev)=>{
       const targetId = btn.getAttribute('data-target');
