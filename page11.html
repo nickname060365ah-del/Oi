@@ -358,8 +358,7 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
 4. /gamerule sendcommandfeedback false
 5. /tickingarea add circle ~~~ 4 t
 6. /scoreboard objectives add m dummy
-
-/tag @n[type=npc] add b
+7. /tag @n[type=npc] add b
 </pre>
       </div>
     </section>
@@ -379,7 +378,7 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
 
 2. scoreboard players add @a m 0
 
-3. execute as @a at @s run titleraw @s actionbar {"rawtext":[{"text":"§6Money  §r : "},{"score":{"name":"@s","objective":"m"}}]}
+3. execute as @a at @s run titleraw @s actionbar {"rawtext":[  {"text":"§6Money§r : "},{"score":{"name":"@s","objective":"m"}},{"text":""}]}
 </pre>
       </div>
     </section>
