@@ -116,7 +116,7 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 }
 .btn.ghost:hover svg { transform: scale(1.1); }
 
-/* copy section button */
+/* copy section button - POSITION UPDATED: no absolute positioning, sits outside codewrap */
 .copy-section-btn {
   background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
   color:var(--white);
@@ -129,12 +129,14 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
   align-items:center;
   gap:7px;
   min-width:105px;
-  position:absolute;
+  position:relative; /* moved from absolute to relative */
   overflow:hidden;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  top: 8px;
-  right: 12px;
-  z-index: 10;
+  margin:8px 0 12px; /* spacing when placed above code */
+  float: none;
+  right: auto;
+  top: auto;
+  z-index: auto;
 }
 .copy-section-btn svg { width:15px; height:15px; fill:currentColor; transition:transform 0.25s ease; }
 .copy-section-btn:hover {
@@ -148,7 +150,10 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 }
 .copy-section-btn:hover svg { transform: scale(1.08); }
 
-/* more button (REPLACED WITH ORIGINAL VERSION YOU WANTED) */
+/* helper wrapper to align copy button to right under the lead text */
+.copy-wrap { width:100%; text-align:right; margin-bottom:6px; }
+
+/* more button */
 .more-btn {
   background: linear-gradient(135deg, rgb(99, 102, 241), rgb(139, 92, 246));
   color: white;
@@ -168,8 +173,6 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
   overflow: hidden;
 }
 .more-btn svg { width:20px; height:20px; fill:currentColor; transition:transform 0.3s ease; }
-
-/* subtle circular pulse background used earlier */
 .more-btn::before {
   content: '';
   position: absolute;
@@ -199,24 +202,6 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 .more-btn:hover svg { transform: translateX(3px); }
 .more-btn-container { text-align:center; margin-top:40px; }
 
-/* original shine sweep (exact likeเก่า) */
-.more-btn::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -100%;
-  width: 30%;
-  height: 200%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-  transform: skewX(-25deg);
-  animation: shine 3s infinite;
-}
-@keyframes shine {
-  0% { left: -100%; }
-  50% { left: 150%; }
-  100% { left: 150%; }
-}
-
 /* Ripple effect for all buttons */
 .copy-section-btn::after,
 .download-btn::after,
@@ -244,12 +229,30 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
   transition: 0s;
 }
 
+/* Shine effect for more button */
+.more-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -100%;
+  width: 30%;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transform: skewX(-25deg);
+  animation: shine 3s infinite;
+}
+@keyframes shine {
+  0% { left: -100%; }
+  50% { left: 150%; }
+  100% { left: 150%; }
+}
+
 /* content sections and code */
 .section{margin-bottom:18px}
 .section .heading-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .section h3{font-size:18px;margin:0;color:var(--white);flex:1}
-.lead{color:var(--muted);margin:0 0 12px}
-.codewrap{background:#060606;padding:12px;padding-top:50px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);overflow:auto;position:relative}
+.lead{color:var(--muted);margin:0 0 8px} /* reduced bottom margin for better spacing */
+.codewrap{background:#060606;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);overflow:auto;position:relative}
 pre.cmd{margin:0;color:#e6eef8;background:transparent;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Roboto Mono, "Courier New",monospace;font-size:14px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
 
 /* animations */
@@ -331,11 +334,16 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
         <h3>คำสั่งในช่องแชท</h3>
       </div>
       <p class="lead">แนะนำก๊อปทีละคำสั่งแล้ววาง</p>
-      <div class="codewrap fade-in-up">
+
+      <!-- copy button now OUTSIDE codewrap, under lead and aligned right -->
+      <div class="copy-wrap">
         <button class="copy-section-btn" data-target="chatCommands">
           <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
           คัดลอก
         </button>
+      </div>
+
+      <div class="codewrap fade-in-up">
 <pre id="chatCommands" class="cmd">
 1. /give @s command_block
 2. /give @s spawn_egg 1 51
@@ -354,11 +362,15 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
         <h3>คำสั่งในคอมมานบล็อก</h3>
       </div>
       <p class="lead">คำสั่งที่จะใส่ในคอมมานบล็อกสีม่วง - ทำงานตลอด</p>
-      <div class="codewrap fade-in-up">
+
+      <div class="copy-wrap">
         <button class="copy-section-btn" data-target="cmdBlockCommands">
           <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
           คัดลอก
         </button>
+      </div>
+
+      <div class="codewrap fade-in-up">
 <pre id="cmdBlockCommands" class="cmd">
 1. dialogue open @e[type=npc,tag=b] @a[tag=b]
 
@@ -374,11 +386,15 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
         <h3>คำสั่งใน NPC (ตัวหลักพูดคุย)</h3>
       </div>
       <p class="lead">คำสั่งสำหรับ NPC ตัวหลัก</p>
-      <div class="codewrap fade-in-up">
+
+      <div class="copy-wrap">
         <button class="copy-section-btn" data-target="npcMain">
           <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
           คัดลอก
         </button>
+      </div>
+
+      <div class="codewrap fade-in-up">
 <pre id="npcMain" class="cmd">
 1. /tag @initiator add b
 </pre>
@@ -390,11 +406,15 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
         <h3>คำสั่งใน NPC (ตัวซื้อของ)</h3>
       </div>
       <p class="lead">คำสั่งสำหรับ NPC ซื้อของ</p>
-      <div class="codewrap fade-in-up">
+
+      <div class="copy-wrap">
         <button class="copy-section-btn" data-target="npcBuy">
           <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
           คัดลอก
         </button>
+      </div>
+
+      <div class="codewrap fade-in-up">
 <pre id="npcBuy" class="cmd">
 1. playsound mob.villager.no @initiator[scores={m=..19}]
 playsound note.harp @initiator[scores={m=..19}]
