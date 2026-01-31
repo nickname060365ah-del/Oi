@@ -125,14 +125,16 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
   font-weight:600;
   border:1px solid rgba(255,255,255,0.06);
   cursor:pointer;
-  margin-left:10px;
   display:inline-flex;
   align-items:center;
   gap:7px;
   min-width:105px;
-  position:relative;
+  position:absolute;
   overflow:hidden;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  top: 8px;
+  right: 12px;
+  z-index: 10;
 }
 .copy-section-btn svg { width:15px; height:15px; fill:currentColor; transition:transform 0.25s ease; }
 .copy-section-btn:hover {
@@ -176,7 +178,9 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
   border-radius: 50%;
   background: rgba(255,255,255,0.2);
   transform: translate(-50%, -50%);
-  transition: width 0.5s ease, height 0.5s ease;
+  transition: width 0.5s ease, height 0.5s ease, opacity 0.5s ease;
+  opacity: 0;
+  pointer-events: none;
 }
 .more-btn:hover {
   transform: translateY(-2px);
@@ -193,12 +197,58 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 .more-btn:hover svg { transform: translateX(3px); }
 .more-btn-container { text-align:center; margin-top:40px; }
 
+/* Ripple effect for all buttons */
+.copy-section-btn::after,
+.download-btn::after,
+.btn.ghost::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease, opacity 0.6s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.copy-section-btn:active::after,
+.download-btn:active::after,
+.btn.ghost:active::after {
+  width: 200px;
+  height: 200px;
+  opacity: 0;
+  transition: 0s;
+}
+
+/* Shine effect for more button */
+.more-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -100%;
+  width: 30%;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transform: skewX(-25deg);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% { left: -100%; }
+  50% { left: 150%; }
+  100% { left: 150%; }
+}
+
 /* content sections and code */
 .section{margin-bottom:18px}
 .section .heading-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .section h3{font-size:18px;margin:0;color:var(--white);flex:1}
 .lead{color:var(--muted);margin:0 0 12px}
-.codewrap{background:#060606;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);overflow:auto}
+.codewrap{background:#060606;padding:12px;padding-top:50px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);overflow:auto;position:relative}
 pre.cmd{margin:0;color:#e6eef8;background:transparent;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Roboto Mono, "Courier New",monospace;font-size:14px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
 
 /* animations */
@@ -278,13 +328,13 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
     <section class="section" data-cat="chat" id="sec-chat">
       <div class="heading-row">
         <h3>คำสั่งในช่องแชท</h3>
+      </div>
+      <p class="lead">แนะนำก๊อปทีละคำสั่งแล้ววาง</p>
+      <div class="codewrap fade-in-up">
         <button class="copy-section-btn" data-target="chatCommands">
           <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
           คัดลอก
         </button>
-      </div>
-      <p class="lead">แนะนำก๊อปทีละคำสั่งแล้ววาง</p>
-      <div class="codewrap fade-in-up">
 <pre id="chatCommands" class="cmd">
 1. /give @s command_block
 2. /give @s spawn_egg 1 51
@@ -301,13 +351,13 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
     <section class="section" data-cat="cmdblock" id="sec-cmd">
       <div class="heading-row">
         <h3>คำสั่งในคอมมานบล็อก</h3>
+      </div>
+      <p class="lead">คำสั่งที่จะใส่ในคอมมานบล็อกสีม่วง - ทำงานตลอด</p>
+      <div class="codewrap fade-in-up">
         <button class="copy-section-btn" data-target="cmdBlockCommands">
           <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
           คัดลอก
         </button>
-      </div>
-      <p class="lead">คำสั่งที่จะใส่ในคอมมานบล็อกสีม่วง - ทำงานตลอด</p>
-      <div class="codewrap fade-in-up">
 <pre id="cmdBlockCommands" class="cmd">
 1. dialogue open @e[type=npc,tag=b] @a[tag=b]
 
@@ -321,13 +371,13 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
     <section class="section" data-cat="npc" id="sec-npc-main">
       <div class="heading-row">
         <h3>คำสั่งใน NPC (ตัวหลักพูดคุย)</h3>
+      </div>
+      <p class="lead">คำสั่งสำหรับ NPC ตัวหลัก</p>
+      <div class="codewrap fade-in-up">
         <button class="copy-section-btn" data-target="npcMain">
           <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
           คัดลอก
         </button>
-      </div>
-      <p class="lead">คำสั่งสำหรับ NPC ตัวหลัก</p>
-      <div class="codewrap fade-in-up">
 <pre id="npcMain" class="cmd">
 1. /tag @initiator add b
 </pre>
@@ -337,13 +387,13 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
     <section class="section" data-cat="npc" id="sec-npc-buy">
       <div class="heading-row">
         <h3>คำสั่งใน NPC (ตัวซื้อของ)</h3>
+      </div>
+      <p class="lead">คำสั่งสำหรับ NPC ซื้อของ</p>
+      <div class="codewrap fade-in-up">
         <button class="copy-section-btn" data-target="npcBuy">
           <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
           คัดลอก
         </button>
-      </div>
-      <p class="lead">คำสั่งสำหรับ NPC ซื้อของ</p>
-      <div class="codewrap fade-in-up">
 <pre id="npcBuy" class="cmd">
 1. playsound mob.villager.no @initiator[scores={m=..19}]
 playsound note.harp @initiator[scores={m=..19}]
@@ -382,7 +432,6 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   const downloadBtn = document.getElementById('downloadBtn');
   const copyAllBtn = document.getElementById('copyAllBtn');
 
-  // hide header image placeholder if any
   const headerImg = document.getElementById('headerImg');
   if(headerImg){ headerImg.style.display='none'; setTimeout(()=>headerImg.remove(),80); }
 
@@ -393,7 +442,6 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   overlay.addEventListener('click', closeSidebar);
   document.addEventListener('keydown', (ev)=>{ if(ev.key === 'Escape') closeSidebar(); });
 
-  // search & filter
   const sections = Array.from(document.querySelectorAll('section.section'));
   function applyFilter(){
     const q = (searchInput.value||'').trim().toLowerCase();
@@ -410,7 +458,6 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   filterSelect.addEventListener('change', applyFilter);
   applyFilter();
 
-  // ฟังก์ชันแยกคำสั่งออกจากข้อความ
   function extractCommands(text) {
     const lines = text.split('\n');
     const commands = [];
@@ -437,7 +484,6 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     return commands.join('\n');
   }
 
-  // collect visible commands
   function collectVisibleCommands(){
     const visible = Array.from(document.querySelectorAll('section.section'))
       .filter(s => s.style.display !== 'none')
@@ -450,7 +496,6 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     return visible.join("\n\n");
   }
 
-  // DOWNLOAD button
   downloadBtn.addEventListener('click', (e)=>{
     const text = collectVisibleCommands();
     if(!text){ alert('ไม่มีคำสั่งที่มองเห็นเพื่อดาวน์โหลด'); return; }
@@ -466,12 +511,11 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     setTimeout(()=> URL.revokeObjectURL(url), 1500);
   });
 
-  // COPY ALL
   copyAllBtn.addEventListener('click', async ()=>{
     const text = collectVisibleCommands();
     if(!text){ alert('ไม่มีคำสั่งที่มองเห็นให้คัดลอก'); return; }
     try{
-      await navigator.clipboard.writeText(text);
+       await navigator.clipboard.writeText(text);
       const orig = copyAllBtn.innerHTML;
       copyAllBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>คัดลอกแล้ว';
       setTimeout(()=> copyAllBtn.innerHTML = orig, 1400);
@@ -480,7 +524,6 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     }
   });
 
-  // Per-section copy buttons
   document.querySelectorAll('.copy-section-btn').forEach(btn=>{
     btn.addEventListener('click', async (ev)=>{
       const targetId = btn.getAttribute('data-target');
@@ -501,7 +544,6 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     });
   });
 
-  // pre click feedback
   document.querySelectorAll('pre.cmd').forEach(pre=>{
     pre.addEventListener('click', ()=> {
       pre.style.background = 'rgba(255,255,255,0.01)';
@@ -513,4 +555,4 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
 })();
 </script>
 </body>
-</html
+</html>
