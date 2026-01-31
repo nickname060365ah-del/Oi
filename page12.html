@@ -132,28 +132,9 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
   position:relative;
   overflow:hidden;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  float: right;
   margin-bottom: 12px;
 }
-
-  .copy-section-btn {
-  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-  color:var(--white);
-  border-radius:10px;
-  padding:8px 12px;
-  font-weight:600;
-  border:1px solid rgba(255,255,255,0.06);
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-  min-width:105px;
-  position:relative;
-  overflow:hidden;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  margin-bottom: 12px;
-  float: right; /* เพิ่มบรรทัดนี้ */
-  }
-  
 .copy-section-btn svg { width:15px; height:15px; fill:currentColor; transition:transform 0.25s ease; }
 .copy-section-btn:hover {
   background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
@@ -265,7 +246,7 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 .section{margin-bottom:18px}
 .section .heading-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .section h3{font-size:18px;margin:0;color:var(--white);flex:1}
-.lead{color:var(--muted);margin:0 0 4px;}
+.lead{color:var(--muted);margin:0 0 4px}
 .codewrap{background:#060606;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);overflow:auto}
 pre.cmd{margin:0;color:#e6eef8;background:transparent;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Roboto Mono, "Courier New",monospace;font-size:14px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
 
@@ -450,7 +431,6 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   const downloadBtn = document.getElementById('downloadBtn');
   const copyAllBtn = document.getElementById('copyAllBtn');
 
-  // hide header image placeholder if any
   const headerImg = document.getElementById('headerImg');
   if(headerImg){ headerImg.style.display='none'; setTimeout(()=>headerImg.remove(),80); }
 
@@ -461,7 +441,6 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   overlay.addEventListener('click', closeSidebar);
   document.addEventListener('keydown', (ev)=>{ if(ev.key === 'Escape') closeSidebar(); });
 
-  // search & filter
   const sections = Array.from(document.querySelectorAll('section.section'));
   function applyFilter(){
     const q = (searchInput.value||'').trim().toLowerCase();
@@ -478,7 +457,6 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
   filterSelect.addEventListener('change', applyFilter);
   applyFilter();
 
-  // ฟังก์ชันแยกคำสั่งออกจากข้อความ
   function extractCommands(text) {
     const lines = text.split('\n');
     const commands = [];
@@ -505,7 +483,6 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     return commands.join('\n');
   }
 
-  // collect visible commands
   function collectVisibleCommands(){
     const visible = Array.from(document.querySelectorAll('section.section'))
       .filter(s => s.style.display !== 'none')
@@ -518,7 +495,6 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     return visible.join("\n\n");
   }
 
-  // DOWNLOAD button
   downloadBtn.addEventListener('click', (e)=>{
     const text = collectVisibleCommands();
     if(!text){ alert('ไม่มีคำสั่งที่มองเห็นเพื่อดาวน์โหลด'); return; }
@@ -534,32 +510,11 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     setTimeout(()=> URL.revokeObjectURL(url), 1500);
   });
 
-  // COPY ALL
   copyAllBtn.addEventListener('click', async ()=>{
     const text = collectVisibleCommands();
     if(!text){ alert('ไม่มีคำสั่งที่มองเห็นให้คัดลอก'); return; }
     try{
       await navigator.clipboard.writeText(text);
-      const orig = copyAllBtn.innerHTML;
-      copyAllBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>คัดลอกแล้ว';
-      setTimeout(()=> copyAllBtn.innerHTML = orig, 1400);
-    }catch(e){
-      alert('คัดลอกไม่สำเร็จ — เบราเซอร์นี้ไม่รองรับการคัดลอกอัตโนมัติ');
-    }
-  });
-
-  // Per-section copy buttons
-  document.querySelectorAll('.copy-section-btn').forEach(btn=>{
-    btn.addEventListener('click', async (ev)=>{
-      const targetId = btn.getAttribute('data-target');
-      const pre = document.getElementById(targetId);
-      if(!pre){ alert('ไม่พบข้อมูลที่จะคัดลอก'); return; }
-      
-      const text = extractCommands(pre.innerText);
-      if(!text){ alert('หมวดนี้ไม่มีคำสั่ง'); return; }
-
-      try{
-        await navigator.clipboard.writeText(text);
         const origHTML = btn.innerHTML;
         btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>คัดลอกแล้ว';
         setTimeout(()=> btn.innerHTML = origHTML, 1300);
@@ -569,7 +524,6 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     });
   });
 
-  // pre click feedback
   document.querySelectorAll('pre.cmd').forEach(pre=>{
     pre.addEventListener('click', ()=> {
       pre.style.background = 'rgba(255,255,255,0.01)';
