@@ -116,7 +116,7 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 }
 .btn.ghost:hover svg { transform: scale(1.1); }
 
-/* copy section button - now positioned OUTSIDE codewrap, so static layout */
+/* copy section button - positioned outside codewrap */
 .copy-section-btn {
   background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
   color:var(--white);
@@ -129,10 +129,9 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
   align-items:center;
   gap:7px;
   min-width:105px;
-  position:relative; /* not absolute anymore */
+  position:relative;
   overflow:hidden;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  /* placed outside box under lead; align handled by .section-controls */
   margin:0;
 }
 .copy-section-btn svg { width:15px; height:15px; fill:currentColor; transition:transform 0.25s ease; }
@@ -178,7 +177,7 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
   width: 0;
   height: 0;
   border-radius: 50%;
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.12);
   transform: translate(-50%, -50%);
   transition: width 0.5s ease, height 0.5s ease, opacity 0.5s ease;
   opacity: 0;
@@ -198,6 +197,37 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 }
 .more-btn:hover svg { transform: translateX(3px); }
 .more-btn-container { text-align:center; margin-top:40px; }
+
+/* === เพิ่มคืนอนิเมชันแสงเงาสีขาว ให้ปุ่ม "เพิ่มเติม" (แก้แค่ตรงนี้) === */
+/* white shine sweep across button */
+.more-btn::after {
+  content: '';
+  position: absolute;
+  top: -80%;
+  left: -120%;
+  width: 40%;
+  height: 260%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.12) 30%, rgba(255,255,255,0.28) 50%, rgba(255,255,255,0.12) 70%, transparent 100%);
+  transform: skewX(-25deg);
+  filter: blur(6px);
+  opacity: 0.0;
+  pointer-events: none;
+  animation: shine 3s linear infinite;
+  mix-blend-mode: screen;
+}
+
+/* subtle pulsing to make the shine visible only on hover intensity */
+.more-btn:hover::after {
+  opacity: 1;
+}
+
+/* keyframes for sweep */
+@keyframes shine {
+  0% { left: -120%; }
+  50% { left: 120%; }
+  100% { left: 120%; }
+}
+/* === จบการแก้ปุ่มเพิ่มเติม === */
 
 /* Ripple effect kept but doesn't rely on absolute positioning */
 .copy-section-btn::after,
@@ -222,7 +252,7 @@ button{font:inherit;background:transparent;border:0;color:inherit;cursor:pointer
 .section .heading-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .section h3{font-size:18px;margin:0;color:var(--white);flex:1}
 .lead{color:var(--muted);margin:0 0 4px}
-.codewrap{background:#060606;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);overflow:auto;position:relative} /* removed extra top padding */
+.codewrap{background:#060606;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);overflow:auto;position:relative}
 pre.cmd{margin:0;color:#e6eef8;background:transparent;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Roboto Mono, "Courier New",monospace;font-size:14px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
 
 /* animations */
@@ -305,7 +335,6 @@ footer{padding:22px;text-align:center;color:var(--muted);border-top:1px solid va
       </div>
       <p class="lead">แนะนำก๊อปทีละคำสั่งแล้ววาง</p>
 
-      <!-- moved: copy button OUTSIDE codewrap, under lead, aligned right -->
       <div class="section-controls">
         <button class="copy-section-btn" data-target="chatCommands">
           <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
@@ -503,7 +532,7 @@ scoreboard players remove @initiator[scores={m=20..}] m 20
     setTimeout(()=> URL.revokeObjectURL(url), 1500);
   });
 
-    copyAllBtn.addEventListener('click', async ()=>{
+  copyAllBtn.addEventListener('click', async ()=>{
     const text = collectVisibleCommands();
     if(!text){ alert('ไม่มีคำสั่งที่มองเห็นให้คัดลอก'); return; }
     try{
